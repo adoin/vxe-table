@@ -46,6 +46,7 @@ export interface SelectReactData {
   panelStyle: VNodeStyle
   panelPlacement: any
   currentOption: any
+  currentGroup: any
   currentValue: any
   visiblePanel: boolean
   animatVisible: boolean
@@ -54,6 +55,8 @@ export interface SelectReactData {
 }
 
 export type VxeSelectProps = {
+  allowCreate?: VxeSelectPropTypes.AllowCreate
+  createMethod?:VxeSelectPropTypes.CreateMethod
   size?: VxeSelectPropTypes.Size
   modelValue?: VxeSelectPropTypes.ModelValue
   clearable?: VxeSelectPropTypes.Clearable
@@ -90,6 +93,7 @@ export type VxeSelectProps = {
 }
 
 export namespace VxeSelectPropTypes {
+  export type AllowCreate = boolean
   export type Size = SizeType
   export type ModelValue = any
   export type Clearable = boolean
@@ -107,6 +111,7 @@ export namespace VxeSelectPropTypes {
   export type OptionGroupProps = VxeGlobalRendererHandles.RenderOptionGroupProps
   export type Filterable = boolean
   export type FilterMethod = (params: { group: any, option: any, searchValue: string }) => boolean
+  export type CreateMethod = (params:{ groupName?: string, createStr: string }) => any
   export type Remote = boolean
   export type RemoteMethod = (params: { searchValue: string }) => Promise<void> | void
   export type Max = number | string
@@ -162,10 +167,10 @@ export interface VxeSelectPrivateMethods extends SelectPrivateMethods { }
 export type VxeSelectEmits = [
   'update:modelValue',
   'change',
-  'clear'
+  'clear',
+  'create-option'
 ]
-
-export type CustomizeOptionGroups =Array<{
+export type CustomizeOptionGroupProps = {
   isCreated?: boolean
   /**
    * 是否禁用
@@ -177,9 +182,11 @@ export type CustomizeOptionGroups =Array<{
    */
   disabled?: VxeOptionPropTypes.Disabled
   slots?: VxeOptionPropTypes.Slots
-}& Record<string, VxeOptionPropTypes.Label>& Record<string, VxeOptionProps[]>>
+}& Record<string, VxeOptionPropTypes.Label>& Record<string, VxeOptionProps[]>
+export type CustomizeOptionGroups =Array<CustomizeOptionGroupProps>
 export namespace VxeSelectDefines {
   export type CustomizeOptionGroups = CustomizeOptionGroups
+  export type CustomizeOptionGroupProps = CustomizeOptionGroupProps
   export class OptionInfo {
     id: string
 

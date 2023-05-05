@@ -60,6 +60,8 @@
           <vxe-option value="3-2" label="选项3-2"></vxe-option>
         </vxe-optgroup>
       </vxe-select>
+      <vxe-select v-model="demo1.value47" v-bind="creatingGroupSetting" />
+      <vxe-select v-model="demo1.value48" v-bind="creatingSetting" />
     </p>
 
     <p>
@@ -219,8 +221,11 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
+import VxeSelect from '../../../packages/select/src/select'
+import { VxeSelectProps } from '../../../types'
 
 export default defineComponent({
+  components: { VxeSelect },
   setup () {
     const demo1 = reactive({
       value10: 12,
@@ -232,6 +237,8 @@ export default defineComponent({
       value22: null,
       value23: null,
       value24: null,
+      value47: null,
+      value48: null,
       list24: [
         { value: 11, label: '111' },
         { value: 22, label: '131' },
@@ -331,7 +338,37 @@ export default defineComponent({
         { label: '6666', value: '6' }
       ]
     })
-
+    const creatingSetting = reactive<VxeSelectProps>({
+      allowCreate: true,
+      filterable: true,
+      placeholder: '可添加选项',
+      options: [
+        { label: '1', value: 'aa' },
+        { label: '2', value: 'bb' },
+        { label: '3', value: 'cc' },
+        { label: '4', value: 'dd' }
+      ]
+    })
+    const creatingGroupSetting = reactive<VxeSelectProps>({
+      allowCreate: true,
+      placeholder: '分组可添加选项',
+      optionGroups: [
+        {
+          label: '组1',
+          options: [
+            { label: '1-1', value: '11' },
+            { label: '1-2', value: '10' }
+          ]
+        },
+        {
+          label: '组2',
+          options: [
+            { label: '2-1', value: '21' },
+            { label: '2-2', value: '22' }
+          ]
+        }
+      ]
+    })
     const remoteMethod24 = ({ searchValue }: any): Promise<void> => {
       return new Promise(resolve => {
         const list = [
@@ -357,6 +394,8 @@ export default defineComponent({
 
     return {
       demo1,
+      creatingSetting,
+      creatingGroupSetting,
       remoteMethod24,
       demoCodes: [
         `

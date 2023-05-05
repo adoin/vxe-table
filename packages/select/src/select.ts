@@ -38,7 +38,7 @@ import {
   VxeOptionProps,
   VxeFormDefines,
   VxeFormConstructor,
-  VxeFormPrivateMethods, VxeSelectDefines
+  VxeFormPrivateMethods, VxeSelectDefines, CustomizeOptionGroupProps
 } from '../../../types/all'
 
 function isOptionVisible (option: any) {
@@ -53,6 +53,8 @@ export default defineComponent({
   name: 'VxeSelect',
   props: {
     modelValue: null,
+    allowCreate: Boolean as PropType<VxeSelectPropTypes.AllowCreate>,
+    createMethod: Function as PropType<VxeSelectPropTypes.CreateMethod>,
     clearable: Boolean as PropType<VxeSelectPropTypes.Clearable>,
     placeholder: String as PropType<VxeSelectPropTypes.Placeholder>,
     loading: Boolean as PropType<VxeSelectPropTypes.Loading>,
@@ -89,7 +91,8 @@ export default defineComponent({
   emits: [
     'update:modelValue',
     'change',
-    'clear'
+    'clear',
+    'create-option'
   ] as VxeSelectEmits,
   setup (props, context) {
     const { slots, emit } = context
@@ -112,6 +115,7 @@ export default defineComponent({
       panelStyle: {},
       panelPlacement: null,
       currentOption: null,
+      currentGroup: null,
       currentValue: null,
       visiblePanel: false,
       animatVisible: false,
@@ -293,47 +297,92 @@ export default defineComponent({
      * 刷新选项，当选项被动态显示/隐藏时可能会用到
      */
     const refreshOption = () => {
-      const { filterable, filterMethod } = props
+      const { filterable, allowCreate, createMethod, filterMethod } = props
       const { fullOptionList, fullGroupList } = reactData
       const isGroup = computeIsGroup.value
       const groupLabelField = computeGroupLabelField.value
       const labelField = computeLabelField.value
       const valueField = computeValueField.value
-      const _filterMethod:VxeSelectPropTypes.FilterMethod = filterMethod && isFunction(filterMethod) ? filterMethod
+      const _filterMethod: VxeSelectPropTypes.FilterMethod = filterMethod && isFunction(filterMethod) ? filterMethod
         : ({ group, option, searchValue }) =>
             (group && group[groupLabelField].indexOf(searchValue) > -1) ||
           (option && option[labelField].indexOf(searchValue) > -1)
+      const _createMethod = createMethod && isFunction(createMethod) ? createMethod : ({ createStr }: {
+        createStr: string
+      }) => {
+        const strArr = createStr.split(':')
+        const res: any = { __creating: true }
+        res[valueField] = strArr[0]
+        res[labelField] = strArr[1] ?? strArr[0]
+        return res
+      }
       if (isGroup) {
-        // todo 没有filter methods的逻辑
-        if (filterable) {
-          /* group级别 能查找到 该级别全部展现。若不能则看children内是否有满足条件的，有则过滤后展现 */
-          reactData.visibleGroupList = fullGroupList.map(group => isOptionVisible(group) && (!displaySelectLabel.value || _filterMethod({
-            group,
-            option: null,
-            searchValue: displaySelectLabel.value
-          })) ? group : ({
+        if (allowCreate && displaySelectLabel.value) {
+          if (filterable) {
+            /* group不过滤该级别全部展现，option过滤并且都提供新增选项。 */
+            reactData.visibleGroupList = fullGroupList.filter(isOptionVisible).map(group => ({
               ...group,
-              options: group.options ? group.options.filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
+              options: group.options && group.options.length > 0 ? [{
+                ..._createMethod({ createStr: displaySelectLabel.value, groupName: group[groupLabelField] as string }),
+                __creating: true
+              }, ...group.options.filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
                 group: null,
                 option,
                 searchValue: displaySelectLabel.value
-              }))) : []
+              })))] : [{
+                ..._createMethod({ createStr: displaySelectLabel.value, groupName: group[groupLabelField] as string }),
+                __creating: true
+              }]
             }))
+          } else {
+            reactData.visibleGroupList = fullGroupList.filter(isOptionVisible).map(group => ({
+              ...group,
+              options: group.options ? [{
+                ..._createMethod({ createStr: displaySelectLabel.value, groupName: group[groupLabelField] as string }),
+                __creating: true
+              }, ...group.options.filter(isOptionVisible)] : [{
+                ..._createMethod({ createStr: displaySelectLabel.value, groupName: group[groupLabelField] as string }),
+                __creating: true
+              }]
+            }))
+          }
         } else {
-          reactData.visibleGroupList = fullGroupList.filter(isOptionVisible).map(group => ({
-            ...group,
-            options: group.options ? group.options.filter(isOptionVisible) : []
-          }))
+          if (filterable) {
+            /* group级别 能查找到 该级别全部展现。若不能则看children内是否有满足条件的，有则过滤后展现 */
+            reactData.visibleGroupList = fullGroupList.map(group => isOptionVisible(group) && (!displaySelectLabel.value || _filterMethod({
+              group,
+              option: null,
+              searchValue: displaySelectLabel.value
+            })) ? group : ({
+                ...group,
+                options: group.options ? group.options.filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
+                  group: null,
+                  option,
+                  searchValue: displaySelectLabel.value
+                }))) : []
+              }))
+          } else {
+            reactData.visibleGroupList = fullGroupList.filter(isOptionVisible).map(group =>
+              ({
+                ...group,
+                options: group.options ? group.options.filter(isOptionVisible) : []
+              }))
+          }
         }
       } else {
+        const singleCreation = allowCreate && displaySelectLabel.value ? {
+          ..._createMethod({ createStr: displaySelectLabel.value }),
+          __creating: true
+        } : null
         if (filterable) {
-          reactData.visibleOptionList = fullOptionList.filter(option => isOptionVisible(option) && _filterMethod({
+          const filteredOptionList = fullOptionList.filter(option => isOptionVisible(option) && _filterMethod({
             group: null,
             option,
             searchValue: displaySelectLabel.value
           }))
+          reactData.visibleOptionList = filteredOptionList.length === 0 && singleCreation ? [singleCreation] : filteredOptionList
         } else {
-          reactData.visibleOptionList = fullOptionList.filter(isOptionVisible)
+          reactData.visibleOptionList = singleCreation ? [singleCreation, ...fullOptionList.filter(isOptionVisible)] : fullOptionList.filter(isOptionVisible)
         }
       }
       return nextTick()
@@ -479,6 +528,7 @@ export default defineComponent({
         }
         reactData.isActivated = true
         reactData.animatVisible = true
+        displaySelectLabel.value = ''
         if (remote && remoteMethod) {
           reactData.searchLoading = true
           Promise.resolve(remoteMethod({ searchValue: displaySelectLabel.value })).then(() => nextTick()).catch(() => nextTick()).finally(() => {
@@ -533,10 +583,37 @@ export default defineComponent({
       clearValueEvent(evnt, null)
       hideOptionPanel()
     }
-
-    const changeOptionEvent = (evnt: Event, selectValue: any, option: any) => {
+    const createOption = (option: any) => {
+      const _option = Object.assign({}, option)
+      delete _option.__creating
+      if (props.remote && props.remoteMethod) {
+        emit('create-option', _option)
+        displaySelectLabel.value = ''
+      } else {
+        // eslint-disable-next-line vue/no-mutating-props
+        props.options?.push(_option)
+        emit('create-option', _option)
+        displaySelectLabel.value = ''
+        refreshOption()
+      }
+    }
+    const createGroupOption = (option:any, group:CustomizeOptionGroupProps) => {
+      const _option = Object.assign({}, option)
+      delete _option.__creating
+      if (props.remote && props.remoteMethod) {
+        emit('create-option', _option, group)
+      } else {
+        props.optionGroups?.find(f => f[computeGroupLabelField.value] === group[computeGroupLabelField.value])?.options.push(_option)
+        // todo 验证
+      }
+    }
+    const changeOptionEvent = (evnt: Event, selectValue: any, option: any, group?:any) => {
+      console.log(' log -：611 selectValue', selectValue)
       const { modelValue, multiple } = props
       const { remoteValueList } = reactData
+      if (props.allowCreate && option.__creating) {
+        computeIsGroup.value && group ? createGroupOption(option, group) : createOption(option)
+      }
       if (multiple) {
         let multipleValue
         if (modelValue) {
@@ -596,6 +673,7 @@ export default defineComponent({
       const valueField = computeValueField.value as 'value'
       const groupOptionsField = computeGroupOptionsField.value as 'options'
       let firstOption
+      let currentGroup
       let prevOption
       let nextOption
       let currOption
@@ -622,6 +700,7 @@ export default defineComponent({
               }
               if (optionValue === option[valueField]) {
                 currOption = option
+                currentGroup = group
                 if (isUpArrow) {
                   return { offsetOption: prevOption }
                 }
@@ -660,7 +739,7 @@ export default defineComponent({
           }
         }
       }
-      return { firstOption }
+      return { firstOption, currentGroup }
     }
 
     const handleGlobalKeydownEvent = (evnt: KeyboardEvent) => {
@@ -683,10 +762,11 @@ export default defineComponent({
           } else if (isEnter) {
             evnt.preventDefault()
             evnt.stopPropagation()
-            changeOptionEvent(evnt, currentValue, currentOption)
+            changeOptionEvent(evnt, currentValue, currentOption, reactData.currentGroup)
           } else if (isUpArrow || isDwArrow) {
             evnt.preventDefault()
-            let { firstOption, offsetOption } = findOffsetOption(currentValue, isUpArrow)
+            let { firstOption, offsetOption, currentGroup } = findOffsetOption(currentValue, isUpArrow)
+            reactData.currentGroup = currentGroup
             if (!offsetOption && !findOption(currentValue)) {
               offsetOption = firstOption
             }
@@ -794,18 +874,20 @@ export default defineComponent({
           },
           onClick: (evnt: MouseEvent) => {
             if (!isDisabled) {
-              changeOptionEvent(evnt, optionValue, option)
+              changeOptionEvent(evnt, optionValue, option, group)
             }
           },
           onMouseenter: () => {
             if (!isDisabled) {
               setCurrentOption(option)
+              reactData.currentGroup = group
             }
           }
-        }, defaultSlot ? callSlot(defaultSlot, {
+        }, [option.__creating ? [h('i', { class: 'vxe-icon-add vxe-primary-color' })] : null, defaultSlot ? callSlot(defaultSlot, {
           option,
           $select: $xeselect
-        }) : formatText(getFuncText(option[labelField as 'label']))) : null
+        }) : formatText(getFuncText(option[labelField as 'label']))].filter(f => !!f)
+        ) : null
       })
     }
 
@@ -969,7 +1051,7 @@ export default defineComponent({
     })
 
     const renderVN = () => {
-      const { className, transfer, disabled, loading, filterable } = props
+      const { className, allowCreate, transfer, disabled, loading, filterable } = props
       const { inited, isActivated, visiblePanel } = reactData
       const vSize = computeSize.value
       const prefixSlot = slots.prefix
@@ -992,7 +1074,7 @@ export default defineComponent({
           ref: refInput,
           clearable: props.clearable,
           placeholder: props.placeholder,
-          readonly: !filterable,
+          readonly: !allowCreate && !filterable,
           disabled,
           type: 'text',
           prefixIcon: props.prefixIcon,
