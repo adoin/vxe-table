@@ -292,7 +292,7 @@ export default defineComponent({
     /**
      * 刷新选项，当选项被动态显示/隐藏时可能会用到
      */
-    const refreshOption = () => {
+    const refreshOption = (showAll?:boolean) => {
       const { filterable, filterMethod } = props
       const { fullOptionList, fullGroupList } = reactData
       const isGroup = computeIsGroup.value
@@ -307,7 +307,10 @@ export default defineComponent({
         // todo 没有filter methods的逻辑
         if (filterable) {
           /* group级别 能查找到 该级别全部展现。若不能则看children内是否有满足条件的，有则过滤后展现 */
-          reactData.visibleGroupList = fullGroupList.map(group => isOptionVisible(group) && (!displaySelectLabel.value || _filterMethod({
+          reactData.visibleGroupList = showAll ? fullGroupList.filter(group => isOptionVisible(group)).map(g => ({
+            ...g,
+            options: g.options.filter(option => isOptionVisible(option))
+          })) : fullGroupList.map(group => isOptionVisible(group) && (!displaySelectLabel.value || _filterMethod({
             group,
             option: null,
             searchValue: displaySelectLabel.value
@@ -327,7 +330,7 @@ export default defineComponent({
         }
       } else {
         if (filterable) {
-          reactData.visibleOptionList = fullOptionList.filter(option => isOptionVisible(option) && _filterMethod({
+          reactData.visibleOptionList = showAll ? fullOptionList.filter(option => isOptionVisible(option)) : fullOptionList.filter(option => isOptionVisible(option) && _filterMethod({
             group: null,
             option,
             searchValue: displaySelectLabel.value
@@ -483,10 +486,10 @@ export default defineComponent({
           reactData.searchLoading = true
           Promise.resolve(remoteMethod({ searchValue: displaySelectLabel.value })).then(() => nextTick()).catch(() => nextTick()).finally(() => {
             reactData.searchLoading = false
-            refreshOption()
+            refreshOption(true)
           })
         } else if (filterable) {
-          refreshOption()
+          refreshOption(true)
         }
         setTimeout(() => {
           const { modelValue, multiple } = props

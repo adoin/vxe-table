@@ -62,6 +62,7 @@ export default defineComponent({
           --vxe-select-option-hover-background-color: #27355d;
           --vxe-font-size: 14px;
           --vxe-font-color: #e2ebf6;
+            --vxe-table-font-color: #e2ebf6;
           --vxe-font-l10-color: #f5f8fc;
           --vxe-font-l20-color: #fff;
           --vxe-pager-font-color: #ffffffe6;
@@ -126,6 +127,7 @@ export default defineComponent({
   --vxe-select-option-hover-background-color: #27355d;
   --vxe-font-size: 14px;
   --vxe-font-color: #e2ebf6;
+  --vxe-table-font-color: #e2ebf6;
   --vxe-font-l10-color: #f5f8fc;
   --vxe-font-l20-color: #fff;
   --vxe-pager-font-color: #ffffffe6;

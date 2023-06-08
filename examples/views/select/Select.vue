@@ -9,6 +9,7 @@
     </p>
 
     <p>
+      <vxe-select v-bind="selectSetting" v-model="test"/>
       <vxe-select v-model="demo1.value10" placeholder="默认尺寸">
         <vxe-option v-for="num in 15" :key="num" :value="num" :label="`选项${num}`"></vxe-option>
       </vxe-select>
@@ -226,10 +227,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { VxeSelectProps } from 'types'
+import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
+import VxeSelect from '../../../packages/select/src/select'
 
 export default defineComponent({
+  components: { VxeSelect },
   setup () {
+    const opts = ref<Array<any>>([])
+    const test = ref('1')
+    const selectSetting = computed<VxeSelectProps>(() => {
+      return ({
+        size: 'mini',
+        filterable: true,
+        options: [
+          { label: '默认', value: '1' },
+          ...opts.value
+        ]
+      })
+    })
+    onMounted(() => {
+      setTimeout(() => {
+        opts.value = [
+          { label: 'a', value: 'a' },
+          { label: 'b', value: 'b' },
+          { label: 'c', value: 'c' }
+        ]
+      }, 500)
+    })
     const demo1 = reactive({
       value10: 12,
       value11: null,
@@ -238,7 +263,7 @@ export default defineComponent({
       value20: null,
       value21: null,
       value22: null,
-      value23: null,
+      value23: '2-1',
       value24: null,
       list24: [
         { value: 11, label: '111' },
@@ -364,6 +389,8 @@ export default defineComponent({
     }
 
     return {
+      test,
+      selectSetting,
       demo1,
       remoteMethod24,
       demoCodes: [
