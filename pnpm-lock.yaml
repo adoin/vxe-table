@@ -120,8 +120,8 @@ devDependencies:
     specifier: ^4.0.2
     version: 4.0.2(vue@3.3.4)
   xe-utils:
-    specifier: ^3.5.7
-    version: 3.5.7
+    specifier: ^3.5.11
+    version: 3.5.11
 
 packages:
 
@@ -10642,8 +10642,8 @@ packages:
         optional: true
     dev: true
 
-  /xe-utils@3.5.7:
-    resolution: {integrity: sha512-3H+fDBKBR2wLJgyA7k9C/w1Xljx6Maml5ukV0WDY06HjYyGs2FEz6XhcwRCLIDXX4pBP3Gu0nX9DbCeuuRA2Ew==}
+  /xe-utils@3.5.11:
+    resolution: {integrity: sha512-lyKc/lTBga1Zb63p+FED8mtxLnYIjSS8PVJM1N64NGdCu/3d1XubaVeke2p91RHssP0ExVAl2LUqZYperoz76Q==}
     dev: true
 
   /xml-name-validator@4.0.0:
