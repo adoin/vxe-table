@@ -24,6 +24,8 @@ const isWebkit = browse['-webkit'] && !browse.edge
 
 const resizableStorageKey = 'VXE_TABLE_CUSTOM_COLUMN_WIDTH'
 const visibleStorageKey = 'VXE_TABLE_CUSTOM_COLUMN_VISIBLE'
+const fixedStorageKey = 'VXE_TABLE_CUSTOM_COLUMN_FIXED'
+const orderStorageKey = 'VXE_TABLE_CUSTOM_COLUMN_ORDER'
 
 export default defineComponent({
   name: 'VxeTable',
@@ -837,21 +839,25 @@ export default defineComponent({
       const { collectColumn } = internalData
       const customOpts = computeCustomOpts.value
       const { storage } = customOpts
-      const isResizable = storage === true || (storage && storage.resizable)
-      const isVisible = storage === true || (storage && storage.visible)
-      if (customConfig && (isResizable || isVisible)) {
+      const isCustomResizable = storage === true || (storage && storage.resizable)
+      const isCustomVisible = storage === true || (storage && storage.visible)
+      const isCustomFixed = storage === true || (storage && storage.fixed)
+      const isCustomOrder = storage === true || (storage && storage.order)
+      if (customConfig && (isCustomResizable || isCustomVisible || isCustomFixed || isCustomOrder)) {
         const customMap: {
           [key: string]: {
             field?: VxeColumnPropTypes.Field
             resizeWidth?: number
             visible?: boolean
+            fixed?: string
           }
         } = {}
         if (!id) {
           errLog('vxe.error.reqProp', ['id'])
           return
         }
-        if (isResizable) {
+        // 自定义列宽
+        if (isCustomResizable) {
           const columnWidthStorage = getCustomStorageMap(resizableStorageKey)[id]
           if (columnWidthStorage) {
             XEUtils.each(columnWidthStorage, (resizeWidth: number, field) => {
@@ -859,7 +865,30 @@ export default defineComponent({
             })
           }
         }
-        if (isVisible) {
+        // 自定义固定列
+        if (isCustomFixed) {
+          const columnFixedStorage = getCustomStorageMap(fixedStorageKey)[id]
+          if (columnFixedStorage) {
+            const colFixeds = columnFixedStorage.split(',')
+            colFixeds.forEach((fixConf: any) => {
+              const [field, fixed] = fixConf.split('|')
+              if (customMap[field]) {
+                customMap[field].fixed = fixed
+              } else {
+                customMap[field] = { field, fixed }
+              }
+            })
+          }
+        }
+        // 自定义顺序
+        if (isCustomOrder) {
+          const columnOrderStorage = getCustomStorageMap(orderStorageKey)[id]
+          if (columnOrderStorage) {
+            // 开发中...
+          }
+        }
+        // 自定义隐藏列
+        if (isCustomVisible) {
           const columnVisibleStorage = getCustomStorageMap(visibleStorageKey)[id]
           if (columnVisibleStorage) {
             const colVisibles = columnVisibleStorage.split('|')
@@ -890,7 +919,7 @@ export default defineComponent({
             keyMap[colKey] = column
           }
         })
-        XEUtils.each(customMap, ({ visible, resizeWidth }, field) => {
+        XEUtils.each(customMap, ({ visible, resizeWidth, fixed }, field) => {
           const column = keyMap[field]
           if (column) {
             if (XEUtils.isNumber(resizeWidth)) {
@@ -898,6 +927,9 @@ export default defineComponent({
             }
             if (XEUtils.isBoolean(visible)) {
               column.visible = visible
+            }
+            if (fixed) {
+              column.fixed = fixed
             }
           }
         })
@@ -3040,24 +3072,54 @@ export default defineComponent({
         }
       },
       /**
+       * 设置为固定列
+       */
+      setColumnFixed (fieldOrColumn, fixed) {
+        const column = handleFieldOrColumn($xetable, fieldOrColumn)
+        if (column && column.fixed !== fixed) {
+          XEUtils.eachTree([column], (column) => {
+            column.fixed = fixed
+          })
+          tablePrivateMethods.saveCustomFixed()
+          return tableMethods.refreshColumn()
+        }
+        return nextTick()
+      },
+      /**
+       * 取消指定固定列
+       */
+      clearColumnFixed (fieldOrColumn) {
+        const column = handleFieldOrColumn($xetable, fieldOrColumn)
+        if (column && column.fixed) {
+          XEUtils.eachTree([column], (column) => {
+            column.fixed = null
+          })
+          tablePrivateMethods.saveCustomFixed()
+          return tableMethods.refreshColumn()
+        }
+        return nextTick()
+      },
+      /**
        * 隐藏指定列
        */
       hideColumn (fieldOrColumn) {
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
-        if (column) {
+        if (column && column.visible) {
           column.visible = false
+          return tablePrivateMethods.handleCustom()
         }
-        return tablePrivateMethods.handleCustom()
+        return nextTick()
       },
       /**
        * 显示指定列
        */
       showColumn (fieldOrColumn) {
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
-        if (column) {
+        if (column && !column.visible) {
           column.visible = true
+          return tablePrivateMethods.handleCustom()
         }
-        return tablePrivateMethods.handleCustom()
+        return nextTick()
       },
       setColumnWidth (fieldOrColumn, width) {
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
@@ -4830,13 +4892,38 @@ export default defineComponent({
           localStorage.setItem(resizableStorageKey, XEUtils.toJSONString(columnWidthStorageMap))
         }
       },
+      saveCustomFixed () {
+        const { id, customConfig } = props
+        const { collectColumn } = internalData
+        const customOpts = computeCustomOpts.value
+        const { storage } = customOpts
+        const isCustomFixed = storage === true || (storage && storage.fixed)
+        if (customConfig && isCustomFixed) {
+          const columnFixedStorageMap = getCustomStorageMap(fixedStorageKey)
+          const colFixeds: any[] = []
+          if (!id) {
+            errLog('vxe.error.reqProp', ['id'])
+            return
+          }
+          XEUtils.eachTree(collectColumn, (column) => {
+            if (column.fixed && column.fixed !== column.defaultFixed) {
+              const colKey = column.getKey()
+              if (colKey) {
+                colFixeds.push(`${colKey}|${column.fixed}`)
+              }
+            }
+          })
+          columnFixedStorageMap[id] = colFixeds.join(',') || undefined
+          localStorage.setItem(fixedStorageKey, XEUtils.toJSONString(columnFixedStorageMap))
+        }
+      },
       saveCustomVisible () {
         const { id, customConfig } = props
         const { collectColumn } = internalData
         const customOpts = computeCustomOpts.value
         const { checkMethod, storage } = customOpts
-        const isVisible = storage === true || (storage && storage.visible)
-        if (customConfig && isVisible) {
+        const isCustomVisible = storage === true || (storage && storage.visible)
+        if (customConfig && isCustomVisible) {
           const columnVisibleStorageMap = getCustomStorageMap(visibleStorageKey)
           const colHides: any[] = []
           const colShows: any[] = []
