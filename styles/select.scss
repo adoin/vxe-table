@@ -118,6 +118,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
   user-select: none;
   &.is--selected {
     font-weight: 700;
