@@ -38,7 +38,7 @@ import {
   VxeOptionProps,
   VxeFormDefines,
   VxeFormConstructor,
-  VxeFormPrivateMethods, VxeSelectDefines, Recordable
+  VxeFormPrivateMethods, Recordable
 } from '../../../types/all'
 
 function isOptionVisible (option: any) {
@@ -298,7 +298,7 @@ export default defineComponent({
       const isGroup = computeIsGroup.value
       const groupLabelField = computeGroupLabelField.value
       const labelField = computeLabelField.value
-      const valueField = computeValueField.value
+      // const valueField = computeValueField.value
       const _filterMethod: VxeSelectPropTypes.FilterMethod = filterMethod && isFunction(filterMethod) ? filterMethod
         : ({ group, option, searchValue }) =>
             (group && group[groupLabelField].indexOf(searchValue) > -1) ||
