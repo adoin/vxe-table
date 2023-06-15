@@ -106,7 +106,7 @@ export interface VxeFormItemProps {
   /**
    * 项渲染配置项
    */
-  itemRender?: FormItemRenderOptions
+  itemRender?: VxeFormItemPropTypes.ItemRender
   slots?: VxeFormItemPropTypes.Slots
   children?: VxeFormItemProps[]
 }
