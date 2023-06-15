@@ -28,6 +28,7 @@
   "style": "lib/style.css",
   "typings": "types/index.d.ts",
   "devDependencies": {
+    "@types/node": "^18.16.0",
     "@types/resize-observer-browser": "^0.1.7",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
@@ -39,7 +40,6 @@
     "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-standard": "^8.0.1",
     "@vue/eslint-config-typescript": "^11.0.3",
-    "@types/node": "^18.16.0",
     "core-js": "^3.8.3",
     "del": "^6.1.1",
     "eslint": "^8.39.0",
@@ -98,5 +98,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/adoin/vxe-table/issues"
+  },
+  "dependencies": {
+    "font-awesome": "4.7.0"
   }
 }

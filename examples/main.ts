@@ -6,7 +6,7 @@ import i18n from './i18n'
 
 import './style/index.scss'
 import './plugins'
-
+import 'font-awesome/css/font-awesome.css'
 import PreCode from './components/PreCode.vue'
 import GridAPILink from './components/GridAPILink.vue'
 import TableAPILink from './components/TableAPILink.vue'
