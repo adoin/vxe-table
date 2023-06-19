@@ -38,7 +38,7 @@ import {
   VxeOptionProps,
   VxeFormDefines,
   VxeFormConstructor,
-  VxeFormPrivateMethods, Recordable
+  VxeFormPrivateMethods
 } from '../../../types/all'
 
 function isOptionVisible (option: any) {
@@ -309,14 +309,14 @@ export default defineComponent({
           /* group级别 能查找到 该级别全部展现。若不能则看children内是否有满足条件的，有则过滤后展现 */
           reactData.visibleGroupList = showAll ? fullGroupList.filter(group => isOptionVisible(group)).map(g => ({
             ...g,
-            options: g.options.filter(option => isOptionVisible(option))
+            options: (g.options as Recordable[]).filter(option => isOptionVisible(option))
           })) : fullGroupList.map(group => isOptionVisible(group) && (!displaySelectLabel.value || _filterMethod({
             group,
             option: null,
             searchValue: displaySelectLabel.value
           })) ? group : ({
               ...group,
-              options: group.options ? group.options.filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
+              options: group.options ? (group.options as Recordable[]).filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
                 group: null,
                 option,
                 searchValue: displaySelectLabel.value
@@ -944,7 +944,7 @@ export default defineComponent({
 
     watch(() => props.optionGroups, (value) => {
       reactData.fullOptionList = []
-      reactData.fullGroupList = value || [] as Recordable[]
+      reactData.fullGroupList = value || []
       cacheItemMap()
     })
 

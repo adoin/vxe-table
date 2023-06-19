@@ -37,7 +37,7 @@ export interface VxeSelectPrivateRef extends SelectPrivateRef {}
 export interface SelectReactData {
   inited: boolean
   staticOptions: VxeSelectDefines.OptionInfo[]
-  fullGroupList: CustomizeOptionGroups
+  fullGroupList: Recordable[]
   fullOptionList: any[]
   visibleGroupList: any[]
   visibleOptionList: any[]
@@ -106,7 +106,7 @@ export namespace VxeSelectPropTypes {
   export type Placement = string
   export type Options = VxeSelectDefines.SelectOptions[]
   export type OptionProps = VxeGlobalRendererHandles.RenderOptionProps
-  export type OptionGroups = Array<VxeSelectDefines.SelectOptgroups[] | VxeSelectDefines.ICustomizeOptionGroups>
+  export type OptionGroups = VxeSelectDefines.SelectOptgroups[]
   export type OptionGroupProps = VxeGlobalRendererHandles.RenderOptionGroupProps
   export type Filterable = boolean
   export type FilterMethod = (params: { group: any, option: any, searchValue: string }) => boolean
@@ -178,7 +178,6 @@ export type VxeSelectEmits = [
   'change',
   'clear'
 ]
-declare type Recordable<T = any> = Record<string, T>
 export type CustomizeOptionGroups = Array<{
   isCreated?: boolean
   /**
@@ -191,7 +190,7 @@ export type CustomizeOptionGroups = Array<{
    */
   disabled?: VxeOptionPropTypes.Disabled
   slots?: VxeOptionPropTypes.Slots
-} & Record<string, VxeOptionPropTypes.Label> & Record<string, VxeOptionProps[]>>
+} & Partial<Record<string, VxeOptionPropTypes.Label> & Record<string, VxeOptionProps[]>>>
 export namespace VxeSelectDefines {
   export type ICustomizeOptionGroups = CustomizeOptionGroups
 

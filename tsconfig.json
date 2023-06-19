@@ -19,6 +19,7 @@
       "webpack-env",
       "resize-observer-browser"
     ],
+    "typeRoots": ["./node_modules","./node_modules/@types/"],
     "paths": {
       "@/*": [
         "examples/*"
@@ -38,7 +39,8 @@
     "examples/**/*.tsx",
     "examples/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "types/global.d.ts"
   ],
   "exclude": [
     "node_modules"
