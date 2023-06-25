@@ -49,6 +49,7 @@ function getOptUniqueId () {
   return XEUtils.uniqueId('opt_')
 }
 
+declare type Recordable<T = any> = Record<string, T>;
 export default defineComponent({
   name: 'VxeSelect',
   props: {
