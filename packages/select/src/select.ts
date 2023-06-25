@@ -1029,7 +1029,10 @@ export default defineComponent({
             h('div', {
               ref: refOptionWrapper,
               class: 'vxe-select-option--wrapper'
-            }, renderOpts())
+            }, renderOpts()),
+            slots.footer ? h('div', {
+              class: 'vxe-select-footer--wrapper'
+            }, slots.footer(props)) : null
           ] : [])
         ])
       ])
