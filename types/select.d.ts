@@ -4,6 +4,7 @@ import { VxeGlobalRendererHandles } from './v-x-e-table'
 import { VxeOptgroupProps } from './optgroup'
 import { VxeOptionProps, VxeOptionPropTypes } from './option'
 
+declare type Recordable<T = any> = Record<string, T>;
 /* eslint-disable no-use-before-define */
 
 /**
