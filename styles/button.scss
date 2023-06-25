@@ -340,6 +340,9 @@ $btnThemeList: (
     display: block;
     width: 100%;
     border: 0;
+    & +.vxe-button{
+      margin-left:0;
+    }
     &.type--text {
       padding: 2px 8px;
     }
