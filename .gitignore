@@ -4,6 +4,8 @@ node_modules
 /dist
 /es
 /lib
+/lib_temp
+/packages_temp
 /docs
 /public/v1
 /public/v2
