@@ -65,15 +65,78 @@
       <pre-code class="xml">{{ demoCodes[4] }}</pre-code>
       <pre-code class="typescript">{{ demoCodes[5] }}</pre-code>
     </pre>
+    <vxe-grid v-bind="treeSelectSetting" :data="treeDemoData" />
+    <p class="demo-code">{{ $t('app.body.button.showCode') }}</p>
+    <pre>
+      <pre-code class="xml">{{ demoCodes[6] }}</pre-code>
+      <pre-code class="typescript">{{ demoCodes[7] }}</pre-code>
+    </pre>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import { VxeTableEvents } from '../../../../types/index'
+import { VxeGridProps, VxeTableEvents } from '../../../../types/index'
 
 export default defineComponent({
   setup () {
+    const treeDemoData = [
+      {
+        name: 'test abc1', type: 'mp3', size: 1024, date: '2020-08-01', id: 1
+      },
+      {
+        name: 'Test2',
+        type: 'mp4',
+        size: null,
+        date: '2021-04-01',
+        id: 2,
+        children: [
+          {
+            name: 'Test3',
+            type: 'avi',
+            size: 1024,
+            date: '2020-03-01',
+            id: 3,
+            children: [
+              {
+                name: 'test abc4', type: 'html', size: 600, date: '2021-04-01', id: 4
+              },
+              {
+                name: 'test abc96',
+                type: 'avi',
+                size: null,
+                date: '2021-04-01',
+                id: 5,
+                children: [
+                  {
+                    name: 'test abc5', type: 'txt', size: 25, date: '2021-10-01', id: 6
+                  },
+                  {
+                    name: 'Test6', type: 'pdf', size: 512, date: '2020-01-01', id: 7, checked: true
+                  },
+                  {
+                    name: 'Test7', type: 'js', size: 1024, date: '2021-06-01', id: 8
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'last',
+        type: 'mp4',
+        size: 2334,
+        children: [
+          {
+            name: 'test abc8', type: 'html', size: 600, date: '2021-04-01', id: 9, checked: true
+          },
+          {
+            name: 'test abc9', type: 'avi', size: null, date: '2021-04-01', id: 10
+          }
+        ]
+      }
+    ]
     const demo1 = reactive({
       tableData: [
         { id: 10000, parentId: null, name: 'test abc1', type: 'mp3', size: 1024, date: '2020-08-01' },
@@ -142,7 +205,18 @@ export default defineComponent({
         { id: 24577, parentId: 24555, name: 'Test7', type: 'js', size: 1024, date: '2021-06-01' }
       ]
     })
-
+    const treeSelectSetting:VxeGridProps = {
+      checkboxConfig: {
+        checkField: 'checked', labelField: 'name'
+      },
+      treeConfig: { expandAll: true },
+      columns: [
+        { type: 'checkbox', width: 360, treeNode: true },
+        { field: 'type', title: 'Type', width: 100 },
+        { field: 'size', title: 'Size', width: 100 },
+        { field: 'date', title: 'Date', minWidth: 100 }
+      ]
+    }
     const selectChangeEvent: VxeTableEvents.CheckboxChange = ({ records }) => {
       console.info(`勾选${records.length}个树形节点`, records)
     }
@@ -151,6 +225,8 @@ export default defineComponent({
       demo1,
       demo2,
       demo3,
+      treeDemoData,
+      treeSelectSetting,
       selectChangeEvent,
       demoCodes: [
         `
@@ -305,6 +381,82 @@ export default defineComponent({
             }
           }
         })
+        `,
+        `
+<vxe-grid v-bind="treeSelectSetting" :data="treeDemoData" />
+        `,
+        `
+
+    const treeDemoData = [
+      {
+        name: 'test abc1', type: 'mp3', size: 1024, date: '2020-08-01', id: 1
+      },
+      {
+        name: 'Test2',
+        type: 'mp4',
+        size: null,
+        date: '2021-04-01',
+        id: 2,
+        children: [
+          {
+            name: 'Test3',
+            type: 'avi',
+            size: 1024,
+            date: '2020-03-01',
+            id: 3,
+            children: [
+              {
+                name: 'test abc4', type: 'html', size: 600, date: '2021-04-01', id: 4
+              },
+              {
+                name: 'test abc96',
+                type: 'avi',
+                size: null,
+                date: '2021-04-01',
+                id: 5,
+                children: [
+                  {
+                    name: 'test abc5', type: 'txt', size: 25, date: '2021-10-01', id: 6
+                  },
+                  {
+                    name: 'Test6', type: 'pdf', size: 512, date: '2020-01-01', id: 7, checked: true
+                  },
+                  {
+                    name: 'Test7', type: 'js', size: 1024, date: '2021-06-01', id: 8
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'last',
+        type: 'mp4',
+        size: 2334,
+        children: [
+          {
+            name: 'test abc8', type: 'html', size: 600, date: '2021-04-01', id: 9, checked: true
+          },
+          {
+            name: 'test abc9', type: 'avi', size: null, date: '2021-04-01', id: 10
+          }
+        ]
+      }
+    ]
+
+     const treeSelectSetting:VxeGridProps = {
+      checkboxConfig: {
+        checkField: 'checked', labelField: 'name'
+      },
+      treeConfig: { expandAll: true },
+      columns: [
+        { type: 'checkbox', width: 360, treeNode: true },
+        { field: 'type', title: 'Type', width: 100 },
+        { field: 'size', title: 'Size', width: 100 },
+        { field: 'date', title: 'Date', minWidth: 100 }
+      ]
+    }
         `
       ]
     }

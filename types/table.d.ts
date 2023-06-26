@@ -738,6 +738,7 @@ export interface TablePrivateMethods<D = VxeTableDataRow> {
   handleUpdateDataQueue(): void
   handleRefreshColumnQueue(): void
   preventEvent(evnt: any, type: any, args?: any, next?: any, end?: any): any
+  calcIndeterminateTem(treeData:VxeTableDataRow[]): void
   triggerHeaderHelpEvent(evnt: MouseEvent, params: VxeTableDefines.CellRenderHeaderParams<any>): void
   triggerHeaderTooltipEvent(evnt: MouseEvent, params: VxeTableDefines.CellRenderHeaderParams<any>): void
   triggerBodyTooltipEvent(evnt: MouseEvent, params: VxeTableDefines.CellRenderBodyParams<any>): void

@@ -375,7 +375,7 @@ export const Cell = {
     const { $table, column, isHidden } = params
     const { reactData } = $table
     const { computeIsAllCheckboxDisabled, computeCheckboxOpts } = $table.getComputeMaps()
-    const { isAllSelected: isAllCheckboxSelected, isIndeterminate: isAllCheckboxIndeterminate } = reactData
+    const { isAllSelected: isAllCheckboxSelected, treeIndeterminates, isIndeterminate: isAllCheckboxIndeterminate } = reactData
     const isAllCheckboxDisabled = computeIsAllCheckboxDisabled.value
     const { slots } = column
     const headerSlot = slots ? slots.header : null
@@ -408,13 +408,13 @@ export const Cell = {
         class: ['vxe-cell--checkbox', {
           'is--checked': isAllCheckboxSelected,
           'is--disabled': isAllCheckboxDisabled,
-          'is--indeterminate': isAllCheckboxIndeterminate
+          'is--indeterminate': isAllCheckboxIndeterminate || treeIndeterminates.length > 0
         }],
         title: GlobalConfig.i18n('vxe.table.allTitle'),
         ...ons
       }, [
         h('span', {
-          class: ['vxe-checkbox--icon', isAllCheckboxIndeterminate ? GlobalConfig.icon.TABLE_CHECKBOX_INDETERMINATE : (isAllCheckboxSelected ? GlobalConfig.icon.TABLE_CHECKBOX_CHECKED : GlobalConfig.icon.TABLE_CHECKBOX_UNCHECKED)]
+          class: ['vxe-checkbox--icon', (isAllCheckboxIndeterminate || treeIndeterminates.length > 0) ? GlobalConfig.icon.TABLE_CHECKBOX_INDETERMINATE : (isAllCheckboxSelected ? GlobalConfig.icon.TABLE_CHECKBOX_CHECKED : GlobalConfig.icon.TABLE_CHECKBOX_UNCHECKED)]
         })
       ].concat(titleSlot || headerTitle ? [
         h('span', {
