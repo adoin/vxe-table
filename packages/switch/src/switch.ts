@@ -16,8 +16,8 @@ export default defineComponent({
     closeLabel: String as PropType<VxeSwitchPropTypes.CloseLabel>,
     openValue: { type: [String, Number, Boolean] as PropType<VxeSwitchPropTypes.OpenValue>, default: true },
     closeValue: { type: [String, Number, Boolean] as PropType<VxeSwitchPropTypes.CloseValue>, default: false },
-    openIcon: String as PropType<VxeSwitchPropTypes.OpenIcon>,
-    closeIcon: String as PropType<VxeSwitchPropTypes.CloseIcon>
+    openIcon: { type: String as PropType<VxeSwitchPropTypes.OpenIcon>, default: () => GlobalConfig.switch.openIcon },
+    closeIcon: { type: String as PropType<VxeSwitchPropTypes.CloseIcon>, default: () => GlobalConfig.switch.closeIcon }
   },
   emits: [
     'update:modelValue',

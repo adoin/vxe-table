@@ -14,9 +14,9 @@ export default defineComponent({
     modelValue: Boolean as PropType<VxePulldownPropTypes.ModelValue>,
     disabled: Boolean as PropType<VxePulldownPropTypes.Disabled>,
     placement: String as PropType<VxePulldownPropTypes.Placement>,
-    size: { type: String as PropType<VxePulldownPropTypes.Size>, default: () => GlobalConfig.size },
-    destroyOnClose: Boolean as PropType<VxePulldownPropTypes.DestroyOnClose>,
-    transfer: Boolean as PropType<VxePulldownPropTypes.Transfer>
+    size: { type: String as PropType<VxePulldownPropTypes.Size>, default: () => GlobalConfig.pulldown.size ?? GlobalConfig.size },
+    destroyOnClose: { type: Boolean as PropType<VxePulldownPropTypes.DestroyOnClose>, default: () => GlobalConfig.pulldown.destroyOnClose },
+    transfer: { type: Boolean as PropType<VxePulldownPropTypes.Transfer>, default: () => GlobalConfig.pulldown.transfer }
   },
   emits: [
     'update:modelValue',

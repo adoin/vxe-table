@@ -16,6 +16,7 @@ import { VxeCheckboxProps } from '../checkbox'
 import { VxeRadioProps } from '../radio'
 import { VxeRadioButtonProps } from '../radio-button'
 import { VxeRadioGroupProps } from '../radio-group'
+import { VxePulldownProps } from '../pulldown'
 
 export interface VXETableSetupOptions {
   size?: SizeType
@@ -82,6 +83,7 @@ export interface VXETableGlobalConfig extends VXETableSetupOptions {
   switch: VxeSwitchProps
   modal: VxeModalProps
   list: VxeListProps
+  pulldown:VxePulldownProps
   i18n(key: string, args?: any): string
 }
 

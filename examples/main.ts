@@ -54,7 +54,38 @@ import {
 } from '../packages/all'
 
 const app = createApp(App)
-
+VXETable.setup({
+  grid: {
+    size: 'mini',
+    align: 'center'
+  },
+  table: {
+    treeConfig: {
+      indent: 16
+    },
+    editConfig: {
+      showIcon: false
+    },
+    size: 'mini',
+    align: 'center',
+    border: 'full'
+  },
+  form: {
+    titleColon: true,
+    titleAlign: 'right',
+    titleWidth: 80
+  },
+  input: {
+    clearable: true
+  },
+  select: {
+    clearable: true,
+    filterable: true
+  },
+  modal: {
+    duration: 2000
+  }
+})
 app.component(PreCode.name, PreCode)
 app.component(GridAPILink.name, GridAPILink)
 app.component(TableAPILink.name, TableAPILink)

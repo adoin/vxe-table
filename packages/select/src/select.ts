@@ -76,7 +76,7 @@ export default defineComponent({
       type: String as PropType<VxeSelectPropTypes.Size>,
       default: () => GlobalConfig.select.size || GlobalConfig.size
     },
-    filterable: Boolean as PropType<VxeSelectPropTypes.Filterable>,
+    filterable: { type: Boolean as PropType<VxeSelectPropTypes.Filterable>, default: () => GlobalConfig.select.filterable },
     filterMethod: Function as PropType<VxeSelectPropTypes.FilterMethod>,
     remote: Boolean as PropType<VxeSelectPropTypes.Remote>,
     remoteMethod: Function as PropType<VxeSelectPropTypes.RemoteMethod>,

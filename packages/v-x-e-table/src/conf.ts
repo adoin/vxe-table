@@ -294,6 +294,7 @@ const GlobalConfig: VXETableGlobalConfig = {
     // optionConfig: {
     //   keyField: '_X_OPTION_KEY'
     // },
+    filterable: false,
     multiCharOverflow: 8
   },
   toolbar: {
@@ -330,6 +331,7 @@ const GlobalConfig: VXETableGlobalConfig = {
   },
   switch: {
     // size: null
+    // openIcon,closeIcon
   },
   modal: {
     // size: null,
@@ -356,6 +358,11 @@ const GlobalConfig: VXETableGlobalConfig = {
       gt: 100
       // oSize: 0
     }
+  },
+  pulldown: {
+    transfer: false,
+    destroyOnClose: false,
+    size: null
   },
   i18n: (key: string) => key
 }
