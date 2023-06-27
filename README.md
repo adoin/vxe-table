@@ -1,6 +1,6 @@
 # vxe-table
 
-简体中文 | [繁體中文](README.zh-TW.md) | [English](README.en.md)  
+简体中文
 
 [![star](https://gitee.com/xuliangzhan_admin/vxe-table/badge/star.svg?theme=gvp)](https://gitee.com/xuliangzhan_admin/vxe-table/stargazers)
 [![npm version](https://img.shields.io/npm/v/vxe-table.svg?style=flat-square)](https://www.npmjs.com/package/vxe-table)
@@ -91,17 +91,17 @@
 版本：[vue](https://www.npmjs.com/package/vue) 3.x, 依赖库：[xe-utils](https://www.npmjs.com/package/xe-utils)
 
 ```shell
-npm install xe-utils vxe-table@next
+npm install xe-utils vxe-table-demonic
 ```
 
-Get on [unpkg](https://unpkg.com/vxe-table/) and [cdnjs](https://cdn.jsdelivr.net/npm/vxe-table/)
+Get on [unpkg](https://unpkg.com/vxe-table-demonic/) and [cdnjs](https://cdn.jsdelivr.net/npm/vxe-table-demonic/)
 
 ### npm
 
 ```javascript
 import { createApp } from 'vue'
-import VXETable from 'vxe-table'
-import 'vxe-table/lib/style.css'
+import VXETable from 'vxe-table-demonic'
+import 'vxe-table-demonic/lib/style.css'
 
 createApp(App).use(VXETable).mount('#app')
 ```
@@ -113,10 +113,10 @@ createApp(App).use(VXETable).mount('#app')
 
 ```HTML
 <!-- 引入样式 -->
-<link rel="stylesheet" href="https://unpkg.com/vxe-table@next/lib/style.css">
+<link rel="stylesheet" href="https://unpkg.com/vxe-table-demonic/lib/style.css">
 <!-- 引入脚本 -->
 <script src="https://unpkg.com/xe-utils"></script>
-<script src="https://unpkg.com/vxe-table@next"></script>
+<script src="https://unpkg.com/vxe-table-demonic"></script>
 ```
 
 ## 示例
@@ -147,7 +147,7 @@ const tableData = ref([
 </script>
 ```
 
-## 在线文档
+## 在线文档 参考vxe-table原版
 
 👉 [官网文档](https://vxetable.cn)  
 
