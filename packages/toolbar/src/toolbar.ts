@@ -158,18 +158,7 @@ export default defineComponent({
     }
 
     const resetCustomEvent = (evnt: Event) => {
-      const { columns } = reactData
-      const { computeCustomOpts: computeTableCustomOpts } = $xetable.getComputeMaps()
-      const tableCustomOpts = computeTableCustomOpts.value
-      const { checkMethod } = tableCustomOpts
-      XEUtils.eachTree(columns, (column) => {
-        if (!checkMethod || checkMethod({ column })) {
-          column.visible = column.defaultVisible
-          column.halfVisible = false
-        }
-        column.resizeWidth = 0
-      })
-      $xetable.saveCustomResizable(true)
+      $xetable.resetColumn(true)
       closeCustom()
       emitCustomEvent('reset', evnt)
     }
@@ -384,10 +373,12 @@ export default defineComponent({
           if (item.visible !== false) {
             const compConf = buttonRender ? VXETable.renderer.get(buttonRender.name) : null
             if (buttonRender && compConf && compConf.renderToolbarButton) {
+              const toolbarButtonClassName = compConf.toolbarButtonClassName
+              const params = { $grid: $xegrid, $table: $xetable, button: item }
               btnVNs.push(
                 h('span', {
-                  class: 'vxe-button--item'
-                }, getSlotVNs(compConf.renderToolbarButton(buttonRender, { $grid: $xegrid, $table: $xetable, button: item })))
+                  class: ['vxe-button--item', toolbarButtonClassName ? (XEUtils.isFunction(toolbarButtonClassName) ? toolbarButtonClassName(params) : toolbarButtonClassName) : '']
+                }, getSlotVNs(compConf.renderToolbarButton(buttonRender, params)))
               )
             } else {
               btnVNs.push(
@@ -431,10 +422,12 @@ export default defineComponent({
           if (item.visible !== false) {
             const compConf = toolRender ? VXETable.renderer.get(toolRender.name) : null
             if (toolRender && compConf && compConf.renderToolbarTool) {
+              const toolbarToolClassName = compConf.toolbarToolClassName
+              const params = { $grid: $xegrid, $table: $xetable, tool: item }
               btnVNs.push(
                 h('span', {
-                  class: 'vxe-tool--item'
-                }, getSlotVNs(compConf.renderToolbarTool(toolRender, { $grid: $xegrid, $table: $xetable, tool: item })))
+                  class: ['vxe-tool--item', toolbarToolClassName ? (XEUtils.isFunction(toolbarToolClassName) ? toolbarToolClassName(params) : toolbarToolClassName) : '']
+                }, getSlotVNs(compConf.renderToolbarTool(toolRender, params)))
               )
             } else {
               btnVNs.push(

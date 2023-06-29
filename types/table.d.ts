@@ -1323,6 +1323,7 @@ export namespace VxeTablePropTypes {
     keyField?: string
     isCurrent?: boolean
     isHover?: boolean
+    resizable?: boolean
     height?: number
   }
   export interface RowOpts extends RowConfig { }
