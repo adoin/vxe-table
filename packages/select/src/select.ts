@@ -76,7 +76,10 @@ export default defineComponent({
       type: String as PropType<VxeSelectPropTypes.Size>,
       default: () => GlobalConfig.select.size || GlobalConfig.size
     },
-    filterable: { type: Boolean as PropType<VxeSelectPropTypes.Filterable>, default: () => GlobalConfig.select.filterable },
+    filterable: {
+      type: Boolean as PropType<VxeSelectPropTypes.Filterable>,
+      default: () => GlobalConfig.select.filterable
+    },
     filterMethod: Function as PropType<VxeSelectPropTypes.FilterMethod>,
     remote: Boolean as PropType<VxeSelectPropTypes.Remote>,
     remoteMethod: Function as PropType<VxeSelectPropTypes.RemoteMethod>,
@@ -293,7 +296,7 @@ export default defineComponent({
     /**
      * 刷新选项，当选项被动态显示/隐藏时可能会用到
      */
-    const refreshOption = (showAll?:boolean) => {
+    const refreshOption = (showAll?: boolean) => {
       const { filterable, filterMethod } = props
       const { fullOptionList, fullGroupList } = reactData
       const isGroup = computeIsGroup.value
@@ -474,7 +477,7 @@ export default defineComponent({
 
     let hidePanelTimeout: number
 
-    const showOptionPanel = () => {
+    const showOptionPanel = (needRecalc?: boolean) => {
       const { loading, remote, remoteMethod, disabled, filterable } = props
       if (!loading && !disabled) {
         clearTimeout(hidePanelTimeout)
@@ -490,7 +493,7 @@ export default defineComponent({
             refreshOption(true)
           })
         } else if (filterable) {
-          refreshOption(true)
+          refreshOption(!needRecalc)
         }
         setTimeout(() => {
           const { modelValue, multiple } = props
@@ -732,10 +735,10 @@ export default defineComponent({
         reactData.searchLoading = true
         Promise.resolve(remoteMethod({ searchValue: displaySelectLabel.value })).then(() => nextTick()).catch(() => nextTick()).finally(() => {
           reactData.searchLoading = false
-          refreshOption()
+          showOptionPanel(true)
         })
       } else {
-        refreshOption()
+        showOptionPanel(true)
       }
     }, 350, { trailing: true })
     const togglePanelEvent = (params: any) => {
