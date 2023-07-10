@@ -10,7 +10,7 @@ import { VxeTableConstructor, VxeTablePrivateMethods } from '../../../types/all'
 export class ColumnInfo {
   title?: string
   type?: string
-  property?: string
+  field?: string
 
   /* eslint-disable @typescript-eslint/no-use-before-define */
   constructor ($xetable: VxeTableConstructor & VxeTablePrivateMethods, _vm: any, { renderHeader, renderCell, renderFooter, renderData }: any = {}) {
@@ -91,6 +91,7 @@ export class ColumnInfo {
       cellRender: _vm.cellRender,
       editRender: _vm.editRender,
       contentRender: _vm.contentRender,
+      headerExportMethod: _vm.headerExportMethod,
       exportMethod: _vm.exportMethod,
       footerExportMethod: _vm.footerExportMethod,
       titleHelp: _vm.titleHelp,
@@ -108,11 +109,18 @@ export class ColumnInfo {
       checked: false,
       halfChecked: false,
       disabled: false,
+      // 分组层级
       level: 1,
+      // 跨行
       rowSpan: 1,
+      // 跨列
       colSpan: 1,
+      // 数据排序-自定义排序
       order: null,
+      // 数据排序-用于多列的先后顺序
       sortTime: 0,
+      // 列排序
+      customOrder: 0,
       renderWidth: 0,
       renderHeight: 0,
       resizeWidth: 0,
