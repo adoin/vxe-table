@@ -1,52 +1,52 @@
 import {
+  ComponentOptions,
+  ComponentPublicInstance,
+  computed,
+  ComputedRef,
+  createCommentVNode,
   defineComponent,
   getCurrentInstance,
   h,
-  createCommentVNode,
-  ComponentPublicInstance,
-  resolveComponent,
-  ComponentOptions,
-  reactive,
-  ref,
-  Ref,
-  provide,
   inject,
   nextTick,
   onActivated,
-  onDeactivated,
   onBeforeUnmount,
+  onDeactivated,
+  onMounted,
   onUnmounted,
-  watch,
-  computed,
-  ComputedRef,
-  onMounted
+  provide,
+  reactive,
+  ref,
+  Ref,
+  resolveComponent,
+  watch
 } from 'vue'
 import XEUtils from 'xe-utils'
 import {
-  browse,
-  isPx,
-  isScale,
-  hasClass,
   addClass,
-  removeClass,
+  browse,
   getEventTargetNode,
   getPaddingTopBottomSize,
-  setScrollTop,
+  hasClass,
+  isNodeElement,
+  isPx,
+  isScale,
+  removeClass,
   setScrollLeft,
-  isNodeElement
+  setScrollTop
 } from '../../tools/dom'
 import {
-  getLastZIndex,
-  nextZIndex,
-  hasChildrenList,
-  getFuncText,
-  isEnableConf,
+  eqEmptyValue,
   formatText,
-  eqEmptyValue
+  getFuncText,
+  getLastZIndex,
+  hasChildrenList,
+  isEnableConf,
+  nextZIndex
 } from '../../tools/utils'
-import { warnLog, errLog } from '../../tools/log'
+import { errLog, warnLog } from '../../tools/log'
 import { createResizeEvent, XEResizeObserver } from '../../tools/resize'
-import { GlobalEvent, hasEventKey, EVENT_KEYS } from '../../tools/event'
+import { EVENT_KEYS, GlobalEvent, hasEventKey } from '../../tools/event'
 import { useSize } from '../../hooks/size'
 import { VXETable } from '../../v-x-e-table'
 import GlobalConfig from '../../v-x-e-table/src/conf'
@@ -59,43 +59,43 @@ import tableEmits from './emits'
 import VxeLoading from '../../loading/index'
 
 import {
-  getRowUniqueId,
   clearTableAllStatus,
-  getRowkey,
-  getRowid,
-  rowToVisible,
   colToVisible,
   getCellValue,
-  setCellValue,
+  getRootColumn,
+  getRowid,
+  getRowkey,
+  getRowUniqueId,
   handleFieldOrColumn,
-  toTreePathSeq,
-  restoreScrollLocation,
   restoreScrollListener,
-  XEBodyScrollElement,
-  getRootColumn
+  restoreScrollLocation,
+  rowToVisible,
+  setCellValue,
+  toTreePathSeq,
+  XEBodyScrollElement
 } from './util'
 import { getSlotVNs } from '../../tools/vn'
 
 import {
+  TableInternalData,
+  TableMethods,
+  TablePrivateMethods,
+  TableReactData,
+  VxeColumnPropTypes,
   VxeGridConstructor,
   VxeGridPrivateMethods,
+  VxeMenuPanelInstance,
   VxeTableConstructor,
-  TableReactData,
-  TableInternalData,
-  VxeTablePropTypes,
-  VxeToolbarConstructor,
-  VxeTooltipInstance,
-  TablePrivateMethods,
-  VxeTablePrivateRef,
+  VxeTableDataRow,
+  VxeTableDefines,
+  VxeTableMethods,
   VxeTablePrivateComputed,
   VxeTablePrivateMethods,
-  VxeTableMethods,
-  TableMethods,
-  VxeMenuPanelInstance,
-  VxeTableDefines,
+  VxeTablePrivateRef,
   VxeTableProps,
-  VxeColumnPropTypes,
-  VxeTableDataRow
+  VxeTablePropTypes,
+  VxeToolbarConstructor,
+  VxeTooltipInstance
 } from '../../../types/all'
 
 const isWebkit = browse['-webkit'] && !browse.edge
@@ -2572,8 +2572,7 @@ export default defineComponent({
 
     const handleColumn = (collectColumn: VxeTableDefines.ColumnInfo[]) => {
       internalData.collectColumn = collectColumn
-      const tableFullColumn = getColumnList(collectColumn)
-      internalData.tableFullColumn = tableFullColumn
+      internalData.tableFullColumn = getColumnList(collectColumn)
       cacheColumnMap()
       restoreCustomStorage()
       parseColumns().then(() => {
@@ -4868,8 +4867,10 @@ export default defineComponent({
     /**
      * 处理显示 tooltip
      * @param {Event} evnt 事件
-     * @param {ColumnInfo} column 列配置
-     * @param {Row} row 行对象
+     * @param cell 单元格
+     * @param overflowElem 溢出的文本元素
+     * @param tipElem tooltip元素
+     * @param params 参数
      */
     const handleTooltip = (evnt: MouseEvent, cell: HTMLTableCellElement, overflowElem: HTMLElement, tipElem: HTMLElement | null, params: any) => {
       params.cell = cell
