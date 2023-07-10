@@ -32,9 +32,15 @@ export namespace VxeColumnPropTypes {
   export type ShowOverflow = VxeTablePropTypes.ShowOverflow
   export type ShowHeaderOverflow = ShowOverflow
   export type ShowFooterOverflow = ShowOverflow
-  export type ClassName<D = VxeTableDataRow> = string | ((params: VxeGlobalRendererHandles.RenderCellParams<D>) => string | any[] | { [key: string]: boolean })
-  export type HeaderClassName<D = VxeTableDataRow> = string | ((params: VxeGlobalRendererHandles.RenderHeaderParams<D>) => string | any[] | { [key: string]: boolean })
-  export type FooterClassName<D = VxeTableDataRow> = string | ((params: VxeGlobalRendererHandles.RenderFooterParams<D>) => string | any[] | { [key: string]: boolean })
+  export type ClassName<D = VxeTableDataRow> =
+    string
+    | ((params: VxeGlobalRendererHandles.RenderCellParams<D>) => string | any[] | { [key: string]: boolean })
+  export type HeaderClassName<D = VxeTableDataRow> =
+    string
+    | ((params: VxeGlobalRendererHandles.RenderHeaderParams<D>) => string | any[] | { [key: string]: boolean })
+  export type FooterClassName<D = VxeTableDataRow> =
+    string
+    | ((params: VxeGlobalRendererHandles.RenderFooterParams<D>) => string | any[] | { [key: string]: boolean })
 
   export type Formatter<D = VxeTableDataRow> = ((params: {
     cellValue: any
@@ -56,6 +62,7 @@ export namespace VxeColumnPropTypes {
     resetValue?: any
     checked?: boolean
   }
+
   export type Filters = Filter[]
 
   export type FilterMultiple = boolean
@@ -68,18 +75,21 @@ export namespace VxeColumnPropTypes {
     row: D
     column: VxeTableDefines.ColumnInfo<D>
   }
+
   export type FilterMethod<D = VxeTableDataRow> = (params: FilterMethodParams<D>) => boolean
 
   interface FilterResetMethodParams<D = VxeTableDataRow> {
     options: VxeTableDefines.FilterOption[]
     column: VxeTableDefines.ColumnInfo<D>
   }
+
   export type FilterResetMethod = (params: FilterResetMethodParams) => void
 
   interface FilterRecoverMethodParams<D = VxeTableDataRow> {
     option: VxeTableDefines.FilterOption
     column: VxeTableDefines.ColumnInfo<D>
   }
+
   export type FilterRecoverMethod<D = VxeTableDataRow> = (params: FilterRecoverMethodParams<D>) => void
 
   /**
@@ -101,6 +111,7 @@ export namespace VxeColumnPropTypes {
     row: D
     column: VxeTableDefines.ColumnInfo<D>
   }
+
   export type ExportMethod<D = VxeTableDataRow> = (params: ExportMethodParams<D>) => string | number
 
   interface FooterExportParams<D = VxeTableDataRow> {
@@ -109,6 +120,7 @@ export namespace VxeColumnPropTypes {
     column: VxeTableDefines.ColumnInfo<D>
     _columnIndex: number
   }
+
   export type FooterExportMethod<D = VxeTableDataRow> = (params: FooterExportParams<D>) => string | number
 
   export interface TitlePrefix {
@@ -148,7 +160,9 @@ export namespace VxeColumnPropTypes {
     optionGroupProps?: VxeGlobalRendererHandles.RenderOptionGroupProps
     autofocus?: string
     autoselect?: boolean
-    defaultValue?: ((params: { column: VxeTableDefines.ColumnInfo<D> }) => any) | null | undefined | string | number | RegExp | object | any[] | Date
+    defaultValue?: ((params: {
+      column: VxeTableDefines.ColumnInfo<D>
+    }) => any) | null | undefined | string | number | RegExp | object | any[] | Date
     immediate?: boolean
     content?: string
     placeholder?: string
@@ -174,11 +188,18 @@ export namespace VxeColumnPropTypes {
     /**
      * 只对 type=radio 有效，自定义单选框模板
      */
-    radio?: string | ((params: VxeColumnSlotTypes.DefaultSlotParams<D>) => SlotVNodeType[] | SlotVNodeType) | null
+    radio?: string | ((params: {
+      checked: boolean,
+      disabled: boolean
+    } & VxeColumnSlotTypes.DefaultSlotParams<D>) => SlotVNodeType[] | SlotVNodeType) | null
     /**
      * 只对 type=checkbox 有效，自定义复选框模板
      */
-    checkbox?: string | ((params: VxeColumnSlotTypes.DefaultSlotParams<D>) => SlotVNodeType[] | SlotVNodeType) | null
+    checkbox?: string | ((params: {
+      checked: boolean,
+      disabled: boolean,
+      indeterminate: boolean
+    } & VxeColumnSlotTypes.DefaultSlotParams<D>) => SlotVNodeType[] | SlotVNodeType) | null
     /**
      * 自定义显示内容模板
      */
@@ -394,7 +415,7 @@ export namespace VxeColumnSlotTypes {
     data: D[][]
   }
 
-  export interface HeaderSlotParams<D = VxeTableDataRow> extends VxeTableDefines.CellRenderHeaderParams<D> { }
+  export interface HeaderSlotParams<D = VxeTableDataRow> extends VxeTableDefines.CellRenderHeaderParams<D> {}
 
   export interface ContentSlotParams<D = VxeTableDataRow> {
     column: VxeTableDefines.ColumnInfo<D>
@@ -408,9 +429,9 @@ export namespace VxeColumnSlotTypes {
     type: string
   }
 
-  export interface DefaultSlotParams<D = VxeTableDataRow> extends VxeTableDefines.CellRenderBodyParams<D> { }
+  export interface DefaultSlotParams<D = VxeTableDataRow> extends VxeTableDefines.CellRenderBodyParams<D> {}
 
-  export interface IconSlotParams<D = VxeTableDataRow> extends DefaultSlotParams<D> { }
+  export interface IconSlotParams<D = VxeTableDataRow> extends DefaultSlotParams<D> {}
 }
 
 export interface VxeColumnSlots<D = VxeTableDataRow> {
