@@ -1,4 +1,17 @@
-import { defineComponent, h, ref, Ref, computed, Teleport, VNode, onUnmounted, reactive, nextTick, PropType, onMounted } from 'vue'
+import {
+  defineComponent,
+  h,
+  ref,
+  Ref,
+  computed,
+  Teleport,
+  VNode,
+  onUnmounted,
+  reactive,
+  nextTick,
+  PropType,
+  onMounted
+} from 'vue'
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
@@ -6,7 +19,15 @@ import { getAbsolutePos, getEventTargetNode } from '../../tools/dom'
 import { getFuncText, getLastZIndex, nextZIndex } from '../../tools/utils'
 import { GlobalEvent } from '../../tools/event'
 
-import { VxeButtonConstructor, VxeButtonPropTypes, VxeButtonEmits, ButtonReactData, ButtonMethods, ButtonPrivateRef, ButtonInternalData } from '../../../types/all'
+import {
+  VxeButtonConstructor,
+  VxeButtonPropTypes,
+  VxeButtonEmits,
+  ButtonReactData,
+  ButtonMethods,
+  ButtonPrivateRef,
+  ButtonInternalData
+} from '../../../types/all'
 
 export default defineComponent({
   name: 'VxeButton',
@@ -19,7 +40,10 @@ export default defineComponent({
     /**
      * 按钮尺寸
      */
-    size: { type: String as PropType<VxeButtonPropTypes.Size>, default: () => GlobalConfig.button.size || GlobalConfig.size },
+    size: {
+      type: String as PropType<VxeButtonPropTypes.Size>,
+      default: () => GlobalConfig.button.size || GlobalConfig.size
+    },
     /**
      * 用来标识这一项
      */
@@ -63,7 +87,11 @@ export default defineComponent({
     /**
      * 是否将弹框容器插入于 body 内
      */
-    transfer: { type: Boolean as PropType<VxeButtonPropTypes.Transfer>, default: () => GlobalConfig.button.transfer }
+    transfer: { type: Boolean as PropType<VxeButtonPropTypes.Transfer>, default: () => GlobalConfig.button.transfer },
+
+    layer: {
+      type: [HTMLElement, String, Function] as PropType<VxeButtonPropTypes.Layer>
+    }
   },
   emits: [
     'click',
@@ -129,7 +157,7 @@ export default defineComponent({
 
     const updatePlacement = () => {
       return nextTick().then(() => {
-        const { transfer, placement } = props
+        const { transfer, placement, layer } = props
         const { panelIndex } = reactData
         const targetElem = refButton.value
         const panelElem = refBtnPanel.value
@@ -142,9 +170,10 @@ export default defineComponent({
           const panelStyle: { [key: string]: string | number } = {
             zIndex: panelIndex
           }
-          const { top, left, boundingTop, visibleHeight, visibleWidth } = getAbsolutePos(targetElem)
+          const { top, left, boundingTop, boundingBottom, visibleHeight, visibleWidth } = getAbsolutePos(targetElem)
           let panelPlacement = 'bottom'
           if (transfer) {
+            // todo 会员管理页btnTop计算错误 超出视距
             let btnLeft = left + targetWidth - panelWidth
             let btnTop = top + targetHeight
             if (placement === 'top') {
@@ -177,16 +206,35 @@ export default defineComponent({
               minWidth: `${targetWidth}px`
             })
           } else {
+            const layerEle = layer
+              ? XEUtils.isFunction(layer)
+                ? layer(targetElem)
+                : XEUtils.isString(layer)
+                  ? document.querySelector(layer)
+                  : document.body
+              : undefined
             if (placement === 'top') {
               panelPlacement = 'top'
               panelStyle.bottom = `${targetHeight}px`
             } else if (!placement) {
-              // 如果下面不够放，则向上
-              if (boundingTop + targetHeight + panelHeight > visibleHeight) {
-                // 如果上面不够放，则向下（优先）
-                if (boundingTop - targetHeight - panelHeight > marginSize) {
+              if (layerEle) {
+                const {
+                  bottom: layerBottom,
+                  top: layerTop
+                } = layerEle.getBoundingClientRect()
+                // 如果下面不够放，上面够放，则向上
+                if (boundingBottom + targetHeight + panelHeight > layerBottom && boundingTop - targetHeight - panelHeight > layerTop) {
                   panelPlacement = 'top'
                   panelStyle.bottom = `${targetHeight}px`
+                }
+              } else {
+                // 如果下面不够放，则向上
+                if (boundingTop + targetHeight + panelHeight > visibleHeight) {
+                  // 如果上面不够放，则向下（优先）
+                  if (boundingTop - targetHeight - panelHeight > marginSize) {
+                    panelPlacement = 'top'
+                    panelStyle.bottom = `${targetHeight}px`
+                  }
                 }
               }
             }

@@ -57,6 +57,7 @@ export namespace VxeButtonPropTypes {
   export type Loading = boolean
   export type DestroyOnClose = boolean
   export type Transfer = boolean
+  export type Layer = HTMLElement | string | ((btnEle:HTMLElement) => HTMLElement)
 }
 
 export type VxeButtonProps = {
@@ -110,6 +111,10 @@ export type VxeButtonProps = {
    * 是否将弹框容器插入于 body 内
    */
   transfer?: VxeButtonPropTypes.Transfer
+  /**
+   * button dropdown可视区域容器
+   */
+  Layer?: VxeButtonPropTypes.Layer
 }
 
 export interface ButtonMethods {

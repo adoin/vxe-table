@@ -135,8 +135,9 @@ export function getAbsolutePos (elem: any) {
   const bounding = elem.getBoundingClientRect()
   const boundingTop = bounding.top
   const boundingLeft = bounding.left
+  const boundingBottom = bounding.bottom
   const { scrollTop, scrollLeft, visibleHeight, visibleWidth } = getDomNode()
-  return { boundingTop, top: scrollTop + boundingTop, boundingLeft, left: scrollLeft + boundingLeft, visibleHeight, visibleWidth }
+  return { boundingTop, boundingBottom, top: scrollTop + boundingTop, boundingLeft, left: scrollLeft + boundingLeft, visibleHeight, visibleWidth }
 }
 
 const scrollIntoViewIfNeeded = 'scrollIntoViewIfNeeded'
