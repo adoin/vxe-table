@@ -211,7 +211,7 @@ export default defineComponent({
                 ? layer(targetElem)
                 : XEUtils.isString(layer)
                   ? document.querySelector(layer)
-                  : document.body
+                  : layer
               : undefined
             if (placement === 'top') {
               panelPlacement = 'top'
