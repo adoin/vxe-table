@@ -1,6 +1,6 @@
 # vxe-table
 
-简体中文 | [繁體中文](README.zh-TW.md) | [English](README.en.md)  
+[简体中文](README.md) | [繁體中文](README.zh-TW.md) | English  
 
 [![star](https://gitee.com/xuliangzhan_admin/vxe-table/badge/star.svg?theme=gvp)](https://gitee.com/xuliangzhan_admin/vxe-table/stargazers)
 [![npm version](https://img.shields.io/npm/v/vxe-table.svg?style=flat-square)](https://www.npmjs.com/package/vxe-table)
@@ -12,83 +12,78 @@
 [![pull requests closed](https://img.shields.io/github/issues-pr-closed/x-extends/vxe-table.svg)](https://github.com/x-extends/vxe-table/pulls?q=is%3Apr+is%3Aclosed)
 [![npm license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
-一个基于 [vue](https://www.npmjs.com/package/vue) 的 PC 端表格组件，支持增删改查、虚拟列表、虚拟树、懒加载、快捷菜单、数据校验、打印导出、表单渲染、数据分页、弹窗、自定义模板、渲染器、贼灵活的配置项等...  
+A [vue](https://www.npmjs.com/package/vue) based PC form component, support add, delete, change, virtual list, virtual tree, lazy load, shortcut menu, data validation, print export, form rendering, data paging, modal window, custom template, renderer, flexible configuration items, etc...
 
-* 设计理念
-  * 面向现代浏览器，高效的简洁 API 设计
-  * 模块化表格、按需加载
-  * 为单行编辑表格而设计，支持增删改查及更多扩展，强大的功能的同时兼具性能
+* Design concept
+  * Efficient and concise API design for modern browsers.
+  * Modular tables, on-demand loading.
+  * Designed for single row table editing, supports addition, deletion, modification and query as well as more expansion, with powerful functions and performance at the same time.
 
-* 计划
-  * [x] ~~v1.0 基于 vue2.6+，支持所有主流的浏览器，实现表格的一切实用的功能~~
-  * [x] ~~v2.0 基于 vue2.6+，支持所有主流的浏览器，同时兼具功能与性能~~
-  * [x] v3.0 基于 vue2.6+，支持现代浏览器并保留兼容 IE11
-  * [x] v4.0 基于 vue3.2+，只支持现代浏览器，不支持 IE
-  * [ ] 下一阶段：sticky 渲染模式、将虚拟滚动提升到极致、虚拟滚动动态行高、数据图表可视化
+* Plan
+  * [x] ~~v1.0 Based on vue2.6+, Support for all major browsers.~~
+  * [x] ~~v2.0 Based on vue2.6+, Support for all major browsers.~~
+  * [x] v3.0 Based on vue2.6+, supports modern browsers and retains compatibility with IE11.
+  * [x] v4.0 Based on vue3.2+, Only support modern browser, not IE.
 
-## QQ 交流群
-
-![qq](https://vxetable.cn/static/donation/qq.png)
-
-## 浏览器支持
+## Browser Support
 
 ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png)
 --- | --- | --- | --- | --- |
-80+ ✔ | 80+ ✔ | 90+ ✔ | 75+ ✔ | 10+ ✔ |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 
-## 功能点
+## Features
 
-* [x] 基础表格
-* [x] 高级表格
-* [x] 斑马线条纹
-* [x] 多种边框
-* [x] 单元格样式
-* [x] 列宽拖动
-* [x] 最大高度
-* [x] 自适应宽高
-* [x] 固定列
-* [x] 多级表头
-* [x] 表尾数据
-* [x] 高亮行或列
-* [x] 序号
-* [x] 单选框
-* [x] 复选框
-* [x] 下拉选项
-* [x] 开关
-* [x] 排序
-* [x] 多字段排序
-* [x] 筛选
-* [x] 合并单元格
-* [x] 合并表尾
-* [x] 导入/导出/打印
-* [x] 显示/隐藏列
-* [x] 加载中
-* [x] 格式化内容
-* [x] 自定义插槽 - 模板
-* [x] 快捷菜单
-* [x] 展开行
-* [x] 分页
-* [x] 表单
-* [x] 工具栏
-* [x] 下拉容器
-* [x] 虚拟列表
-* [x] 虚拟树
-* [x] 增删改查
-* [x] 数据校验
-* [x] 数据代理
-* [x] 键盘导航
-* [x] 弹窗
-* [x] 渲染器
-* [x] 虚拟滚动
-* [x] 虚拟合并
-* [x] CSS 变量主题
-* [x] (pro) 单元格区域选取
-* [x] (pro) 单元格复制/粘贴
-* [x] (pro) 单元格查找和替换
+* [x] Basic table
+* [x] Grid
+* [x] Striped
+* [x] Table with border
+* [x] Cell style
+* [x] Column resizing
+* [x] Maximum table height
+* [x] Resize height & width
+* [x] Fixed column
+* [x] Grouping table header
+* [x] Table footer
+* [x] Highlight row & column
+* [x] Table sequence
+* [x] Radio
+* [x] Checkbox
+* [x] Select
+* [x] Switch
+* [x] Sorting
+* [x] Multi field sorting
+* [x] Filter
+* [x] Merged cells
+* [x] Merged footer items
+* [x] Import/Export/Print
+* [x] Show/Hide column
+* [x] Loading
+* [x] Formatted cell
+* [x] Slot - template
+* [x] Context menu
+* [x] Detail - Expandable row
+* [x] Pager
+* [x] Form
+* [x] Toolbar
+* [x] Pulldown
+* [x] Virtual list
+* [x] Virtual tree
+* [x] Editable CRUD
+* [x] Validate
+* [x] Data Proxy
+* [x] Keyboard navigation
+* [x] Modal
+* [x] VxeGlobalRenderer
+* [x] Virtual scroller
+* [x] Virtual merger
+* [x] CSS Variable Theme
+* [x] (pro) Cell area selection
+* [x] (pro) Cell copy & paste
+* [x] (pro) Cell find and replace
 
-## 安装
+## Installing
 
-版本：[vue](https://www.npmjs.com/package/vue) 3.x, 依赖库：[xe-utils](https://www.npmjs.com/package/xe-utils)
+Version: [vue](https://www.npmjs.com/package/vue) 3.x, Dependent: [xe-utils](https://www.npmjs.com/package/xe-utils)
 
 ```shell
 npm install xe-utils vxe-table@next
@@ -108,18 +103,18 @@ createApp(App).use(VXETable).mount('#app')
 
 ### CDN
 
-不建议将第三方的 CDN 地址用于生产，因为该连接随时都可能会失效，导致项目挂掉;  
-使用 CDN 方式记得锁定版本号，避免受到非兼容性更新的影响
+It is not recommended to use the public CDN address for production, because the connection may fail at any time, causing the project to hang up;  
+Remember to lock the version number by using CDN to avoid being affected by incompatible updates.
 
 ```HTML
-<!-- 引入样式 -->
+<!-- Style -->
 <link rel="stylesheet" href="https://unpkg.com/vxe-table@next/lib/style.css">
-<!-- 引入脚本 -->
+<!-- Script -->
 <script src="https://unpkg.com/xe-utils"></script>
 <script src="https://unpkg.com/vxe-table@next"></script>
 ```
 
-## 示例
+## Example
 
 ```html
 <template>
@@ -147,29 +142,29 @@ const tableData = ref([
 </script>
 ```
 
-## 在线文档
+## Online Documents
 
-👉 [官网文档](https://vxetable.cn)  
+👉 [Document](https://vxetable.cn)  
 
-参与文档完善、补充详细文档  
+Participate in document improvement and supplement detailed documents.  
 
-💡 [官网文档源码](https://github.com/x-extends/vxe-table-docs)
+💡 [Document source code](https://github.com/x-extends/vxe-table-docs)
 
-## 运行项目
+## Run the project
 
-安装依赖
+Install dependencies
 
 ```shell
-npm run update
+npm install
 ```
 
-启动本地调试
+Start local debugging
 
 ```shell
 npm run serve
 ```
 
-编译打包，生成编译后的目录：es,lib
+Compile packaging, generated compiled directory: es,lib
 
 ```shell
 npm run lib

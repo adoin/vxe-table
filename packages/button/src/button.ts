@@ -36,7 +36,8 @@ export default defineComponent({
      * 按钮类型
      */
     type: String as PropType<VxeButtonPropTypes.Type>,
-    className: String as PropType<VxeButtonPropTypes.ClassName>,
+    className: [String, Function] as PropType<VxeButtonPropTypes.ClassName>,
+    popupClassName: [String, Function] as PropType<VxeButtonPropTypes.PopupClassName>,
     /**
      * 按钮尺寸
      */
@@ -407,7 +408,7 @@ export default defineComponent({
     })
 
     const renderVN = () => {
-      const { className, transfer, type, round, circle, destroyOnClose, status, name, disabled, loading } = props
+      const { className, popupClassName, transfer, type, round, circle, destroyOnClose, status, name, disabled, loading } = props
       const { inited, showPanel } = reactData
       const isFormBtn = computeIsFormBtn.value
       const btnType = computeBtnType.value
@@ -415,7 +416,7 @@ export default defineComponent({
       if (slots.dropdowns) {
         return h('div', {
           ref: refElem,
-          class: ['vxe-button--dropdown', className, {
+          class: ['vxe-button--dropdown', className ? (XEUtils.isFunction(className) ? className({ $button: $xebutton }) : className) : '', {
             [`size--${vSize}`]: vSize,
             'is--active': showPanel
           }]
@@ -447,7 +448,7 @@ export default defineComponent({
           }, [
             h('div', {
               ref: refBtnPanel,
-              class: ['vxe-button--dropdown-panel', {
+              class: ['vxe-button--dropdown-panel', popupClassName ? (XEUtils.isFunction(popupClassName) ? popupClassName({ $button: $xebutton }) : popupClassName) : '', {
                 [`size--${vSize}`]: vSize,
                 'animat--leave': reactData.animatVisible,
                 'animat--enter': showPanel

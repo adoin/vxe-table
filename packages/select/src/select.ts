@@ -71,6 +71,7 @@ export default defineComponent({
     optionGroupProps: Object as PropType<VxeSelectPropTypes.OptionGroupProps>,
     optionConfig: Object as PropType<VxeSelectPropTypes.OptionConfig>,
     className: [String, Function] as PropType<VxeSelectPropTypes.ClassName>,
+    popupClassName: [String, Function] as PropType<VxeSelectPropTypes.PopupClassName>,
     max: { type: [String, Number] as PropType<VxeSelectPropTypes.Max>, default: null },
     size: {
       type: String as PropType<VxeSelectPropTypes.Size>,
@@ -976,7 +977,7 @@ export default defineComponent({
     })
 
     const renderVN = () => {
-      const { className, transfer, disabled, loading, filterable } = props
+      const { className, popupClassName, transfer, disabled, loading, filterable } = props
       const { inited, isActivated, visiblePanel } = reactData
       const vSize = computeSize.value
       const prefixSlot = slots.prefix
@@ -1021,7 +1022,7 @@ export default defineComponent({
         }, [
           h('div', {
             ref: refOptionPanel,
-            class: ['vxe-table--ignore-clear vxe-select--panel', {
+            class: ['vxe-table--ignore-clear vxe-select--panel', popupClassName ? (XEUtils.isFunction(popupClassName) ? popupClassName({ $select: $xeselect }) : popupClassName) : '', {
               [`size--${vSize}`]: vSize,
               'is--transfer': transfer,
               'animat--leave': !loading && reactData.animatVisible,

@@ -1,6 +1,6 @@
 # vxe-table
 
-简体中文 | [繁體中文](README.zh-TW.md) | [English](README.en.md)  
+[简体中文](README.md) | 繁體中文 | [English](README.en.md)  
 
 [![star](https://gitee.com/xuliangzhan_admin/vxe-table/badge/star.svg?theme=gvp)](https://gitee.com/xuliangzhan_admin/vxe-table/stargazers)
 [![npm version](https://img.shields.io/npm/v/vxe-table.svg?style=flat-square)](https://www.npmjs.com/package/vxe-table)
@@ -12,83 +12,77 @@
 [![pull requests closed](https://img.shields.io/github/issues-pr-closed/x-extends/vxe-table.svg)](https://github.com/x-extends/vxe-table/pulls?q=is%3Apr+is%3Aclosed)
 [![npm license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
-一个基于 [vue](https://www.npmjs.com/package/vue) 的 PC 端表格组件，支持增删改查、虚拟列表、虚拟树、懒加载、快捷菜单、数据校验、打印导出、表单渲染、数据分页、弹窗、自定义模板、渲染器、贼灵活的配置项等...  
+一個基於 [vue](https://www.npmjs.com/package/vue) 的PC端表格組件，支持增删改查、虛擬清單、虛擬樹、懶加載、快捷選單、數據校驗、列印匯出、表單渲染、數據分頁、彈窗、自定義範本、渲染器、賊靈活的配寘項等…
 
-* 设计理念
-  * 面向现代浏览器，高效的简洁 API 设计
-  * 模块化表格、按需加载
-  * 为单行编辑表格而设计，支持增删改查及更多扩展，强大的功能的同时兼具性能
+* 設計理念
+  * 面向現代瀏覽器，高效的簡潔 API 設計
+  * 模組化表格、按需加載
+  * 為單行編輯表格而設計，支持增删改查及更多擴展，强大的功能的同時兼具效能
 
-* 计划
-  * [x] ~~v1.0 基于 vue2.6+，支持所有主流的浏览器，实现表格的一切实用的功能~~
-  * [x] ~~v2.0 基于 vue2.6+，支持所有主流的浏览器，同时兼具功能与性能~~
-  * [x] v3.0 基于 vue2.6+，支持现代浏览器并保留兼容 IE11
-  * [x] v4.0 基于 vue3.2+，只支持现代浏览器，不支持 IE
-  * [ ] 下一阶段：sticky 渲染模式、将虚拟滚动提升到极致、虚拟滚动动态行高、数据图表可视化
+* 計劃
+  * [x] ~~v1.0 基於 vue2.6+，支持所有主流的瀏覽器，實現表格的一切實用的功能~~
+  * [x] ~~v2.0 基於 vue2.6+，支持所有主流的瀏覽器，同時兼具功能與效能~~
+  * [x] v3.0 基於 vue2.6+，支持現代瀏覽器並保留相容IE11
+  * [x] v4.0 基于 vue3.2+，只支持現代瀏覽器，不支持IE
 
-## QQ 交流群
-
-![qq](https://vxetable.cn/static/donation/qq.png)
-
-## 浏览器支持
+## 瀏覽器支持
 
 ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png)
 --- | --- | --- | --- | --- |
-80+ ✔ | 80+ ✔ | 90+ ✔ | 75+ ✔ | 10+ ✔ |
+Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 
-## 功能点
+## 功能點
 
-* [x] 基础表格
-* [x] 高级表格
-* [x] 斑马线条纹
-* [x] 多种边框
-* [x] 单元格样式
-* [x] 列宽拖动
+* [x] 基礎表格
+* [x] 高級表格
+* [x] 斑馬線條紋
+* [x] 多種邊框
+* [x] 儲存格樣式
+* [x] 列寬拖動
 * [x] 最大高度
-* [x] 自适应宽高
+* [x] 自我調整寬高
 * [x] 固定列
-* [x] 多级表头
-* [x] 表尾数据
+* [x] 多級表頭
+* [x] 錶尾數據
 * [x] 高亮行或列
-* [x] 序号
-* [x] 单选框
-* [x] 复选框
-* [x] 下拉选项
-* [x] 开关
+* [x] 序號
+* [x] 單選框
+* [x] 核取方塊
+* [x] 下拉選項
+* [x] 開關
 * [x] 排序
-* [x] 多字段排序
-* [x] 筛选
-* [x] 合并单元格
-* [x] 合并表尾
-* [x] 导入/导出/打印
-* [x] 显示/隐藏列
-* [x] 加载中
-* [x] 格式化内容
-* [x] 自定义插槽 - 模板
-* [x] 快捷菜单
-* [x] 展开行
-* [x] 分页
-* [x] 表单
-* [x] 工具栏
+* [x] 多欄位組合排序
+* [x] 篩選
+* [x] 儲存格合併
+* [x] 合併錶尾
+* [x] 導入/匯出/列印
+* [x] 顯示/隱藏列
+* [x] 加載中
+* [x] 格式化內容
+* [x] 自定義插槽 - 範本
+* [x] 快捷選單
+* [x] 展開行
+* [x] 分頁
+* [x] 表單
+* [x] 工具列
 * [x] 下拉容器
-* [x] 虚拟列表
-* [x] 虚拟树
+* [x] 虛擬清單
 * [x] 增删改查
-* [x] 数据校验
-* [x] 数据代理
-* [x] 键盘导航
-* [x] 弹窗
+* [x] 數據校驗
+* [x] 數據代理
+* [x] 鍵盤導航
+* [x] 彈窗
 * [x] 渲染器
-* [x] 虚拟滚动
-* [x] 虚拟合并
-* [x] CSS 变量主题
-* [x] (pro) 单元格区域选取
-* [x] (pro) 单元格复制/粘贴
-* [x] (pro) 单元格查找和替换
+* [x] 虛擬滾動
+* [x] 虛擬合併
+* [x] CSS 變量主題
+* [x] (pro) 儲存格區域選取
+* [x] (pro) 儲存格複製/粘貼
+* [x] (pro) 儲存格查找和替換
 
-## 安装
+## 安裝
 
-版本：[vue](https://www.npmjs.com/package/vue) 3.x, 依赖库：[xe-utils](https://www.npmjs.com/package/xe-utils)
+版本：[vue](https://www.npmjs.com/package/vue) 3.x, 依賴庫：[xe-utils](https://www.npmjs.com/package/xe-utils)
 
 ```shell
 npm install xe-utils vxe-table@next
@@ -108,13 +102,13 @@ createApp(App).use(VXETable).mount('#app')
 
 ### CDN
 
-不建议将第三方的 CDN 地址用于生产，因为该连接随时都可能会失效，导致项目挂掉;  
-使用 CDN 方式记得锁定版本号，避免受到非兼容性更新的影响
+不建議將第三方的CDN地址用於生產，因為該連接隨時都可能會失效，導致項目掛掉；  
+使用CDN管道記得鎖定版本號，避免受到非相容性更新的影響
 
 ```HTML
-<!-- 引入样式 -->
+<!-- 引入樣式 -->
 <link rel="stylesheet" href="https://unpkg.com/vxe-table@next/lib/style.css">
-<!-- 引入脚本 -->
+<!-- 引入腳本 -->
 <script src="https://unpkg.com/xe-utils"></script>
 <script src="https://unpkg.com/vxe-table@next"></script>
 ```
@@ -147,29 +141,29 @@ const tableData = ref([
 </script>
 ```
 
-## 在线文档
+## 線上檔案
 
-👉 [官网文档](https://vxetable.cn)  
+👉 [官網檔案](https://vxetable.cn)  
 
-参与文档完善、补充详细文档  
+參與檔案完善、補充詳細檔案  
 
-💡 [官网文档源码](https://github.com/x-extends/vxe-table-docs)
+💡 [官網檔案源碼](https://github.com/x-extends/vxe-table-docs)
 
-## 运行项目
+## 運行項目
 
-安装依赖
+安裝依賴
 
 ```shell
-npm run update
+npm install
 ```
 
-启动本地调试
+啓動本地調試
 
 ```shell
 npm run serve
 ```
 
-编译打包，生成编译后的目录：es,lib
+編譯打包，生成編譯後的目錄：es,lib
 
 ```shell
 npm run lib

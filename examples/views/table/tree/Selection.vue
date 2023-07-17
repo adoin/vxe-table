@@ -211,7 +211,7 @@ export default defineComponent({
       },
       treeConfig: { expandAll: true },
       columns: [
-        { type: 'checkbox', width: 360, treeNode: true },
+        { type: 'checkbox', width: 360, treeNode: true, align: 'left' },
         { field: 'type', title: 'Type', width: 100 },
         { field: 'size', title: 'Size', width: 100 },
         { field: 'date', title: 'Date', minWidth: 100 }
