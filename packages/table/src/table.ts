@@ -1980,12 +1980,12 @@ export default defineComponent({
     const handleCheckedAllCheckboxRow = (value: boolean, isForce?: boolean) => {
       const { treeConfig } = props
       const { selectCheckboxRows } = reactData
-      const { afterFullData, checkboxReserveRowMap } = internalData
+      const { afterFullData, afterFullRowMaps, checkboxReserveRowMap } = internalData
       const treeOpts = computeTreeOpts.value
       const checkboxOpts = computeCheckboxOpts.value
       const { checkField, reserve, checkStrictly, checkMethod } = checkboxOpts
       let selectRows: any[] = []
-      const beforeSelection = treeConfig ? [] : selectCheckboxRows.filter((row) => $xetable.findRowIndexOf(afterFullData, row) === -1)
+      const beforeSelection = treeConfig ? [] : selectCheckboxRows.filter((row) => !afterFullRowMaps[getRowid($xetable, row)])
       if (checkStrictly) {
         reactData.isAllSelected = value
       } else {
@@ -3053,7 +3053,7 @@ export default defineComponent({
        */
       revertData (rows: any, field) {
         const { keepSource } = props
-        const { tableSourceData, tableFullData } = internalData
+        const { tableSourceData, sourceDataRowIdData } = internalData
         if (!keepSource) {
           if (process.env.VUE_APP_VXE_TABLE_ENV === 'development') {
             warnLog('vxe.error.reqProp', ['keep-source'])
@@ -3071,8 +3071,8 @@ export default defineComponent({
         if (targetRows.length) {
           targetRows.forEach((row: any) => {
             if (!tableMethods.isInsertByRow(row)) {
-              const rowIndex = $xetable.findRowIndexOf(tableFullData, row)
-              const oRow = tableSourceData[rowIndex]
+              const rowid = getRowid($xetable, row)
+              const oRow = sourceDataRowIdData[rowid]
               if (oRow && row) {
                 if (field) {
                   XEUtils.set(row, field, XEUtils.clone(XEUtils.get(oRow, field), true))
@@ -3149,9 +3149,8 @@ export default defineComponent({
           if (!fullDataRowIdData[rowid]) {
             return false
           }
-          const oldRest = sourceDataRowIdData[rowid]
-          if (oldRest) {
-            const oRow = oldRest.row
+          const oRow = sourceDataRowIdData[rowid]
+          if (oRow) {
             if (arguments.length > 1) {
               return !eqCellValue(oRow, row, field as string)
             }
@@ -5123,10 +5122,7 @@ export default defineComponent({
             rowid = getRowUniqueId()
             XEUtils.set(row, rowkey, rowid)
           }
-          sourceDataRowIdData[rowid] = {
-            row,
-            rowid
-          }
+          sourceDataRowIdData[rowid] = row
         }
         // 源数据缓存
         if (treeConfig && !treeOpts.transform) {

@@ -1076,12 +1076,7 @@ export interface TableInternalData<D = VxeTableDataRow> {
       }
     }
   }
-  sourceDataRowIdData: {
-    [key: string]: {
-      row: D
-      rowid: string
-    }
-  }
+  sourceDataRowIdData: Record<string, D>
   fullDataRowIdData: {
     [key: string]: {
       row: D
