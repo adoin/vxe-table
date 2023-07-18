@@ -121,6 +121,7 @@ export type VxeFormProps<D = any> = {
   collapseStatus?: VxeFormPropTypes.CollapseStatus
   loading?: VxeFormPropTypes.Loading
   data?: D
+  class?: string
   span?: VxeFormPropTypes.Span
   align?: VxeFormPropTypes.Align
   titleAlign?: VxeFormPropTypes.TitleAlign
