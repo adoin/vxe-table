@@ -683,6 +683,7 @@ export const Cell = {
           }],
           title: GlobalConfig.i18n('vxe.table.sortAsc'),
           onClick (evnt: Event) {
+            evnt.stopPropagation()
             $table.triggerSortEvent(evnt, column, 'asc')
           }
         }),
@@ -692,6 +693,7 @@ export const Cell = {
           }],
           title: GlobalConfig.i18n('vxe.table.sortDesc'),
           onClick (evnt: Event) {
+            evnt.stopPropagation()
             $table.triggerSortEvent(evnt, column, 'desc')
           }
         })

@@ -263,18 +263,7 @@ export namespace VxeFormDefines {
      * 使用自定义校验函数，接收一个 Promise
      * @param params 参数
      */
-    validator?(params: {
-      $form: VxeFormConstructor,
-      itemValue: any,
-      rule: VxeFormDefines.FormRule
-      rules: VxeFormDefines.FormRule[]
-      data: any
-      field: string,
-      /**
-       * @deprecated
-       */
-      property: string
-    }): void | Error | Promise<any>
+    validator?: string | ((params: RuleValidatorParams) => void | Error | Promise<any>)
     /**
      * 提示消息
      */
@@ -287,6 +276,14 @@ export namespace VxeFormDefines {
     message?: string
   }
 
+  export interface RuleValidatorParams {
+    $form: VxeFormConstructor
+    itemValue: any
+    rule: VxeFormDefines.FormRule
+    rules: VxeFormDefines.FormRule[]
+    data: any
+    field: string
+  }
   export interface ValidateErrorParams {
     $form: VxeFormConstructor,
     rule: VxeFormDefines.FormRule

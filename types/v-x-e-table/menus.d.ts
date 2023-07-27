@@ -5,13 +5,10 @@ import { VxeGlobalRendererHandles } from './renderer'
 /* eslint-disable no-use-before-define */
 
 export namespace VxeGlobalMenusHandles {
-  export type MenusCallback<D = VxeTableDataRow> = (params: MenusCallbackParams<D>, event: Event) => any
-
-  interface MenusParams<D = VxeTableDataRow> {
-    $grid: VxeGridConstructor<D> | null
-    $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
+  export type MenusOption<D = VxeTableDataRow> = {
+    menuMethod?: (params: MenuMethodParams<D>, event: Event) => any
   }
-  export interface MenusCallbackParams<D = VxeTableDataRow> extends MenusParams<D>, VxeGlobalRendererHandles.RenderCellParams<D> {
+  export interface MenuMethodParams<D = VxeTableDataRow> extends VxeGlobalRendererHandles.RenderCellParams<D> {
     $grid: VxeGridConstructor<D> | null
     $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
     $event: MouseEvent
@@ -23,12 +20,12 @@ export namespace VxeGlobalMenusHandles {
  * 全局快捷菜单
  */
 export interface VxeGlobalMenus {
-  mixin(options: {
-    [code: string]: VxeGlobalMenusHandles.MenusCallback<any>
+  mixin(opts: {
+    [code: string]: VxeGlobalMenusHandles.MenusOption<any> | ((params: VxeGlobalMenusHandles.MenuMethodParams<any>, event: Event) => any)
   }): VxeGlobalMenus
   has(code: string): boolean
-  get(code: string): VxeGlobalMenusHandles.MenusCallback<any>
-  add(code: string, callback: VxeGlobalMenusHandles.MenusCallback<any>): VxeGlobalMenus
+  get(code: string): VxeGlobalMenusHandles.MenusOption<any>
+  add(code: string, options: VxeGlobalMenusHandles.MenusOption<any> | ((params: VxeGlobalMenusHandles.MenuMethodParams<any>, event: Event) => any)): VxeGlobalMenus
   delete(code: string): void
-  forEach(callback: (options: VxeGlobalMenusHandles.MenusCallback<any>, code: string) => void): void
+  forEach(callback: (options: VxeGlobalMenusHandles.MenusOption<any>, code: string) => void): void
 }
