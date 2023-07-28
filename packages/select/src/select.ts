@@ -301,16 +301,23 @@ export default defineComponent({
      * 刷新选项，当选项被动态显示/隐藏时可能会用到
      */
     const refreshOption = (showAll?: boolean) => {
-      const { filterable, filterMethod } = props
+      const { filterable, filterMethod, multiple } = props
       const { fullOptionList, fullGroupList } = reactData
       const isGroup = computeIsGroup.value
       const groupLabelField = computeGroupLabelField.value
       const labelField = computeLabelField.value
       // const valueField = computeValueField.value
       const _filterMethod: VxeSelectPropTypes.FilterMethod = filterMethod && isFunction(filterMethod) ? filterMethod
-        : ({ group, option, searchValue }) =>
-            (group && group[groupLabelField].indexOf(searchValue) > -1) ||
-          (option && option[labelField].indexOf(searchValue) > -1)
+        : multiple ? ({ group, option, searchValue }) => {
+          const queryArr = searchValue ? searchValue.split(',') : []
+          return queryArr.length > 0 ? queryArr.some(label =>
+            (group && group[groupLabelField].indexOf(label) > -1) ||
+              (option && option[labelField].indexOf(label) > -1)
+          ) : true
+        }
+          : ({ group, option, searchValue }) =>
+              (group && group[groupLabelField].indexOf(searchValue) > -1) ||
+            (option && option[labelField].indexOf(searchValue) > -1)
       if (isGroup) {
         // todo 没有filter methods的逻辑
         if (filterable) {
