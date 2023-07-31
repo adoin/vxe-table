@@ -6635,6 +6635,7 @@ export default defineComponent({
           [`size--${vSize}`]: vSize,
           [`vaild-msg--${validOpts.msgMode}`]: !!editRules,
           'vxe-editable': !!editConfig,
+          'old-cell-valid': editRules && GlobalConfig.cellVaildMode === 'obsolete',
           'cell--highlight': highlightCell,
           'cell--selected': mouseConfig && mouseOpts.selected,
           'cell--area': mouseConfig && mouseOpts.area,
@@ -6787,7 +6788,9 @@ export default defineComponent({
          */
         hasUseTooltip && props.editRules && validOpts.showMessage && (validOpts.message === 'default' ? !height : validOpts.message === 'tooltip') ? h(resolveComponent('vxe-tooltip') as ComponentOptions, {
           ref: refValidTooltip,
-          class: 'vxe-table--valid-error',
+          class: [{
+            'old-cell-valid': editRules && GlobalConfig.cellVaildMode === 'obsolete'
+          }, 'vxe-table--valid-error'],
           ...(validOpts.message === 'tooltip' || tableData.length === 1 ? validTipOpts : {})
         }) : createCommentVNode(),
         /**
