@@ -56,8 +56,7 @@ export default defineComponent({
     modelValue: null,
     clearable: Boolean as PropType<VxeSelectPropTypes.Clearable>,
     placeholder: {
-      type: String as PropType<VxeSelectPropTypes.Placeholder>,
-      default: () => XEUtils.eqNull(GlobalConfig.select.placeholder) ? GlobalConfig.i18n('vxe.base.pleaseSelect') : GlobalConfig.select.placeholder
+      type: String as PropType<VxeSelectPropTypes.Placeholder>
     },
     loading: Boolean as PropType<VxeSelectPropTypes.Loading>,
     disabled: Boolean as PropType<VxeSelectPropTypes.Disabled>,
