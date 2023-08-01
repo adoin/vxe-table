@@ -1,0 +1,190 @@
+import { ValueOf, VNodeStyle, VXEComponent, VxeComponentBase, VxeEvent } from './component'
+import { ComponentPublicInstance, Ref, SetupContext } from 'vue'
+
+export const VxeCard: VXEComponent<VxeCardProps, VxeCardEventProps, VxeCardSlots>
+/**
+ * 组件 - 卡片
+ * @example import { VxeCard } from 'vxe-table'
+ */
+export const Card: typeof VxeCard
+
+export type VxeCardInstance = ComponentPublicInstance<VxeCardProps, VxeCardConstructor>
+
+export namespace VxeCardPropTypes {
+  export type isCollapse = boolean
+  export type loading = boolean
+  export type round = boolean | string | number
+  export type shadow = boolean
+  export type title = string
+  export type hoverEffect = boolean | 'rotate' | 'scale' | 'opacity'
+  export type rotateMode = 'vertical' | 'horizontal' | 'diagonal'
+  export type bordered = boolean
+  export type headStyle = VNodeStyle
+}
+export type VxeCardProps = {
+  /**
+   * 是否折叠
+   */
+  isCollapse?: VxeCardPropTypes.isCollapse
+  /**
+   * 加载中
+   */
+  loading?: VxeCardPropTypes.loading
+  /*
+  * 圆角
+  * */
+  round?: VxeCardPropTypes.round
+  /**
+   * 阴影
+   */
+  shadow?: VxeCardPropTypes.shadow
+  /**
+   * 标题
+   */
+  title?: VxeCardPropTypes.title
+  /**
+   * 鼠标悬停阴影
+   */
+  hoverEffect?: VxeCardPropTypes.hoverEffect
+  /**
+   * 边框
+   */
+  bordered?: VxeCardPropTypes.bordered
+  /**
+   * 头部样式
+   */
+  headStyle?: VxeCardPropTypes.headStyle
+  /**
+   * 旋转模式
+   */
+  rotateMode?: VxeCardPropTypes.rotateMode
+}
+
+export interface CardReactData {
+  inited: boolean,
+  isCollapse: boolean,
+}
+
+export interface CardPrivateRef {
+  refElem: Ref<HTMLDivElement>
+}
+
+export interface VxeCardPrivateRef extends CardPrivateRef {}
+
+export type VxeCardEmits = [
+  'rotate',
+  'close',
+  'hover',
+  'collapse',
+  'expand',
+  'update:isCollapse'
+]
+
+export interface CardMethods {
+  dispatchEvent (type: ValueOf<VxeCardEmits>, params: any, evnt?: Event): void
+
+  /**
+   * 判断是否展开
+   * @returns {boolean}
+   */
+  getCollapseIf (): boolean
+
+  /**
+   * 切换折叠状态
+   */
+  toggleCollapse (): Promise<any>
+
+  /**
+   * 展开面板
+   */
+  expand (): Promise<any>
+
+  /**
+   * 收起面板
+   */
+  collapse (): Promise<any>
+}
+
+export interface VxeCardMethods extends CardMethods {}
+
+export interface VxeCardConstructor extends VxeComponentBase, VxeCardMethods {
+  props: VxeCardProps
+  context: SetupContext<VxeCardEmits>
+  reactData: CardReactData
+
+}
+
+export namespace VxeCardDefines {
+  interface CardEventParams extends VxeEvent {
+    $card: VxeCardConstructor
+  }
+
+  export interface RotateParams {}
+
+  export interface RotateEventParams extends CardEventParams, RotateParams {}
+
+  export interface CloseParams {}
+
+  export interface CloseEventParams extends CardEventParams, CloseParams {}
+
+  export interface HoverParams {}
+
+  export interface HoverEventParams extends CardEventParams, HoverParams {}
+
+  export interface CollapseParams {}
+
+  export interface CollapseEventParams extends CardEventParams, CollapseParams {}
+
+  export interface ExpandParams {}
+
+  export interface ExpandEventParams extends CardEventParams, ExpandParams {}
+}
+
+export namespace VxeCardEvents {
+  export type Rotate = (params: VxeCardDefines.RotateEventParams) => void;
+  export type Close = (params: VxeCardDefines.CloseEventParams) => void;
+  export type Hover = (params: VxeCardDefines.HoverEventParams) => void;
+  export type Collapse = (params: VxeCardDefines.CollapseEventParams) => void;
+  export type Expand = (params: VxeCardDefines.ExpandEventParams) => void;
+}
+
+export interface VxeCardEventProps {
+  onRotate?: VxeCardEvents.Rotate
+  onClose?: VxeCardEvents.Close
+  onHover?: VxeCardEvents.Hover
+  onCollapse?: VxeCardEvents.Collapse
+  onExpand?: VxeCardEvents.Expand
+}
+
+export interface VxeCardSlots {
+  /**
+   * 内容
+   */
+  default: (params: {
+    [key: string]: any
+  }) => any
+  /**
+   * header
+   */
+  header: (params: {
+    [key: string]: any
+  }) => any
+  /**
+   * back 背面内容
+   */
+  back: (params: {
+    [key: string]: any
+  }) => any
+  /**
+   * cover 封面，collapse之后的展示
+   */
+  cover: (params: {
+    [key: string]: any
+  }) => any
+  /**
+   * footer
+   */
+  footer: (params: {
+    [key: string]: any
+  }) => any
+}
