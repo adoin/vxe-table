@@ -1,4 +1,17 @@
-import { defineComponent, h, Teleport, ref, Ref, computed, reactive, inject, nextTick, watch, onUnmounted, PropType } from 'vue'
+import {
+  defineComponent,
+  h,
+  Teleport,
+  ref,
+  Ref,
+  computed,
+  reactive,
+  inject,
+  nextTick,
+  watch,
+  onUnmounted,
+  PropType
+} from 'vue'
 import XEUtils, { toNumber } from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
@@ -8,7 +21,18 @@ import { GlobalEvent, hasEventKey, EVENT_KEYS } from '../../tools/event'
 import { toStringTimeDate, getDateQuarter } from './date'
 import { handleNumber, toFloatValueFixed } from './number'
 
-import { VNodeStyle, VxeInputConstructor, VxeInputEmits, InputReactData, InputMethods, VxeInputPropTypes, InputPrivateRef, VxeFormConstructor, VxeFormPrivateMethods, VxeFormDefines } from '../../../types/all'
+import {
+  VNodeStyle,
+  VxeInputConstructor,
+  VxeInputEmits,
+  InputReactData,
+  InputMethods,
+  VxeInputPropTypes,
+  InputPrivateRef,
+  VxeFormConstructor,
+  VxeFormPrivateMethods,
+  VxeFormDefines
+} from '../../../types/all'
 
 interface DateYearItem {
   date: Date;
@@ -67,7 +91,7 @@ export default defineComponent({
     readonly: Boolean as PropType<VxeInputPropTypes.Readonly>,
     disabled: Boolean as PropType<VxeInputPropTypes.Disabled>,
     placeholder: {
-      type: String as PropType<VxeInputPropTypes.Placeholder>,
+      type: String as PropType<VxeInputPropTypes.Placeholder>
     },
     maxlength: [String, Number] as PropType<VxeInputPropTypes.Maxlength>,
     autocomplete: { type: String as PropType<VxeInputPropTypes.Autocomplete>, default: 'off' },
