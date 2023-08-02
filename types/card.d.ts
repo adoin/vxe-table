@@ -1,5 +1,5 @@
 import { ValueOf, VNodeStyle, VXEComponent, VxeComponentBase, VxeEvent } from './component'
-import { ComponentPublicInstance, Ref, SetupContext } from 'vue'
+import { ComponentPublicInstance, Ref, RenderFunction, SetupContext } from 'vue'
 
 export const VxeCard: VXEComponent<VxeCardProps, VxeCardEventProps, VxeCardSlots>
 /**
@@ -16,7 +16,7 @@ export namespace VxeCardPropTypes {
   export type round = boolean | string | number
   export type shadow = boolean
   export type title = string
-  export type hoverEffect = boolean | 'rotate' | 'scale' | 'opacity'
+  export type hoverEffect = 'rotate' | 'scale' | 'press'
   export type rotateMode = 'vertical' | 'horizontal' | 'diagonal'
   export type bordered = boolean
   export type headStyle = VNodeStyle
@@ -73,7 +73,6 @@ export interface VxeCardPrivateRef extends CardPrivateRef {}
 
 export type VxeCardEmits = [
   'rotate',
-  'close',
   'hover',
   'collapse',
   'expand',
@@ -111,7 +110,8 @@ export interface VxeCardConstructor extends VxeComponentBase, VxeCardMethods {
   props: VxeCardProps
   context: SetupContext<VxeCardEmits>
   reactData: CardReactData
-
+  getRefMaps (): VxeCardPrivateRef
+  renderVN: RenderFunction
 }
 
 export namespace VxeCardDefines {
@@ -122,10 +122,6 @@ export namespace VxeCardDefines {
   export interface RotateParams {}
 
   export interface RotateEventParams extends CardEventParams, RotateParams {}
-
-  export interface CloseParams {}
-
-  export interface CloseEventParams extends CardEventParams, CloseParams {}
 
   export interface HoverParams {}
 
@@ -142,7 +138,6 @@ export namespace VxeCardDefines {
 
 export namespace VxeCardEvents {
   export type Rotate = (params: VxeCardDefines.RotateEventParams) => void;
-  export type Close = (params: VxeCardDefines.CloseEventParams) => void;
   export type Hover = (params: VxeCardDefines.HoverEventParams) => void;
   export type Collapse = (params: VxeCardDefines.CollapseEventParams) => void;
   export type Expand = (params: VxeCardDefines.ExpandEventParams) => void;
@@ -150,7 +145,6 @@ export namespace VxeCardEvents {
 
 export interface VxeCardEventProps {
   onRotate?: VxeCardEvents.Rotate
-  onClose?: VxeCardEvents.Close
   onHover?: VxeCardEvents.Hover
   onCollapse?: VxeCardEvents.Collapse
   onExpand?: VxeCardEvents.Expand

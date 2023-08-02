@@ -15,12 +15,15 @@ import {
 import {
   CardPrivateRef,
   CardReactData,
+  isCollapse,
   VxeCardConstructor,
   VxeCardEmits,
   VxeCardMethods,
   VxeCardPropTypes
 } from '../../../types/card'
 import XEUtils from 'xe-utils'
+import GlobalConfig from '../../v-x-e-table/src/conf'
+import { getFuncText } from '../../tools/utils'
 
 export default defineComponent({
   name: 'VxeCard',
@@ -28,16 +31,24 @@ export default defineComponent({
     isCollapse: Boolean as PropType<VxeCardPropTypes.isCollapse>,
     loading: Boolean as PropType<VxeCardPropTypes.loading>,
     round: [Boolean, String, Number] as PropType<VxeCardPropTypes.round>,
-    shadow: Boolean as PropType<VxeCardPropTypes.shadow>,
+    shadow: {
+      type: Boolean as PropType<VxeCardPropTypes.shadow>,
+      default: true
+    },
     title: String as PropType<VxeCardPropTypes.title>,
-    hoverEffect: [Boolean, String] as PropType<VxeCardPropTypes.hoverEffect>,
-    bordered: Boolean as PropType<VxeCardPropTypes.bordered>,
-    rotateMode: String as PropType<VxeCardPropTypes.rotateMode>,
+    hoverEffect: String as PropType<VxeCardPropTypes.hoverEffect>,
+    bordered: {
+      type: Boolean as PropType<VxeCardPropTypes.bordered>,
+      default: true
+    },
+    rotateMode: {
+      type: String as PropType<VxeCardPropTypes.rotateMode>,
+      default: 'horizontal'
+    },
     headStyle: Object as PropType<VxeCardPropTypes.headStyle>
   },
   emits: [
     'rotate',
-    'close',
     'hover',
     'collapse',
     'expand',
@@ -69,14 +80,10 @@ export default defineComponent({
       getRefMaps: () => refMaps
     } as unknown as VxeCardConstructor
 
-    const cardMethods = {} as VxeCardMethods
+    let cardMethods = {} as VxeCardMethods
 
     const rotateEvent = (evnt: Event) => {
       cardMethods.dispatchEvent('rotate', {}, evnt)
-    }
-
-    const closeEvent = (evnt: Event) => {
-      cardMethods.dispatchEvent('close', {}, evnt)
     }
 
     const hoverEvent = (evnt: Event, flag: boolean) => {
@@ -114,5 +121,54 @@ export default defineComponent({
       }
       return nextTick()
     }
+    cardMethods = {
+      dispatchEvent (type, params, evnt) {
+        emit(type, Object.assign({ $card: $vxcard, $event: evnt }, params))
+      },
+      getCollapseIf,
+      toggleCollapse,
+      expand,
+      collapse
+    }
+
+    Object.assign($vxcard, cardMethods)
+    const renderCoverContent = () => {
+      const { title, loading } = props
+      const contVNs: VNode[] = []
+      if (loading) {
+        contVNs.push(
+          h('i', {
+            class: ['vxe-button--loading-icon', GlobalConfig.icon.BUTTON_LOADING]
+          })
+        )
+      }
+      if (title) {
+        contVNs.push(
+
+        )
+      }
+      return contVNs
+    }
+    const renderCover = () => h('div', {
+      ref: refCover,
+      class: ['vxe-card--cover', { 'vxe-card-loading': props.loading }]
+    }, [
+      slots.cover?.(props.title) ?? h('span', {
+        class: 'vxe-cover--content'
+      }, getFuncText(props.title))
+    ])
+    const renderVN = () => {
+      return reactData.isCollapse
+        ? renderCover()
+        : h('div', {
+          ref: refElem,
+          class: ['vxe-card']
+        })
+    }
+    $vxcard.renderVN = renderVN
+    return $vxcard
+  },
+  render () {
+    return this.renderVN()
   }
 })
