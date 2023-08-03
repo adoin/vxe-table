@@ -1,5 +1,5 @@
 import { ValueOf, VNodeStyle, VXEComponent, VxeComponentBase, VxeEvent } from './component'
-import { ComponentPublicInstance, Ref, RenderFunction, SetupContext } from 'vue'
+import { ComponentPublicInstance, Ref, RenderFunction, SetupContext, VNode, VNodeArrayChildren } from 'vue'
 
 export const VxeCard: VXEComponent<VxeCardProps, VxeCardEventProps, VxeCardSlots>
 /**
@@ -9,12 +9,13 @@ export const VxeCard: VXEComponent<VxeCardProps, VxeCardEventProps, VxeCardSlots
 export const Card: typeof VxeCard
 
 export type VxeCardInstance = ComponentPublicInstance<VxeCardProps, VxeCardConstructor>
-
+type transformMode = 'click' | 'hover'
 export namespace VxeCardPropTypes {
   export type isCollapse = boolean
   export type loading = boolean
   export type round = boolean | string | number
   export type shadow = boolean
+  export type transform = boolean | transformMode
   export type title = string
   export type hoverEffect = 'rotate' | 'scale' | 'press'
   export type rotateMode = 'vertical' | 'horizontal' | 'diagonal'
@@ -38,6 +39,10 @@ export type VxeCardProps = {
    * 阴影
    */
   shadow?: VxeCardPropTypes.shadow
+  /**
+   * 是否可变形
+   */
+  transform?: VxeCardPropTypes.transform
   /**
    * 标题
    */
@@ -110,7 +115,9 @@ export interface VxeCardConstructor extends VxeComponentBase, VxeCardMethods {
   props: VxeCardProps
   context: SetupContext<VxeCardEmits>
   reactData: CardReactData
+
   getRefMaps (): VxeCardPrivateRef
+
   renderVN: RenderFunction
 }
 
@@ -154,31 +161,25 @@ export interface VxeCardSlots {
   /**
    * 内容
    */
-  default: (params: {
-    [key: string]: any
-  }) => any
+  default: () => string | number | boolean | VNode | VNodeArrayChildren
   /**
    * header
    */
   header: (params: {
-    [key: string]: any
-  }) => any
+    title?: string
+  }) => string | number | VNode | VNodeArrayChildren
   /**
    * back 背面内容
    */
-  back: (params: {
-    [key: string]: any
-  }) => any
+  back: () => string | number | boolean | VNode | VNodeArrayChildren
   /**
    * cover 封面，collapse之后的展示
    */
   cover: (params: {
-    [key: string]: any
-  }) => any
+    title?: string
+  }) => string | number | boolean | VNode
   /**
    * footer
    */
-  footer: (params: {
-    [key: string]: any
-  }) => any
+  footer: () => string | number | VNode | VNodeArrayChildren
 }

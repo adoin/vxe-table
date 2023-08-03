@@ -3,19 +3,13 @@ import {
   h,
   ref,
   Ref,
-  computed,
-  Teleport,
-  VNode,
-  onUnmounted,
   reactive,
   nextTick,
-  PropType,
-  onMounted
+  PropType
 } from 'vue'
 import {
   CardPrivateRef,
   CardReactData,
-  isCollapse,
   VxeCardConstructor,
   VxeCardEmits,
   VxeCardMethods,
@@ -35,6 +29,7 @@ export default defineComponent({
       type: Boolean as PropType<VxeCardPropTypes.shadow>,
       default: true
     },
+    transform: [Boolean, String] as PropType<VxeCardPropTypes.transform>,
     title: String as PropType<VxeCardPropTypes.title>,
     hoverEffect: String as PropType<VxeCardPropTypes.hoverEffect>,
     bordered: {
@@ -115,6 +110,18 @@ export default defineComponent({
       }
       return nextTick()
     }
+    const handleHoverCover = () => {
+      if (props.transform === 'hover') {
+        reactData.isCollapse = false
+        emit('expand')
+      }
+    }
+    const handleCardLeave = () => {
+      if (props.transform === 'hover') {
+        reactData.isCollapse = true
+        emit('collapse')
+      }
+    }
     const collapse = () => {
       if (!reactData.isCollapse) {
         return toggleCollapse()
@@ -132,38 +139,76 @@ export default defineComponent({
     }
 
     Object.assign($vxcard, cardMethods)
-    const renderCoverContent = () => {
-      const { title, loading } = props
-      const contVNs: VNode[] = []
-      if (loading) {
-        contVNs.push(
-          h('i', {
-            class: ['vxe-button--loading-icon', GlobalConfig.icon.BUTTON_LOADING]
-          })
-        )
-      }
-      if (title) {
-        contVNs.push(
-
-        )
-      }
-      return contVNs
-    }
     const renderCover = () => h('div', {
       ref: refCover,
-      class: ['vxe-card--cover', { 'vxe-card-loading': props.loading }]
+      onClick: expand,
+      onMouseenter: handleHoverCover,
+      class: ['vxe-card-cover', { 'vxe-card-loading': props.loading }]
     }, [
       slots.cover?.(props.title) ?? h('span', {
         class: 'vxe-cover--content'
       }, getFuncText(props.title))
     ])
+
+    const renderCardHeader = () => h('div', {
+      ref: refHeader,
+      class: 'vxe-card-header'
+    }, [
+      slots.header?.({ title: props.title }) ?? h('span', {
+        class: 'vxe-card-header--title'
+      }, getFuncText(props.title))
+    ])
+    const renderCardFront = () => {
+      return h('div', {
+        ref: refBody,
+        class: ['vxe-card-body', { 'vxe-card-rotating-front': props.hoverEffect === 'rotate' }]
+      }, [
+        slots.default?.()
+      ])
+    }
+    const renderCardBack = () => h('div', {
+      ref: refBack,
+      class: ['vxe-card-body', 'vxe-card-rotating-back']
+    }, [
+      slots.back?.()
+    ])
+    const renderCardBody = () => [
+      renderCardFront(),
+      slots.back ? renderCardBack() : null
+    ]
+    const renderCardFooter = () => slots.footer ? h('div', {
+      ref: refFooter,
+      class: 'vxe-card-footer'
+    }, [
+      slots.footer?.()
+    ]) : null
     const renderVN = () => {
-      return reactData.isCollapse
+      return reactData.isCollapse && props.transform
         ? renderCover()
         : h('div', {
           ref: refElem,
-          class: ['vxe-card']
-        })
+          class: [
+            'vxe-card',
+            {
+              'vxe-card--shadow': props.shadow,
+              'vxe-card--press': props.hoverEffect === 'press',
+              'vxe-card--scale': props.hoverEffect === 'scale',
+              'vxe-card--rotating-diagonal': props.hoverEffect === 'rotate' && props.rotateMode === 'diagonal',
+              'vxe-card--rotating-horizontal': props.hoverEffect === 'rotate' && props.rotateMode === 'horizontal',
+              'vxe-card--rotating-vertical': props.hoverEffect === 'rotate' && props.rotateMode === 'vertical'
+            }
+          ],
+          onMouseout: handleCardLeave
+        }, [
+          slots.header || props.title ? h('div', {
+            ref: refHeader,
+            class: 'vxe-card-header'
+          }, [
+            renderCardHeader()
+          ]) : null,
+          ...renderCardBody(),
+          renderCardFooter()
+        ])
     }
     $vxcard.renderVN = renderVN
     return $vxcard

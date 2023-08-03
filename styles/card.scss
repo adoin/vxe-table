@@ -12,9 +12,9 @@ div.vxe-card {
   perspective: 1000px;
   transform-style: preserve-3d;
   display: flex;
-  
-  &.vxe-card-rotating-vertical {
-    > .vxe-card-rotating-item {
+  flex-wrap: wrap;
+  &.vxe-card--rotating-vertical {
+    > .vxe-card-body {
       @include rotating-item;
       
       &.vxe-card-rotating-front {
@@ -27,7 +27,7 @@ div.vxe-card {
     }
     
     &:hover {
-      > .vxe-card-rotating-item {
+      > .vxe-card-body {
         &.vxe-card-rotating-front {
           transform: rotateY(-180deg);
         }
@@ -39,9 +39,9 @@ div.vxe-card {
     }
   }
   
-  &.vxe-card-rotating-horizontal {
+  &.vxe-card--rotating-horizontal {
     
-    > .vxe-card-rotating-item {
+    > .vxe-card-body {
       @include rotating-item;
       
       &.vxe-card-rotating-front {
@@ -54,7 +54,7 @@ div.vxe-card {
     }
     
     &:hover {
-      > .vxe-card-rotating-item {
+      > .vxe-card-body {
         &.vxe-card-rotating-front {
           transform: rotateX(-180deg);
         }
@@ -66,9 +66,9 @@ div.vxe-card {
     }
   }
   
-  &.vxe-card-rotating-diagonal {
+  &.vxe-card--rotating-diagonal {
     aspect-ratio: 1 / 1;
-    > .vxe-card-rotating-item {
+    > .vxe-card-body {
       @include rotating-item;
       
       &.vxe-card-rotating-front {
@@ -81,7 +81,7 @@ div.vxe-card {
     }
     
     &:hover {
-      > .vxe-card-rotating-item {
+      > .vxe-card-body {
         &.vxe-card-rotating-front {
           transform: rotate3d(1, 1, 0, -180deg);
         }
@@ -93,28 +93,28 @@ div.vxe-card {
     }
   }
   
-  &.vxe-card-has-shadow {
+  &.vxe-card--shadow {
     box-shadow: var(--vxe-card-box-shadow);
   }
   
-  &.vxe-card-press {
+  &.vxe-card--press {
     &:hover {
       transform: translateY(var(--vxe-card-shaking-distance));
     }
     
-    &.vxe-card-has-shadow {
+    &.vxe-card--shadow {
       &:hover {
         box-shadow: var(--vxe-card-box-shadow-sink);
       }
     }
   }
   
-  &.vxe-card-scale {
+  &.vxe-card--scale {
     &:hover {
       transform: scale(1.05);
     }
     
-    &.vxe-card-has-shadow {
+    &.vxe-card--shadow {
       &:hover {
         box-shadow: var(--vxe-card-box-shadow-sink);
       }
@@ -122,19 +122,27 @@ div.vxe-card {
   }
   
   > .vxe-card-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
     padding: var(--vxe-card-header-padding);
     font-size: var(--vxe-card-header-font-size);
     color: var(--vxe-card-header-font-color);
-    border-bottom: 1px solid var(--vxe-card-header-border-color)
+    border-bottom: 1px solid var(--vxe-card-header-border-color);
   }
   
   > .vxe-card-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
     padding: var(--vxe-card-footer-padding);
     font-size: var(--vxe-card-footer-font-size);
     color: var(--vxe-card-footer-font-color);
   }
   
   > .vxe-card-body {
+    width: 100%;
+    display: block;
     padding: var(--vxe-card-body-padding);
     font-size: var(--vxe-font-size);
     color: var(--vxe-card-body-font-color);
@@ -142,7 +150,7 @@ div.vxe-card {
   }
 }
 
-div.vxe-card--cover {
+div.vxe-card-cover {
   border-radius: 50%;
   overflow: hidden;
   display: flex;
