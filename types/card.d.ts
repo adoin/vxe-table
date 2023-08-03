@@ -9,7 +9,7 @@ export const VxeCard: VXEComponent<VxeCardProps, VxeCardEventProps, VxeCardSlots
 export const Card: typeof VxeCard
 
 export type VxeCardInstance = ComponentPublicInstance<VxeCardProps, VxeCardConstructor>
-type transformMode = 'click' | 'hover'
+type transformMode = 'click' | 'hover'|'click-hover'
 export namespace VxeCardPropTypes {
   export type isCollapse = boolean
   export type loading = boolean
@@ -68,6 +68,7 @@ export type VxeCardProps = {
 export interface CardReactData {
   inited: boolean,
   isCollapse: boolean,
+  tempExpand: boolean,
 }
 
 export interface CardPrivateRef {
@@ -81,7 +82,7 @@ export type VxeCardEmits = [
   'hover',
   'collapse',
   'expand',
-  'update:isCollapse'
+  'update:is-collapse'
 ]
 
 export interface CardMethods {

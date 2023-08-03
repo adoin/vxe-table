@@ -9,92 +9,38 @@
 
 div.vxe-card {
   position: relative;
-  perspective: 1000px;
-  transform-style: preserve-3d;
   display: flex;
   flex-wrap: wrap;
-  &.vxe-card--rotating-vertical {
-    > .vxe-card-body {
-      @include rotating-item;
-      
-      &.vxe-card-rotating-front {
-        transform: rotateY(0deg);
-      }
-      
-      &.vxe-card-rotating-back {
-        transform: rotateY(180deg);
-      }
-    }
-    
-    &:hover {
-      > .vxe-card-body {
-        &.vxe-card-rotating-front {
-          transform: rotateY(-180deg);
-        }
-        
-        &.vxe-card-rotating-back {
-          transform: rotateY(0deg);
-        }
-      }
-    }
-  }
+  flex-direction: column;
+  width: 500px;
+  transition: border-radius 1s ease-in-out, width 0.5s ease-in-out, height 0.75s ease-in-out;
   
-  &.vxe-card--rotating-horizontal {
-    
-    > .vxe-card-body {
-      @include rotating-item;
-      
-      &.vxe-card-rotating-front {
-        transform: rotateX(0deg);
-      }
-      
-      &.vxe-card-rotating-back {
-        transform: rotateX(180deg);
-      }
-    }
-    
-    &:hover {
-      > .vxe-card-body {
-        &.vxe-card-rotating-front {
-          transform: rotateX(-180deg);
-        }
-        
-        &.vxe-card-rotating-back {
-          transform: rotateX(0deg);
-        }
-      }
-    }
-  }
-  
-  &.vxe-card--rotating-diagonal {
+  &.vxe-card-cover {
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
     aspect-ratio: 1 / 1;
-    > .vxe-card-body {
-      @include rotating-item;
-      
-      &.vxe-card-rotating-front {
-        transform: rotate3d(0, 0, 0, 0);
-      }
-      
-      &.vxe-card-rotating-back {
-        transform: rotate3d(1, 1, 0, 180deg);
-      }
+    padding: var(--vxe-card-cover-padding);
+    border: 1px solid var(--vxe-card-border-color);
+    
+    &.vxe-card-cover--circle {
+      border-radius: 50%;
     }
     
-    &:hover {
-      > .vxe-card-body {
-        &.vxe-card-rotating-front {
-          transform: rotate3d(1, 1, 0, -180deg);
-        }
-        
-        &.vxe-card-rotating-back {
-          transform: rotate3d(1, 1, 0, -180deg);
-        }
-      }
+    & > .vxe-cover--content {
+      color: var(--vxe-card-cover-font-color);
+      background-color: var(--vxe-card-cover-background-color);
+      
     }
   }
   
   &.vxe-card--shadow {
     box-shadow: var(--vxe-card-box-shadow);
+  }
+  
+  &.vxe-card--bordered {
+    border: 1px solid var(--vxe-card-border-color);
   }
   
   &.vxe-card--press {
@@ -127,6 +73,7 @@ div.vxe-card {
     align-items: center;
     padding: var(--vxe-card-header-padding);
     font-size: var(--vxe-card-header-font-size);
+    font-weight: var(--vxe-card-header-font-weight);
     color: var(--vxe-card-header-font-color);
     border-bottom: 1px solid var(--vxe-card-header-border-color);
   }
@@ -135,9 +82,11 @@ div.vxe-card {
     width: 100%;
     display: flex;
     align-items: center;
+    max-height: 38px;
     padding: var(--vxe-card-footer-padding);
     font-size: var(--vxe-card-footer-font-size);
     color: var(--vxe-card-footer-font-color);
+    border-top: 1px solid var(--vxe-card-header-border-color);
   }
   
   > .vxe-card-body {
@@ -148,20 +97,96 @@ div.vxe-card {
     color: var(--vxe-card-body-font-color);
     
   }
-}
-
-div.vxe-card-cover {
-  border-radius: 50%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: border-radius 0.5s cubic-bezier(0.1, 0.7, 1.0, 0.1), width 0.5s ease-in-out, height 0.5s ease-in-out;
-  aspect-ratio: 1 / 1;
   
-  & > .vxe-cover--content {
-    color: var(--vxe-card-cover-font-color);
-    background-color: var(--vxe-card-cover-background-color);
+}
+/* 翻转*/
+div.vxe-card-rotating-box{
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  width: 500px;
+  height: 500px;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  
+  &.vxe-card--rotating-vertical {
+    > .vxe-card {
+      @include rotating-item;
+      
+      &.vxe-card-rotating-front {
+        transform: rotateY(0deg);
+      }
+      
+      &.vxe-card-rotating-back {
+        transform: rotateY(180deg);
+      }
+    }
     
+    &:hover {
+      > .vxe-card {
+        &.vxe-card-rotating-front {
+          transform: rotateY(-180deg);
+        }
+        
+        &.vxe-card-rotating-back {
+          transform: rotateY(0deg);
+        }
+      }
+    }
+  }
+  
+  &.vxe-card--rotating-horizontal {
+    
+    > .vxe-card {
+      @include rotating-item;
+      
+      &.vxe-card-rotating-front {
+        transform: rotateX(0deg);
+      }
+      
+      &.vxe-card-rotating-back {
+        transform: rotateX(180deg);
+      }
+    }
+    
+    &:hover {
+      > .vxe-card {
+        &.vxe-card-rotating-front {
+          transform: rotateX(-180deg);
+        }
+        
+        &.vxe-card-rotating-back {
+          transform: rotateX(0deg);
+        }
+      }
+    }
+  }
+  
+  &.vxe-card--rotating-diagonal {
+    aspect-ratio: 1 / 1;
+    
+    > .vxe-card {
+      @include rotating-item;
+      
+      &.vxe-card-rotating-front {
+        transform: rotate3d(0, 0, 0, 0);
+      }
+      
+      &.vxe-card-rotating-back {
+        transform: rotate3d(1, 1, 0, 180deg);
+      }
+    }
+    
+    &:hover {
+      > .vxe-card {
+        &.vxe-card-rotating-front {
+          transform: rotate3d(1, 1, 0, -180deg);
+        }
+        
+        &.vxe-card-rotating-back {
+          transform: rotate3d(1, 1, 0, -180deg);
+        }
+      }
+    }
   }
 }

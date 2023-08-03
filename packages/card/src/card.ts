@@ -5,7 +5,8 @@ import {
   Ref,
   reactive,
   nextTick,
-  PropType
+  PropType,
+  computed, watchEffect
 } from 'vue'
 import {
   CardPrivateRef,
@@ -15,7 +16,7 @@ import {
   VxeCardMethods,
   VxeCardPropTypes
 } from '../../../types/card'
-import XEUtils from 'xe-utils'
+import XEUtils, { isNumber } from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { getFuncText } from '../../tools/utils'
 
@@ -24,17 +25,20 @@ export default defineComponent({
   props: {
     isCollapse: Boolean as PropType<VxeCardPropTypes.isCollapse>,
     loading: Boolean as PropType<VxeCardPropTypes.loading>,
-    round: [Boolean, String, Number] as PropType<VxeCardPropTypes.round>,
+    round: {
+      type: [Boolean, String, Number] as PropType<VxeCardPropTypes.round>,
+      default: () => GlobalConfig.card.round
+    },
     shadow: {
       type: Boolean as PropType<VxeCardPropTypes.shadow>,
-      default: true
+      default: () => GlobalConfig.card.shadow
     },
     transform: [Boolean, String] as PropType<VxeCardPropTypes.transform>,
     title: String as PropType<VxeCardPropTypes.title>,
     hoverEffect: String as PropType<VxeCardPropTypes.hoverEffect>,
     bordered: {
       type: Boolean as PropType<VxeCardPropTypes.bordered>,
-      default: true
+      default: () => GlobalConfig.card.bordered
     },
     rotateMode: {
       type: String as PropType<VxeCardPropTypes.rotateMode>,
@@ -47,22 +51,26 @@ export default defineComponent({
     'hover',
     'collapse',
     'expand',
-    'update:isCollapse'
+    'update:is-collapse'
   ] as VxeCardEmits,
   setup (props, context) {
     const { slots, emit } = context
     const xID = XEUtils.uniqueId()
     const reactData = reactive<CardReactData>({
       inited: false,
-      isCollapse: !!props.isCollapse
+      isCollapse: !!props.isCollapse,
+      tempExpand: false
     })
+    const refBox = ref() as Ref<HTMLDivElement>
     const refElem = ref() as Ref<HTMLDivElement>
     const refBody = ref() as Ref<HTMLDivElement>
     const refHeader = ref() as Ref<HTMLDivElement>
     const refFooter = ref() as Ref<HTMLDivElement>
-    const refCover = ref() as Ref<HTMLDivElement>
+    const refFront = ref() as Ref<HTMLDivElement>
     const refBack = ref() as Ref<HTMLDivElement>
-
+    watchEffect(() => {
+      reactData.isCollapse = !!props.isCollapse
+    })
     const refMaps: CardPrivateRef = {
       refElem
     }
@@ -100,9 +108,14 @@ export default defineComponent({
     const toggleCollapse = () => {
       const isCollapse = !reactData.isCollapse
       reactData.isCollapse = isCollapse
-      emit('update:isCollapse', isCollapse)
+      emit('update:is-collapse', isCollapse)
       emit(isCollapse ? 'collapse' : 'expand')
       return nextTick()
+    }
+    const perhapsExpand = () => {
+      if (props.transform && reactData.isCollapse) {
+        expand()
+      }
     }
     const expand = () => {
       if (reactData.isCollapse) {
@@ -112,19 +125,24 @@ export default defineComponent({
     }
     const handleHoverCover = () => {
       if (props.transform === 'hover') {
-        reactData.isCollapse = false
-        emit('expand')
+        reactData.tempExpand = true
       }
     }
     const handleCardLeave = () => {
       if (props.transform === 'hover') {
-        reactData.isCollapse = true
-        emit('collapse')
+        reactData.tempExpand = false
       }
     }
     const collapse = () => {
       if (!reactData.isCollapse) {
         return toggleCollapse()
+      }
+      return nextTick()
+    }
+    const handleHeaderClick = (event: Event) => {
+      event.stopPropagation()
+      if (props.transform === true || props.transform === 'click' || props.transform === 'click-hover') {
+        emit('update:is-collapse', true)
       }
       return nextTick()
     }
@@ -139,76 +157,102 @@ export default defineComponent({
     }
 
     Object.assign($vxcard, cardMethods)
-    const renderCover = () => h('div', {
-      ref: refCover,
-      onClick: expand,
-      onMouseenter: handleHoverCover,
-      class: ['vxe-card-cover', { 'vxe-card-loading': props.loading }]
-    }, [
-      slots.cover?.(props.title) ?? h('span', {
-        class: 'vxe-cover--content'
-      }, getFuncText(props.title))
-    ])
 
     const renderCardHeader = () => h('div', {
       ref: refHeader,
-      class: 'vxe-card-header'
+      class: 'vxe-card-header',
+      onClick: handleHeaderClick
     }, [
       slots.header?.({ title: props.title }) ?? h('span', {
         class: 'vxe-card-header--title'
       }, getFuncText(props.title))
     ])
-    const renderCardFront = () => {
-      return h('div', {
-        ref: refBody,
-        class: ['vxe-card-body', { 'vxe-card-rotating-front': props.hoverEffect === 'rotate' }]
-      }, [
-        slots.default?.()
-      ])
-    }
+    const renderCardFront = () => h('div', {
+      ref: refFront,
+      class: [
+        'vxe-card',
+        'vxe-card-rotating-front',
+        (isCol.value ? 'vxe-card-cover vxe-card-cover--circle'
+          : {
+              'vxe-card--shadow': props.shadow,
+              'vxe-card--press': props.hoverEffect === 'press',
+              'vxe-card--scale': props.hoverEffect === 'scale'
+            })
+      ]
+    }, [
+      slots.header || props.title ? renderCardHeader() : null,
+      renderCardBody(),
+      renderCardFooter()
+    ])
     const renderCardBack = () => h('div', {
       ref: refBack,
-      class: ['vxe-card-body', 'vxe-card-rotating-back']
-    }, [
-      slots.back?.()
+      class: [
+        'vxe-card',
+        'vxe-card-rotating-back',
+        (isCol.value ? 'vxe-card-cover vxe-card-cover--circle'
+          : {
+              'vxe-card--shadow': props.shadow,
+              'vxe-card--press': props.hoverEffect === 'press',
+              'vxe-card--scale': props.hoverEffect === 'scale'
+            })
+      ]
+    },
+    [
+      slots.back?.() ?? slots.default?.() ?? ''
     ])
-    const renderCardBody = () => [
-      renderCardFront(),
-      slots.back ? renderCardBack() : null
-    ]
+    const renderCardBody = () => h('div', {
+      ref: refBody,
+      class: 'vxe-card-body'
+    }, [
+      slots.default?.()
+    ])
     const renderCardFooter = () => slots.footer ? h('div', {
       ref: refFooter,
       class: 'vxe-card-footer'
     }, [
       slots.footer?.()
     ]) : null
+    const isCol = computed(() => (reactData.isCollapse && !reactData.tempExpand) && props.transform)
     const renderVN = () => {
-      return reactData.isCollapse && props.transform
-        ? renderCover()
+      return props.hoverEffect === 'rotate'
+        ? h('div', {
+          ref: refBox,
+          class: [
+            'vxe-card-rotating-box',
+            `vxe-card--rotating-${props.rotateMode}`
+          ]
+        }, [
+          renderCardFront(),
+          renderCardBack()
+        ])
         : h('div', {
           ref: refElem,
           class: [
             'vxe-card',
-            {
-              'vxe-card--shadow': props.shadow,
-              'vxe-card--press': props.hoverEffect === 'press',
-              'vxe-card--scale': props.hoverEffect === 'scale',
-              'vxe-card--rotating-diagonal': props.hoverEffect === 'rotate' && props.rotateMode === 'diagonal',
-              'vxe-card--rotating-horizontal': props.hoverEffect === 'rotate' && props.rotateMode === 'horizontal',
-              'vxe-card--rotating-vertical': props.hoverEffect === 'rotate' && props.rotateMode === 'vertical'
-            }
+            (isCol.value ? 'vxe-card-cover vxe-card-cover--circle'
+              : {
+                  'vxe-card--shadow': props.shadow,
+                  'vxe-card--press': props.hoverEffect === 'press',
+                  'vxe-card--scale': props.hoverEffect === 'scale'
+                })
           ],
+          style: isCol.value ? null : {
+            borderRadius: (props.round === false || props.round === undefined) ? 'unset'
+              : props.round === true ? '5px'
+                : isNumber(props.round) ? `${props.round}px`
+                  : (props.round as string)
+          },
+          onClick: perhapsExpand,
+          onMoudseenter: handleHoverCover,
           onMouseout: handleCardLeave
-        }, [
-          slots.header || props.title ? h('div', {
-            ref: refHeader,
-            class: 'vxe-card-header'
-          }, [
-            renderCardHeader()
-          ]) : null,
-          ...renderCardBody(),
-          renderCardFooter()
-        ])
+        }, isCol.value ? h('span', {
+          class: 'vxe-cover--content'
+        }, getFuncText(props.title))
+          : [
+              slots.header || props.title ? renderCardHeader() : null,
+              renderCardBody(),
+              renderCardFooter()
+            ])
     }
     $vxcard.renderVN = renderVN
     return $vxcard
