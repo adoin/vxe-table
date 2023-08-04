@@ -1,6 +1,6 @@
 {
   "name": "exv",
-  "version": "1.0.0-beta5",
+  "version": "1.0.1",
   "description": "vxe-components base on vxe-table",
   "scripts": {
     "test": "vue-tsc --noEmit --skipLibCheck",
