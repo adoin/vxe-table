@@ -13,6 +13,8 @@ type transformMode = 'click' | 'hover'|'click-hover'
 export namespace VxeCardPropTypes {
   export type isCollapse = boolean
   export type loading = boolean
+  export type width = string | number
+  export type rotatingHeight = string | number
   export type round = boolean | string | number
   export type shadow = boolean
   export type transform = boolean | transformMode
@@ -20,7 +22,6 @@ export namespace VxeCardPropTypes {
   export type hoverEffect = 'rotate' | 'scale' | 'press'
   export type rotateMode = 'vertical' | 'horizontal' | 'diagonal'
   export type bordered = boolean
-  export type headStyle = VNodeStyle
 }
 export type VxeCardProps = {
   /**
@@ -31,6 +32,14 @@ export type VxeCardProps = {
    * 加载中
    */
   loading?: VxeCardPropTypes.loading
+  /**
+   * 宽度
+   */
+  width?: VxeCardPropTypes.width
+  /**
+   * 翻转容器高度
+   */
+  rotatingHeight?: VxeCardPropTypes.rotatingHeight
   /*
   * 圆角
   * */
@@ -55,10 +64,6 @@ export type VxeCardProps = {
    * 边框
    */
   bordered?: VxeCardPropTypes.bordered
-  /**
-   * 头部样式
-   */
-  headStyle?: VxeCardPropTypes.headStyle
   /**
    * 旋转模式
    */

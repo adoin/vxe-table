@@ -19,9 +19,9 @@ $vxe-success-color: #67c23a !default;
 $vxe-info-color: #909399 !default;
 $vxe-warning-color: #e6a23c !default;
 $vxe-danger-color: #f56c6c !default;
-$vxe-light-shadow: #fff !default;
-$vxe-dark-shadow: #222222 !default;
-$vxe-fit-shadow: #00000019 !default;
+$vxe-light-shadow: #fff9 !default;
+$vxe-dark-shadow: #0002 !default;
+$vxe-fit-shadow: #0001 !default;
 $vxe-font-lighten-color: lighten($vxe-font-color, 10%) !default;
 $vxe-primary-lighten-color: lighten($vxe-primary-color, 10%) !default;
 $vxe-success-lighten-color: lighten($vxe-success-color, 10%) !default;
@@ -270,7 +270,7 @@ $vxe-switch-disabled-background-color: rgba(0, 0, 0, 0.15) !default;
 $vxe-pulldown-panel-background-color: #fff !default;
 
 
-$vxe-card-background-color: #fff !default;
+$vxe-card-background-color: #f3f3f6 !default;
 $vxe-card-line-height: 1.5715 !default;
 $vxe-card-header-font-color: $vxe-font-color !default;
 $vxe-card-body-font-color: $vxe-font-color !default;
@@ -284,16 +284,20 @@ $vxe-card-cover-padding: 20px !default;
 $vxe-card-border-color: $vxe-primary-color !default;
 $vxe-card-border-width: 1px !default;
 $vxe-card-animation-duration:1.5s !default;
-$vxe-card-box-shadow: 2px 2px 8px 0px $vxe-dark-shadow,
-                      -2px -2px 8px 1px $vxe-light-shadow,
-                      inset -2px -2px 8px 1px $vxe-light-shadow,
-                      inset 3px 3px 8px 1px $vxe-light-shadow !default;
-$vxe-card-box-shadow-sink: 2px 2px 2px 0px $vxe-fit-shadow,
-                           -2px -2px 4px 1px $vxe-light-shadow,
-                           inset -2px -2px 8px 1px $vxe-dark-shadow,
-                           inset 3px 3px 8px 1px $vxe-fit-shadow !default;
+$vxe-card-box-shadow: -7px -7px 20px 0px $vxe-light-shadow,
+                      -4px -4px 5px 0px $vxe-light-shadow,
+                      7px 7px 20px 0px $vxe-dark-shadow,
+                      4px 4px 5px 0px $vxe-fit-shadow,
+                      inset 0px 0px 0px 0px $vxe-light-shadow,
+                      inset 0px 0px 0px 0px $vxe-fit-shadow,
+                      inset 0px 0px 0px 0px $vxe-light-shadow,
+                      inset 0px 0px 0px 0px $vxe-fit-shadow!default;
+$vxe-card-box-shadow-sink: 2px 3px 6px 0 #ffffff7f,
+                          -4px -4px 6px 0 #747D8833,
+                          inset -4px -4px 6px 0 #ffffff7f,
+                          inset 4px 4px 6px 0 #747D884C !default;
 $vxe-card-shaking-distance: 2px !default;
 $vxe-card-body-padding:12px !default;
 $vxe-card-header-padding:10px 20px !default;
-$vxe-card-footer-padding:6px !default;
+$vxe-card-footer-padding:4px !default;
 $vxe-card-border-radius: 8px !default;

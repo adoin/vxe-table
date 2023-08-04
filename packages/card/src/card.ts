@@ -16,9 +16,9 @@ import {
   VxeCardMethods,
   VxeCardPropTypes
 } from '../../../types/card'
-import XEUtils, { isNumber } from 'xe-utils'
+import XEUtils, { isNumber, isString } from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
-import { getFuncText } from '../../tools/utils'
+import { getFuncText, multiDebounce } from '../../tools/utils'
 
 export default defineComponent({
   name: 'VxeCard',
@@ -29,6 +29,8 @@ export default defineComponent({
       type: [Boolean, String, Number] as PropType<VxeCardPropTypes.round>,
       default: () => GlobalConfig.card.round
     },
+    width: [String, Number] as PropType<VxeCardPropTypes.width>,
+    rotatingHeight: [String, Number] as PropType<VxeCardPropTypes.rotatingHeight>,
     shadow: {
       type: Boolean as PropType<VxeCardPropTypes.shadow>,
       default: () => GlobalConfig.card.shadow
@@ -43,8 +45,7 @@ export default defineComponent({
     rotateMode: {
       type: String as PropType<VxeCardPropTypes.rotateMode>,
       default: 'horizontal'
-    },
-    headStyle: Object as PropType<VxeCardPropTypes.headStyle>
+    }
   },
   emits: [
     'rotate',
@@ -124,15 +125,16 @@ export default defineComponent({
       return nextTick()
     }
     const handleHoverCover = () => {
-      if (props.transform === 'hover') {
+      if (props.transform === 'hover' || props.transform === 'click-hover') {
         reactData.tempExpand = true
       }
     }
     const handleCardLeave = () => {
-      if (props.transform === 'hover') {
+      if (props.transform === 'hover' || props.transform === 'click-hover') {
         reactData.tempExpand = false
       }
     }
+    const mouseInOut = multiDebounce([handleHoverCover, handleCardLeave], 200)
     const collapse = () => {
       if (!reactData.isCollapse) {
         return toggleCollapse()
@@ -141,8 +143,10 @@ export default defineComponent({
     }
     const handleHeaderClick = (event: Event) => {
       event.stopPropagation()
-      if (props.transform === true || props.transform === 'click' || props.transform === 'click-hover') {
+      if (props.transform === true || props.transform === 'click') {
         emit('update:is-collapse', true)
+      } else if (props.transform === 'click-hover') {
+        emit('update:is-collapse', !reactData.isCollapse)
       }
       return nextTick()
     }
@@ -157,7 +161,23 @@ export default defineComponent({
     }
 
     Object.assign($vxcard, cardMethods)
-
+    const dynamicWrapperWidth = computed(() => {
+      const styleWidthRegex = /^\d+(\.\d+)?(px|%|em|rem|pt)?$/i
+      const pureNumberRegex = /^\d+$/
+      return isNumber(props.width) || (isString(props.width) && pureNumberRegex.test(props.width))
+        ? `${props.width}px`
+        : isString(props.width) && styleWidthRegex.test(props.width)
+          ? props.width : undefined
+    })
+    const dynamicRotateHeight = computed(() => {
+      const styleHeightRegex = /^\d+(\.\d+)?(px|em|rem|pt)?$/i
+      const pureNumberRegex = /^\d+$/
+      return isNumber(props.rotatingHeight) || (isString(props.rotatingHeight) && pureNumberRegex.test(props.rotatingHeight))
+        ? `${props.rotatingHeight}px`
+        : isString(props.rotatingHeight) && styleHeightRegex.test(props.rotatingHeight)
+          ? props.rotatingHeight
+          : undefined
+    })
     const renderCardHeader = () => h('div', {
       ref: refHeader,
       class: 'vxe-card-header',
@@ -198,7 +218,12 @@ export default defineComponent({
       ]
     },
     [
-      slots.back?.() ?? slots.default?.() ?? ''
+      h('div', {
+        class: 'vxe-card-body'
+      },
+      [
+        slots.back?.() ?? slots.default?.() ?? ''
+      ])
     ])
     const renderCardBody = () => h('div', {
       ref: refBody,
@@ -220,7 +245,11 @@ export default defineComponent({
           class: [
             'vxe-card-rotating-box',
             `vxe-card--rotating-${props.rotateMode}`
-          ]
+          ],
+          style: {
+            width: dynamicWrapperWidth.value,
+            height: props.rotateMode !== 'diagonal' ? dynamicRotateHeight.value : undefined
+          }
         }, [
           renderCardFront(),
           renderCardBack()
@@ -237,14 +266,15 @@ export default defineComponent({
                 })
           ],
           style: isCol.value ? null : {
+            width: dynamicWrapperWidth.value,
             borderRadius: (props.round === false || props.round === undefined) ? 'unset'
               : props.round === true ? '5px'
                 : isNumber(props.round) ? `${props.round}px`
                   : (props.round as string)
           },
           onClick: perhapsExpand,
-          onMoudseenter: handleHoverCover,
-          onMouseout: handleCardLeave
+          onMouseover: mouseInOut.handleHoverCover,
+          onMouseout: mouseInOut.handleCardLeave
         }, isCol.value ? h('span', {
           class: 'vxe-cover--content'
         }, getFuncText(props.title))
