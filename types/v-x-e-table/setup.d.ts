@@ -17,6 +17,7 @@ import { VxeCheckboxGroupProps } from '../checkbox-group'
 import { VxeRadioProps } from '../radio'
 import { VxeRadioButtonProps } from '../radio-button'
 import { VxeRadioGroupProps } from '../radio-group'
+import { VxeCardProps } from '../card'
 
 export interface VXETableConfigOptions {
   size?: SizeType
@@ -50,6 +51,7 @@ export interface VXETableConfigOptions {
   switch?: VxeSwitchProps
   modal?: VxeModalProps
   list?: VxeListProps
+  card?:VxeCardProps
   translate?(key: string, args?: any): string
   i18n?(key: string, args?: any): string
 

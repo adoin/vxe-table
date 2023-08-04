@@ -1,0 +1,207 @@
+@mixin rotating-item {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  backface-visibility: hidden;
+  transition: 1.5s;
+  & > .vxe-card-body {
+    overflow-y: auto;
+  }
+}
+
+@keyframes expand-appear {
+  from {
+    opacity: 0;
+    width: 0;
+  }
+}
+
+div.vxe-card {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 500px;
+  background-color: var(--vxe-card-background-color);
+  transition: border-radius 1s ease-in-out,
+  width 0.5s ease-in-out,
+  height 0.75s ease-in-out,
+  box-shadow 0.6s cubic-bezier(.79, .21, .06, .81);
+  
+  &.vxe-card-cover {
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    aspect-ratio: 1 / 1;
+    padding: var(--vxe-card-cover-padding);
+    border: 1px solid var(--vxe-card-border-color);
+    
+    &.vxe-card-cover--circle {
+      border-radius: 50%;
+    }
+    
+    & > .vxe-cover--content {
+      color: var(--vxe-card-cover-font-color);
+      background-color: var(--vxe-card-cover-background-color);
+      
+    }
+  }
+  
+  &.vxe-card--shadow {
+    box-shadow: var(--vxe-card-box-shadow);
+  }
+  
+  &.vxe-card--bordered {
+    border: 1px solid var(--vxe-card-border-color);
+  }
+  
+  &.vxe-card--press {
+    &:hover {
+      transform: translateY(var(--vxe-card-shaking-distance));
+    }
+    
+    &.vxe-card--shadow {
+      &:hover {
+        box-shadow: var(--vxe-card-box-shadow-sink);
+      }
+    }
+  }
+  
+  &.vxe-card--scale {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  
+  > .vxe-card-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: var(--vxe-card-header-padding);
+    font-size: var(--vxe-card-header-font-size);
+    font-weight: var(--vxe-card-header-font-weight);
+    color: var(--vxe-card-header-font-color);
+    border-bottom: 1px solid var(--vxe-card-header-border-color);
+    border-right: 1em solid transparent;
+    border-left: 1em solid transparent;
+    animation: expand-appear 1.6s ease-in-out;
+  }
+  
+  > .vxe-card-footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 34px;
+    padding: var(--vxe-card-footer-padding);
+    font-size: var(--vxe-card-footer-font-size);
+    color: var(--vxe-card-footer-font-color);
+    border-top: 1px solid var(--vxe-card-header-border-color);
+    animation: expand-appear 1s ease-in-out;
+    justify-content: flex-end;
+  }
+  
+  > .vxe-card-body {
+    width: 100%;
+    display: block;
+    padding: var(--vxe-card-body-padding);
+    font-size: var(--vxe-font-size);
+    color: var(--vxe-card-body-font-color);
+    flex: 1;
+  }
+  
+}
+
+/* 翻转*/
+div.vxe-card-rotating-box {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  width: 500px;
+  height: auto;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  
+  &.vxe-card--rotating-vertical {
+    > .vxe-card {
+      @include rotating-item;
+      
+      &.vxe-card-rotating-front {
+        transform: rotateY(0deg);
+      }
+      
+      &.vxe-card-rotating-back {
+        transform: rotateY(180deg);
+      }
+    }
+    
+    &:hover {
+      > .vxe-card {
+        &.vxe-card-rotating-front {
+          transform: rotateY(-180deg);
+        }
+        
+        &.vxe-card-rotating-back {
+          transform: rotateY(0deg);
+        }
+      }
+    }
+  }
+  
+  &.vxe-card--rotating-horizontal {
+    
+    > .vxe-card {
+      @include rotating-item;
+      
+      &.vxe-card-rotating-front {
+        transform: rotateX(0deg);
+      }
+      
+      &.vxe-card-rotating-back {
+        transform: rotateX(180deg);
+      }
+    }
+    
+    &:hover {
+      > .vxe-card {
+        &.vxe-card-rotating-front {
+          transform: rotateX(-180deg);
+        }
+        
+        &.vxe-card-rotating-back {
+          transform: rotateX(0deg);
+        }
+      }
+    }
+  }
+  
+  &.vxe-card--rotating-diagonal {
+    aspect-ratio: 1 / 1;
+    
+    > .vxe-card {
+      @include rotating-item;
+      
+      &.vxe-card-rotating-front {
+        transform: rotate3d(0, 0, 0, 0);
+      }
+      
+      &.vxe-card-rotating-back {
+        transform: rotate3d(1, 1, 0, 180deg);
+      }
+    }
+    
+    &:hover {
+      > .vxe-card {
+        &.vxe-card-rotating-front {
+          transform: rotate3d(1, 1, 0, -180deg);
+        }
+        
+        &.vxe-card-rotating-back {
+          transform: rotate3d(0, 0, 0, 0);
+        }
+      }
+    }
+  }
+}
