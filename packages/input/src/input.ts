@@ -98,14 +98,20 @@ export default defineComponent({
     align: String as PropType<VxeInputPropTypes.Align>,
     form: String as PropType<VxeInputPropTypes.Form>,
     className: String as PropType<VxeInputPropTypes.ClassName>,
-    size: { type: String as PropType<VxeInputPropTypes.Size>, default: () => GlobalConfig.input.size || GlobalConfig.size },
+    size: {
+      type: String as PropType<VxeInputPropTypes.Size>,
+      default: () => GlobalConfig.input.size || GlobalConfig.size
+    },
     multiple: Boolean as PropType<VxeInputPropTypes.Multiple>,
 
     // number、integer、float
     min: { type: [String, Number] as PropType<VxeInputPropTypes.Min>, default: null },
     max: { type: [String, Number] as PropType<VxeInputPropTypes.Max>, default: null },
     step: [String, Number] as PropType<VxeInputPropTypes.Step>,
-    exponential: { type: Boolean as PropType<VxeInputPropTypes.Exponential>, default: () => GlobalConfig.input.exponential },
+    exponential: {
+      type: Boolean as PropType<VxeInputPropTypes.Exponential>,
+      default: () => GlobalConfig.input.exponential
+    },
 
     // number、integer、float、password
     controls: { type: Boolean as PropType<VxeInputPropTypes.Controls>, default: () => GlobalConfig.input.controls },
@@ -114,21 +120,45 @@ export default defineComponent({
     digits: { type: [String, Number] as PropType<VxeInputPropTypes.Digits>, default: () => GlobalConfig.input.digits },
 
     // date、week、month、quarter、year
-    startDate: { type: [String, Number, Date] as PropType<VxeInputPropTypes.MinDate>, default: () => GlobalConfig.input.startDate },
-    endDate: { type: [String, Number, Date] as PropType<VxeInputPropTypes.MaxDate>, default: () => GlobalConfig.input.endDate },
+    startDate: {
+      type: [String, Number, Date] as PropType<VxeInputPropTypes.MinDate>,
+      default: () => GlobalConfig.input.startDate
+    },
+    endDate: {
+      type: [String, Number, Date] as PropType<VxeInputPropTypes.MaxDate>,
+      default: () => GlobalConfig.input.endDate
+    },
     minDate: [String, Number, Date] as PropType<VxeInputPropTypes.MinDate>,
     maxDate: [String, Number, Date] as PropType<VxeInputPropTypes.MaxDate>,
     // 已废弃 startWeek，被 startDay 替换
     startWeek: Number as PropType<VxeInputPropTypes.StartDay>,
-    startDay: { type: [String, Number] as PropType<VxeInputPropTypes.StartDay>, default: () => GlobalConfig.input.startDay },
-    labelFormat: { type: String as PropType<VxeInputPropTypes.LabelFormat>, default: () => GlobalConfig.input.labelFormat },
-    valueFormat: { type: String as PropType<VxeInputPropTypes.ValueFormat>, default: () => GlobalConfig.input.valueFormat },
+    startDay: {
+      type: [String, Number] as PropType<VxeInputPropTypes.StartDay>,
+      default: () => GlobalConfig.input.startDay
+    },
+    labelFormat: {
+      type: String as PropType<VxeInputPropTypes.LabelFormat>,
+      default: () => GlobalConfig.input.labelFormat
+    },
+    valueFormat: {
+      type: String as PropType<VxeInputPropTypes.ValueFormat>,
+      default: () => GlobalConfig.input.valueFormat
+    },
     editable: { type: Boolean as PropType<VxeInputPropTypes.Editable>, default: true },
-    festivalMethod: { type: Function as PropType<VxeInputPropTypes.FestivalMethod>, default: () => GlobalConfig.input.festivalMethod },
-    disabledMethod: { type: Function as PropType<VxeInputPropTypes.DisabledMethod>, default: () => GlobalConfig.input.disabledMethod },
+    festivalMethod: {
+      type: Function as PropType<VxeInputPropTypes.FestivalMethod>,
+      default: () => GlobalConfig.input.festivalMethod
+    },
+    disabledMethod: {
+      type: Function as PropType<VxeInputPropTypes.DisabledMethod>,
+      default: () => GlobalConfig.input.disabledMethod
+    },
 
     // week
-    selectDay: { type: [String, Number] as PropType<VxeInputPropTypes.SelectDay>, default: () => GlobalConfig.input.selectDay },
+    selectDay: {
+      type: [String, Number] as PropType<VxeInputPropTypes.SelectDay>,
+      default: () => GlobalConfig.input.selectDay
+    },
 
     prefixIcon: String as PropType<VxeInputPropTypes.PrefixIcon>,
     suffixIcon: String as PropType<VxeInputPropTypes.SuffixIcon>,
@@ -685,14 +715,16 @@ export default defineComponent({
       return restVal.slice(0, inpMaxlength)
     }
 
-    const triggerEvent = (evnt: Event & { type: 'input' | 'change' | 'keydown' | 'keyup' | 'wheel' | 'click' | 'focus' | 'blur' }) => {
+    const triggerEvent = (evnt: Event & {
+      type: 'input' | 'change' | 'keydown' | 'keyup' | 'wheel' | 'click' | 'focus' | 'blur'
+    }) => {
       const { inputValue } = reactData
       inputMethods.dispatchEvent(evnt.type, { value: inputValue }, evnt)
     }
 
     const emitModel = (value: string, evnt: Event | { type: string }) => {
       reactData.inputValue = value
-      emit('update:modelValue', (['number', 'integer', 'float'].includes(props.type) ? toNumber(value) : value))
+      emit('update:modelValue', (value !== undefined && value !== null && ['number', 'integer', 'float'].includes(props.type) ? toNumber(value) : value))
       inputMethods.dispatchEvent('input', { value }, evnt)
       if (XEUtils.toValueString(props.modelValue) !== value) {
         inputMethods.dispatchEvent('change', { value }, evnt)
@@ -1232,7 +1264,12 @@ export default defineComponent({
     const isDateDisabled = (item: { date: Date }) => {
       const { disabledMethod } = props
       const { datePanelType } = reactData
-      return disabledMethod && disabledMethod({ type: datePanelType, viewType: datePanelType, date: item.date, $input: $xeinput })
+      return disabledMethod && disabledMethod({
+        type: datePanelType,
+        viewType: datePanelType,
+        date: item.date,
+        $input: $xeinput
+      })
     }
 
     const dateSelectItem = (date: Date) => {
@@ -1734,7 +1771,12 @@ export default defineComponent({
       const { festivalMethod } = props
       if (festivalMethod) {
         const { datePanelType } = reactData
-        const festivalRest = festivalMethod({ type: datePanelType, viewType: datePanelType, date: item.date, $input: $xeinput })
+        const festivalRest = festivalMethod({
+          type: datePanelType,
+          viewType: datePanelType,
+          date: item.date,
+          $input: $xeinput
+        })
         const festivalItem = festivalRest ? (XEUtils.isString(festivalRest) ? { label: festivalRest } : festivalRest) : {}
         const extraItem = festivalItem.extra ? (XEUtils.isString(festivalItem.extra) ? { label: festivalItem.extra } : festivalItem.extra) : null
         const labels = [
