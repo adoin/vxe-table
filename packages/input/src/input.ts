@@ -722,7 +722,7 @@ export default defineComponent({
       inputMethods.dispatchEvent(evnt.type, { value: inputValue }, evnt)
     }
 
-    const emitModel = (value: string, evnt: Event | { type: string }) => {
+    const emitModel = (value: string|null, evnt: Event | { type: string }) => {
       reactData.inputValue = value
       emit('update:modelValue', (value !== undefined && value !== null && ['number', 'integer', 'float'].includes(props.type) ? toNumber(value) : value))
       inputMethods.dispatchEvent('input', { value }, evnt)
@@ -807,8 +807,9 @@ export default defineComponent({
       const { disabled } = props
       if (!disabled) {
         if (hasClass(evnt.currentTarget, 'is--clear')) {
-          emitModel('', evnt)
-          clearValueEvent(evnt, '')
+          const newValue = computeIsNumType.value ? null : ''
+          emitModel(newValue, evnt)
+          clearValueEvent(evnt, newValue)
         } else {
           const { inputValue } = reactData
           inputMethods.dispatchEvent('suffix-click', { value: inputValue }, evnt)
