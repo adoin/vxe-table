@@ -12,7 +12,7 @@ import { VxeMenuPanelInstance } from './menu'
 
 /**
  * 组件 - 表格
- * @example import { VxeTable } from 'vxe-table'
+ * @example import { VxeTable } from 'exv'
  */
 export const VxeTable: VXEComponent<VxeTableProps<any>, VxeTableEventProps<any>, VxeTableSlots<any>>
 /**

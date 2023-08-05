@@ -6,7 +6,7 @@ import { VxeCheckboxPropTypes } from './checkbox'
 
 /**
  * 组件 - 复选框组
- * @example import { VxeCheckboxGroup } from 'vxe-table'
+ * @example import { VxeCheckboxGroup } from 'exv'
  */
 export const VxeCheckboxGroup: VXEComponent<VxeCheckboxGroupProps, VxeCheckboxGroupEventProps, VxeCheckboxGroupSlots>
 /**

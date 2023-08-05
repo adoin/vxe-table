@@ -8,7 +8,7 @@ import { VxeTooltipPropTypes } from './tooltip'
 
 /**
  * 组件 - 表格列
- * @example import { VxeColumn } from 'vxe-table'
+ * @example import { VxeColumn } from 'exv'
  */
 export const VxeColumn: VXEComponent<VxeColumnProps<any>, VxeColumnEventProps, VxeColumnSlots<any>>
 /**

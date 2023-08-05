@@ -4,7 +4,7 @@ import { ComponentPublicInstance, Ref, RenderFunction, SetupContext, VNode, VNod
 export const VxeCard: VXEComponent<VxeCardProps, VxeCardEventProps, VxeCardSlots>
 /**
  * 组件 - 卡片
- * @example import { VxeCard } from 'vxe-table'
+ * @example import { VxeCard } from 'exv'
  */
 export const Card: typeof VxeCard
 

@@ -5,7 +5,7 @@ import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf } from './c
 
 /**
  * 组件 - 复选框
- * @example import { VxeCheckbox } from 'vxe-table'
+ * @example import { VxeCheckbox } from 'exv'
  */
 export const VxeCheckbox: VXEComponent<VxeCheckboxProps, VxeCheckboxEventProps, VxeCheckboxSlots>
 /**
