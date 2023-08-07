@@ -92,6 +92,7 @@ export interface TablePrivateComputed<D = VxeTableDataRow> {
   computeEmptyOpts: ComputedRef<VxeTablePropTypes.EmptyOpts>
   computeLoadingOpts: ComputedRef<VxeTablePropTypes.LoadingOpts>
   computeCustomOpts: ComputedRef<VxeTablePropTypes.CustomOpts<D>>
+  computeIsVMScrollProcess: ComputedRef<boolean>
   computeFixedColumnSize: ComputedRef<number>
   computeIsMaxFixedColumn: ComputedRef<boolean>
   computeIsAllCheckboxDisabled: ComputedRef<boolean>
@@ -807,6 +808,8 @@ export interface TableReactData<D = VxeTableDataRow> {
   scrollbarWidth: number
   // 横向滚动条的高度
   scrollbarHeight: number
+  // 最后滚动时间戳
+  lastScrollTime: number
   // 行高
   rowHeight: number
   // 表格父容器的高度
@@ -818,8 +821,8 @@ export interface TableReactData<D = VxeTableDataRow> {
   isAllSelected: boolean
   // 复选框属性，有选中且非全选状态
   isIndeterminate: boolean
-  // 复选框属性，已选中的行
-  selectCheckboxRows: D[]
+  // 复选框属性，已选中的行集合
+  selectCheckboxMaps: Record<string, D>
   // 当前行
   currentRow: D | null
   // 单选框属性，选中列
@@ -833,7 +836,7 @@ export interface TableReactData<D = VxeTableDataRow> {
   hasFixedColumn: boolean
   // 已展开的行
   rowExpandedMaps: Record<string, D>
-  // 懒加载中的展开行的列表
+  // 懒加载中的展开行
   rowExpandLazyLoadedMaps: Record<string, D>
   // 树节点列信息
   treeNodeColumn: any
@@ -989,7 +992,8 @@ export interface TableReactData<D = VxeTableDataRow> {
     message: boolean
     isHeader: boolean
     isFooter: boolean
-  }
+  },
+  _isResize: boolean
 }
 
 export interface TableInternalData<D = VxeTableDataRow> {
@@ -1029,7 +1033,6 @@ export interface TableInternalData<D = VxeTableDataRow> {
   // 最后滚动位置
   lastScrollLeft: number
   lastScrollTop: number
-  lastScrollTime: number
   // 单选框属性，已选中保留的行
   radioReserveRow: any
   // 复选框属性，已选中保留的行
@@ -1121,7 +1124,6 @@ export interface TableInternalData<D = VxeTableDataRow> {
 
   // 内部属性
   _lastResizeTime?: any
-  _isResize?: boolean
   _keyCtx?: any
   _lastCallTime?: any
   _importResolve?: ((...args: any[]) => any) | null
@@ -1542,6 +1544,7 @@ export namespace VxeTablePropTypes {
     checkRowKeys?: string[] | number[]
     checkStrictly?: boolean
     strict?: boolean
+    isShiftKey?: boolean
     checkMethod?(params: {
       row: D
     }): boolean
@@ -2713,6 +2716,7 @@ export type VxeTableEmits = [
   'checkbox-range-start',
   'checkbox-range-change',
   'checkbox-range-end',
+  'checkbox-range-select',
   'cell-click',
   'cell-dblclick',
   'cell-menu',
@@ -3025,6 +3029,11 @@ export namespace VxeTableDefines {
 
   export interface CheckboxRangeEndEventParams<D = VxeTableDataRow> extends TableEventParams<D>, CheckboxRangeEndParams<D> { }
 
+  export interface CheckboxRangeSelectParams<D = VxeTableDataRow> {
+    rangeRecords: D[]
+  }
+  export interface CheckboxRangeSelectEventParams<D = VxeTableDataRow> extends TableEventParams<D>, CheckboxRangeSelectParams<D> { }
+
   export interface CellClickParams<D = VxeTableDataRow> extends TableBaseCellParams<D> {
     triggerRadio: boolean
     triggerCheckbox: boolean
@@ -3166,6 +3175,7 @@ export interface VxeTableEventProps<D = VxeTableDataRow> {
   onCheckboxRangeStart?: VxeTableEvents.CheckboxRangeStart<D>
   onCheckboxRangeChange?: VxeTableEvents.CheckboxRangeChange<D>
   onCheckboxRangeEnd?: VxeTableEvents.CheckboxRangeEnd<D>
+  onCheckboxRangeSelect?: VxeTableEvents.CheckboxRangeSelect<D>
   onCellClick?: VxeTableEvents.CellClick<D>
   onCellDblclick?: VxeTableEvents.CellDblclick<D>
   onCellMenu?: VxeTableEvents.CellMenu<D>
@@ -3215,6 +3225,7 @@ export interface VxeTableListeners<D = VxeTableDataRow> {
   checkboxRangeStart?: VxeTableEvents.CheckboxRangeStart<D>
   checkboxRangeChange?: VxeTableEvents.CheckboxRangeChange<D>
   checkboxRangeEnd?: VxeTableEvents.CheckboxRangeEnd<D>
+  checkboxRangeSelect?: VxeTableEvents.CheckboxRangeSelect<D>
   cellClick?: VxeTableEvents.CellClick<D>
   cellDblclick?: VxeTableEvents.CellDblclick<D>
   cellMenu?: VxeTableEvents.CellMenu<D>
@@ -3263,6 +3274,7 @@ export namespace VxeTableEvents {
   export type CheckboxRangeStart<D = any> = (params: VxeTableDefines.CheckboxRangeStartEventParams<D>) => void
   export type CheckboxRangeChange<D = any> = (params: VxeTableDefines.CheckboxRangeChangeEventParams<D>) => void
   export type CheckboxRangeEnd<D = any> = (params: VxeTableDefines.CheckboxRangeEndEventParams<D>) => void
+  export type CheckboxRangeSelect<D = any> = (params: VxeTableDefines.CheckboxRangeSelectEventParams<D>) => void
   export type CellClick<D = any> = (params: VxeTableDefines.CellClickEventParams<D>) => void
   export type CellDblclick<D = any> = (params: VxeTableDefines.CellDblclickEventParams<D>) => void
   export type CellMenu<D = any> = (params: VxeTableDefines.CellMenuEventParams<D>) => void
