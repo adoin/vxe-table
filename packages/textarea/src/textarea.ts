@@ -18,8 +18,7 @@ export default defineComponent({
     readonly: Boolean as PropType<VxeTextareaPropTypes.Readonly>,
     disabled: Boolean as PropType<VxeTextareaPropTypes.Disabled>,
     placeholder: {
-      type: String as PropType<VxeTextareaPropTypes.Placeholder>,
-      default: () => XEUtils.eqNull(GlobalConfig.textarea.placeholder) ? GlobalConfig.i18n('vxe.base.pleaseInput') : GlobalConfig.textarea.placeholder
+      type: String as PropType<VxeTextareaPropTypes.Placeholder>
     },
     maxlength: [String, Number] as PropType<VxeTextareaPropTypes.Maxlength>,
     rows: { type: [String, Number] as PropType<VxeTextareaPropTypes.Rows>, default: 2 },
