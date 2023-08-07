@@ -127,7 +127,7 @@ export default defineComponent({
     })
 
     const refElem = ref() as Ref<HTMLDivElement>
-    const refInput = ref() as Ref<VxeInputConstructor>
+    const refInput = ref() as Ref<VxeInputConstructor & { $el: HTMLElement }>
     const refOptionWrapper = ref() as Ref<HTMLDivElement>
     const refOptionPanel = ref() as Ref<HTMLDivElement>
 
@@ -732,6 +732,10 @@ export default defineComponent({
       if (!props.disabled) {
         reactData.isActivated = true
         showOptionPanel()
+        const inputDoc = refInput?.value?.$el?.querySelector('input.vxe-input--inner') as HTMLInputElement
+        if (inputDoc) {
+          inputDoc.select()
+        }
       }
     }
 
