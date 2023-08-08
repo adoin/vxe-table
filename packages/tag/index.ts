@@ -8,7 +8,7 @@ export const VxeTag = Object.assign(VxeTagComponent, {
   }
 })
 
-export const Card = VxeTag
+export const Tag = VxeTag
 
 dynamicApp.component(VxeTagComponent.name, VxeTagComponent)
 

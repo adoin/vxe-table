@@ -35,6 +35,7 @@ import { VxeSwitch } from './switch'
 import { VxeList } from './list'
 import { VxePulldown } from './pulldown'
 import { VxeCard } from './card'
+import { VxeTag } from './tag'
 import { VxeTable } from './table'
 
 import zhCN from './locale/lang/zh-CN'
@@ -76,6 +77,7 @@ const components = [
   VxeList,
   VxePulldown,
   VxeCard,
+  VxeTag,
   // 核心
   VxeTable
 ]
@@ -118,6 +120,7 @@ export * from './input'
 export * from './textarea'
 export * from './button'
 export * from './card'
+export * from './tag'
 export * from './modal'
 export * from './tooltip'
 export * from './form'

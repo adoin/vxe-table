@@ -1,10 +1,18 @@
-import { defineComponent, PropType, reactive, Ref } from 'vue'
-import { TagReactData, VxeTagConstructor, VxeTagEmits, VxeTagMethods, VxeTagPropTypes } from '../../../types/tag'
+import { defineComponent, h, PropType, reactive, ref, Ref } from 'vue'
+import {
+  TagReactData,
+  VxeTagConstructor,
+  VxeTagEmits,
+  VxeTagMethods,
+  VxeTagPropTypes
+} from '../../../types/tag'
 import XEUtils from 'xe-utils'
+import { getFuncText } from '../../tools/utils'
 
 export default defineComponent({
   name: 'vxeTag',
   props: {
+    content: [String, Number] as PropType<VxeTagPropTypes.content>,
     color: {
       type: String as PropType<VxeTagPropTypes.color>,
       default: 'default'
@@ -36,9 +44,10 @@ export default defineComponent({
     const refMaps = {
       refElem
     }
-    const closeTag = () => {
-
-    }
+    const closeTag = () => new Promise(() => {
+      // todo
+      emit('close', { $event: { tag: $vxtag } })
+    })
     let tagMethods = {} as VxeTagMethods
     const $vxtag = {
       xID,
@@ -47,11 +56,44 @@ export default defineComponent({
       reactData,
       getRefMaps: () => refMaps
     } as unknown as VxeTagConstructor
+
     tagMethods = {
       dispatchEvent (type, params, evnt) {
         emit(type, Object.assign({ $tag: $vxtag, $event: evnt }, params))
       },
       close: closeTag
     }
+    Object.assign($vxtag, tagMethods)
+    const renderContent = () => slots?.default?.() ?? getFuncText(props.content)
+    const renderVN = () => {
+      return h('span', {
+        ref: refElem,
+        class: [
+          'vxe-tag',
+            `vxe-tag-type--${props.tagStyle}`,
+            {
+              closable: props.closable
+            }
+        ],
+        onClick: (evnt: Event) => {
+          closeTag()
+          tagMethods.dispatchEvent('close', {}, evnt)
+        }
+      },
+      [
+        h('div',
+          {
+            class: 'vxe-tag-close-modal'
+          }
+        ),
+        renderContent()
+      ]
+      )
+    }
+    $vxtag.renderVN = renderVN
+    return $vxtag
+  },
+  render () {
+    return this.renderVN()
   }
 })

@@ -3,6 +3,7 @@ import { ValueOf, VXEComponent, VxeComponentBase, VxeEvent } from './component'
 import { VNode, VNodeArrayChildren } from 'vue/dist/vue'
 
 export namespace VxeTagPropTypes {
+  export type content = string
   export type color = string
   export type closable = boolean
   export type tagStyle = 'default' | 'outline' | 'flag' | 'dashed' | 'mark'
@@ -10,6 +11,7 @@ export namespace VxeTagPropTypes {
   export type iconSet = string
 }
 export type VxeTagProps = {
+  content?: VxeTagPropTypes.content
   /**
    * 颜色
    */

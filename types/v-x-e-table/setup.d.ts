@@ -18,6 +18,7 @@ import { VxeRadioProps } from '../radio'
 import { VxeRadioButtonProps } from '../radio-button'
 import { VxeRadioGroupProps } from '../radio-group'
 import { VxeCardProps } from '../card'
+import { VxeTagProps } from '../tag'
 
 export interface VXETableConfigOptions {
   size?: SizeType
@@ -52,6 +53,7 @@ export interface VXETableConfigOptions {
   modal?: VxeModalProps
   list?: VxeListProps
   card?:VxeCardProps
+  tag?:VxeTagProps
   translate?(key: string, args?: any): string
   i18n?(key: string, args?: any): string
 

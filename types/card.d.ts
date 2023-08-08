@@ -1,15 +1,7 @@
 import { ValueOf, VNodeStyle, VXEComponent, VxeComponentBase, VxeEvent } from './component'
 import { ComponentPublicInstance, Ref, RenderFunction, SetupContext, VNode, VNodeArrayChildren } from 'vue'
 
-export const VxeCard: VXEComponent<VxeCardProps, VxeCardEventProps, VxeCardSlots>
-/**
- * 组件 - 卡片
- * @example import { VxeCard } from 'exv'
- */
-export const Card: typeof VxeCard
-
-export type VxeCardInstance = ComponentPublicInstance<VxeCardProps, VxeCardConstructor>
-type transformMode = 'click' | 'hover'|'click-hover'
+type transformMode = 'click' | 'hover' | 'click-hover'
 export namespace VxeCardPropTypes {
   export type isCollapse = boolean
   export type loading = boolean
@@ -189,3 +181,11 @@ export interface VxeCardSlots {
    */
   footer: () => string | number | VNode | VNodeArrayChildren
 }
+
+export type VxeCardInstance = ComponentPublicInstance<VxeCardProps, VxeCardConstructor>
+export const VxeCard: VXEComponent<VxeCardProps, VxeCardEventProps, VxeCardSlots>
+/**
+ * 组件 - 卡片
+ * @example import { VxeCard } from 'exv'
+ */
+export const Card: typeof VxeCard

@@ -50,6 +50,7 @@ import {
   VxeList,
   VxePulldown,
   VxeCard,
+  VxeTag,
   VxeTable
 } from '../packages/all'
 
@@ -127,6 +128,7 @@ app.use(VxeFormGather)
 app.use(VxeList)
 app.use(VxePulldown)
 app.use(VxeCard)
+app.use(VxeTag)
 app.use(VxeTable)
 
 app.use(store)

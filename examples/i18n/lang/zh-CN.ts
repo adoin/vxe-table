@@ -184,6 +184,7 @@ export default {
         module: '功能模块',
         button: '按钮',
         card: '卡片',
+        tag: '标签',
         input: '输入框',
         textarea: '文本域',
         select: '下拉框',
