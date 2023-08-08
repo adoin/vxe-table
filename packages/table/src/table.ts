@@ -5387,15 +5387,17 @@ export default defineComponent({
       calcIndeterminateTem (treeData: VxeTableDataRow[]) {
         const checkField = computeCheckboxOpts.value.checkField ?? 'checked'
         const treeOpts = computeTreeOpts.value
+        const childrenField = treeOpts.children || treeOpts.childrenField
         const backupData = XEUtils.clone(treeData)
-        const checkHalf = (row: VxeTableDataRow) => row[treeOpts.children] && row[treeOpts.children].length &&
-          (row[treeOpts.children].some((s: VxeTableDataRow) => checkHalf(s)) || (row[treeOpts.children].some((r: VxeTableDataRow) => r[checkField]) && row[treeOpts.children].some((r: VxeTableDataRow) => !r[checkField])))
+        const checkHalf = (row: VxeTableDataRow) => row[childrenField] && row[childrenField].length &&
+          (row[childrenField].some((s: VxeTableDataRow) => checkHalf(s)) || (row[childrenField].some((r: VxeTableDataRow) => r[checkField]) && row[childrenField].some((r: VxeTableDataRow) => !r[checkField])))
         reactData.treeIndeterminateList = []
         XEUtils.eachTree(backupData, (row) => {
           if (checkHalf(row)) {
             reactData.treeIndeterminateList.push(row)
           }
         })
+        console.log(' log -：5399 treeIndeterminateList', reactData.treeIndeterminateList)
       },
       checkSelectionStatus () {
         const { treeConfig } = props

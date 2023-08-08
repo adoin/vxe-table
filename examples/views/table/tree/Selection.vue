@@ -1,6 +1,22 @@
 <template>
   <div>
     <p class="tip">
+      多选树表格-checkfield<br>
+    </p>
+
+    <vxe-table
+      resizable
+      :tree-config="{transform: true, rowField: 'id', parentField: 'parentId'}"
+      :data="demo1.tableData"
+      :checkbox-config="{checkField:'checked',labelField: 'id', highlight: true}"
+      @checkbox-change="selectChangeEvent">
+      <vxe-column type="checkbox" title="ID" width="280" tree-node></vxe-column>
+      <vxe-column field="name" title="Name"></vxe-column>
+      <vxe-column field="size" title="Size"></vxe-column>
+      <vxe-column field="type" title="Type"></vxe-column>
+      <vxe-column field="date" title="Date"></vxe-column>
+    </vxe-table>
+    <p class="tip">
       多选树表格<br>
     </p>
 
@@ -24,7 +40,10 @@
       <pre-code class="typescript">{{ demoCodes[1] }}</pre-code>
     </pre>
 
-    <p class="tip">默认选中，通过指定 <table-api-link prop="checkRowKeys"/> 设置默认选中的行</p>
+    <p class="tip">默认选中，通过指定
+      <table-api-link prop="checkRowKeys"/>
+      设置默认选中的行
+    </p>
 
     <vxe-table
       resizable
@@ -46,7 +65,12 @@
       <pre-code class="typescript">{{ demoCodes[3] }}</pre-code>
     </pre>
 
-    <p class="tip">通过 <table-api-link prop="checkStrictly"/> 设置父子节点不互相关联，默认不显示头部复选框，可以通过 checkbox-config={<table-api-link prop="showHeader"/>} 设置</p>
+    <p class="tip">通过
+      <table-api-link prop="checkStrictly"/>
+      设置父子节点不互相关联，默认不显示头部复选框，可以通过 checkbox-config={
+      <table-api-link prop="showHeader"/>
+      } 设置
+    </p>
 
     <vxe-table
       resizable
@@ -65,7 +89,7 @@
       <pre-code class="xml">{{ demoCodes[4] }}</pre-code>
       <pre-code class="typescript">{{ demoCodes[5] }}</pre-code>
     </pre>
-    <vxe-grid v-bind="treeSelectSetting" :data="treeDemoData" />
+    <vxe-grid v-bind="treeSelectSetting" :data="treeDemoData"/>
     <p class="demo-code">{{ $t('app.body.button.showCode') }}</p>
     <pre>
       <pre-code class="xml">{{ demoCodes[6] }}</pre-code>
@@ -205,7 +229,7 @@ export default defineComponent({
         { id: 24577, parentId: 24555, name: 'Test7', type: 'js', size: 1024, date: '2021-06-01' }
       ]
     })
-    const treeSelectSetting:VxeGridProps = {
+    const treeSelectSetting: VxeGridProps = {
       checkboxConfig: {
         checkField: 'checked', labelField: 'name'
       },
