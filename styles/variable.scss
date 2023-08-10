@@ -19,6 +19,8 @@ $vxe-success-color: #67c23a !default;
 $vxe-info-color: #909399 !default;
 $vxe-warning-color: #e6a23c !default;
 $vxe-danger-color: #f56c6c !default;
+$vxe-perfect-color: #934db7 !default;
+
 $vxe-light-shadow: #fff9 !default;
 $vxe-dark-shadow: #0002 !default;
 $vxe-fit-shadow: #0001 !default;
@@ -283,23 +285,37 @@ $vxe-card-cover-font-color: $vxe-font-color !default;
 $vxe-card-cover-padding: 20px !default;
 $vxe-card-border-color: $vxe-primary-color !default;
 $vxe-card-border-width: 1px !default;
-$vxe-card-animation-duration:1.5s !default;
+$vxe-card-animation-duration: 1.5s !default;
 $vxe-card-box-shadow: -7px -7px 20px 0px $vxe-light-shadow,
-                      -4px -4px 5px 0px $vxe-light-shadow,
-                      7px 7px 20px 0px $vxe-dark-shadow,
-                      4px 4px 5px 0px $vxe-fit-shadow,
-                      inset 0px 0px 0px 0px $vxe-light-shadow,
-                      inset 0px 0px 0px 0px $vxe-fit-shadow,
-                      inset 0px 0px 0px 0px $vxe-light-shadow,
-                      inset 0px 0px 0px 0px $vxe-fit-shadow!default;
+-4px -4px 5px 0px $vxe-light-shadow,
+7px 7px 20px 0px $vxe-dark-shadow,
+4px 4px 5px 0px $vxe-fit-shadow,
+inset 0px 0px 0px 0px $vxe-light-shadow,
+inset 0px 0px 0px 0px $vxe-fit-shadow,
+inset 0px 0px 0px 0px $vxe-light-shadow,
+inset 0px 0px 0px 0px $vxe-fit-shadow !default;
 $vxe-card-box-shadow-sink: 2px 3px 6px 0 #ffffff7f,
-                          -4px -4px 6px 0 #747D8833,
-                          inset -4px -4px 6px 0 #ffffff7f,
-                          inset 4px 4px 6px 0 #747D884C !default;
+-4px -4px 6px 0 #747d8833,
+inset -4px -4px 6px 0 #ffffff7f,
+inset 4px 4px 6px 0 #747d884c !default;
 $vxe-card-shaking-distance: 2px !default;
-$vxe-card-body-padding:12px !default;
-$vxe-card-header-padding:10px 20px !default;
-$vxe-card-footer-padding:4px !default;
+$vxe-card-body-padding: 12px !default;
+$vxe-card-header-padding: 10px 20px !default;
+$vxe-card-footer-padding: 4px !default;
 $vxe-card-border-radius: 8px !default;
 
-$vxe-tag-padding:0.15em 0.5em !default;
+$vxe-tag-padding: 0.15em 0.5em !default;
+$vxe-tag-border-radius: 4px !default;
+$vxe-tag-line-height--mini: 1.2!default;
+$vxe-tag-line-height--small: 1.414!default;
+$vxe-tag-line-height--medium: 1.5715!default;
+$vxe-tag-line-height--large: 1.632!default;
+$vxe-tag-tail-size--mini: 1.4em!default;
+$vxe-tag-tail-size--small: 1.514em!default;
+$vxe-tag-tail-size--medium: 1.6715em!default;
+$vxe-tag-tail-size--large: 1.832em!default;
+
+$vxe-tag-tail-mini-right:-1.38em;
+$vxe-tag-tail-small-right:-1.4715em;
+$vxe-tag-tail-medium-right:-1.65em;
+$vxe-tag-tail-large-right:-1.8em;

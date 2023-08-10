@@ -17,6 +17,10 @@ export default defineComponent({
       type: String as PropType<VxeTagPropTypes.color>,
       default: 'default'
     },
+    size: {
+      type: String as PropType<VxeTagPropTypes.size>,
+      default: 'medium'
+    },
     closable: {
       type: Boolean as PropType<VxeTagPropTypes.closable>,
       default: false
@@ -29,6 +33,10 @@ export default defineComponent({
     iconSet: {
       type: String as PropType<VxeTagPropTypes.iconSet>,
       default: ''
+    },
+    align: {
+      type: String as PropType<VxeTagPropTypes.align>,
+      default: 'middle'
     }
   },
   emits: [
@@ -66,15 +74,28 @@ export default defineComponent({
     Object.assign($vxtag, tagMethods)
     const renderContent = () => slots?.default?.() ?? getFuncText(props.content)
     const renderVN = () => {
+      const presetColors = [
+        'default', 'info', 'primary', 'success', 'warning', 'danger', 'error', 'perfect'
+      ]
       return h('span', {
         ref: refElem,
         class: [
           'vxe-tag',
+            `size--${props.size}`,
             `vxe-tag-type--${props.tagStyle}`,
+            `vxe-tag-align--${props.align}`,
+            props.color
+              ? presetColors.includes(props.color)
+                ? `vxe-tag-color--${props.color}`
+                : ''
+              : 'vxe-tag-color--default',
             {
               closable: props.closable
             }
         ],
+        style: presetColors.includes(props.color) ? null : {
+          '--tag-color': props.color
+        },
         onClick: (evnt: Event) => {
           closeTag()
           tagMethods.dispatchEvent('close', {}, evnt)
@@ -86,7 +107,9 @@ export default defineComponent({
             class: 'vxe-tag-close-modal'
           }
         ),
-        renderContent()
+        h('span', {
+          class: 'vxe-tag-content'
+        }, [renderContent()])
       ]
       )
     }

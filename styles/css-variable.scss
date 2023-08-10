@@ -22,6 +22,7 @@
   --vxe-info-color: #{$vxe-info-color};
   --vxe-warning-color: #{$vxe-warning-color};
   --vxe-danger-color: #{$vxe-danger-color};
+  --vxe-perfect-color: #{$vxe-perfect-color};
   
   --vxe-font-lighten-color: #{$vxe-font-lighten-color};
   --vxe-primary-lighten-color: #{$vxe-primary-lighten-color};
@@ -297,4 +298,17 @@
   
   /*tag*/
   --vxe-tag-padding: #{$vxe-tag-padding};
+  --vxe-tag-border-radius: #{$vxe-tag-border-radius};
+  --vxe-tag-line-height--mini: #{$vxe-tag-line-height--mini};
+  --vxe-tag-line-height--small: #{$vxe-tag-line-height--small};
+  --vxe-tag-line-height--medium: #{$vxe-tag-line-height--medium};
+  --vxe-tag-line-height--large: #{$vxe-tag-line-height--large};
+  --vxe-tag-tail-size--mini: #{$vxe-tag-tail-size--mini};
+  --vxe-tag-tail-size--small: #{$vxe-tag-tail-size--small};
+  --vxe-tag-tail-size--medium: #{$vxe-tag-tail-size--medium};
+  --vxe-tag-tail-size--large: #{$vxe-tag-tail-size--large};
+  --vxe-tag-tail-mini-right: #{$vxe-tag-tail-mini-right};
+  --vxe-tag-tail-small-right: #{$vxe-tag-tail-small-right};
+  --vxe-tag-tail-medium-right: #{$vxe-tag-tail-medium-right};
+  --vxe-tag-tail-large-right: #{$vxe-tag-tail-large-right};
 }

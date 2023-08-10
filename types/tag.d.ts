@@ -4,11 +4,13 @@ import { VNode, VNodeArrayChildren } from 'vue/dist/vue'
 
 export namespace VxeTagPropTypes {
   export type content = string
-  export type color = string
+  export type color = 'info' | 'primary' | 'success' | 'warning' | 'danger' | 'error' | 'perfect' | string
   export type closable = boolean
   export type tagStyle = 'default' | 'outline' | 'flag' | 'dashed' | 'mark'
+  export type size = 'medium' | 'small' | 'mini' | 'large'
   export type icon = string
   export type iconSet = string
+  export type align='top'|'middle'|'bottom'
 }
 export type VxeTagProps = {
   content?: VxeTagPropTypes.content
@@ -16,6 +18,10 @@ export type VxeTagProps = {
    * 颜色
    */
   color?: VxeTagPropTypes.color
+  /**
+   * 尺寸
+   */
+  size?: VxeTagPropTypes.size
   /**
    * 是否可关闭
    */
@@ -32,6 +38,10 @@ export type VxeTagProps = {
    * 图标库类名 默认是vxe本身图标
    */
   iconSet?: VxeTagPropTypes.iconSet
+  /**
+   * 内容对齐方式
+   */
+  align?: VxeTagPropTypes.align
 }
 
 export interface TagReactData {
