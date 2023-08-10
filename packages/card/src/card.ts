@@ -85,23 +85,7 @@ export default defineComponent({
     } as unknown as VxeCardConstructor
 
     let cardMethods = {} as VxeCardMethods
-
-    const rotateEvent = (evnt: Event) => {
-      cardMethods.dispatchEvent('rotate', {}, evnt)
-    }
-
-    const hoverEvent = (evnt: Event, flag: boolean) => {
-      cardMethods.dispatchEvent('hover', { flag }, evnt)
-    }
-
-    const collapseEvent = (evnt: Event, flag: boolean) => {
-      cardMethods.dispatchEvent('collapse', { flag }, evnt)
-    }
-
-    const expandEvent = (evnt: Event, flag: boolean) => {
-      cardMethods.dispatchEvent('expand', { flag }, evnt)
-    }
-
+    
     const getCollapseIf = () => {
       return reactData.isCollapse
     }
