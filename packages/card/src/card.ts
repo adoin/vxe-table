@@ -85,7 +85,7 @@ export default defineComponent({
     } as unknown as VxeCardConstructor
 
     let cardMethods = {} as VxeCardMethods
-    
+
     const getCollapseIf = () => {
       return reactData.isCollapse
     }
