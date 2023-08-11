@@ -1,16 +1,32 @@
 <template>
   <div>
-    <p class="tip">圆角边框，通过设置 <table-api-link prop="round"/> 参数，通过 <router-link class="link" :to="{name: 'StartTheme'}">sass 变量</router-link> 设置圆角值</p>
+    <p class="tip">圆角边框，通过设置
+      <table-api-link prop="round"/>
+      参数，通过
+      <router-link class="link" :to="{name: 'StartTheme'}">sass 变量</router-link>
+      设置圆角值
+    </p>
 
     <vxe-table
-      round
-      border
-      :data="demo1.tableData">
+        round
+        border
+        :data="demo1.tableData">
       <vxe-column type="seq" width="60"></vxe-column>
       <vxe-column field="name" title="Name"></vxe-column>
       <vxe-column field="sex" title="Sex"></vxe-column>
       <vxe-column field="age" title="Age"></vxe-column>
       <vxe-column field="address" title="Address" show-overflow></vxe-column>
+      <vxe-column title="操作" :cell-render="{
+          name: '$buttons',
+          children: [
+            {
+              props: { content: '编辑', status: 'primary', type: 'text' },
+              events: {
+                click: startEdit,
+              },
+            },
+          ],
+        }"></vxe-column>
     </vxe-table>
 
     <p class="demo-code">{{ $t('app.body.button.showCode') }}</p>
@@ -27,6 +43,9 @@ import { defineComponent, reactive } from 'vue'
 
 export default defineComponent({
   setup () {
+    const startEdit = ({ row }: Record<string, any>) => {
+      console.log(' log -：42 row', row)
+    }
     const demo1 = reactive({
       tableData: [
         { id: 10001, name: 'Test1', role: 'Develop', sex: 'Man', age: 28, address: 'test abc' },
@@ -41,6 +60,7 @@ export default defineComponent({
     })
 
     return {
+      startEdit,
       demo1,
       demoCodes: [
         `
