@@ -148,8 +148,8 @@ export const Cell = {
     return createColumn($xetable, columnOpts, renConfs)
   },
   /**
-   * 单元格
-   */
+     * 单元格
+     */
   renderHeaderTitle (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column } = params
     const { slots, editRender, cellRender } = column
@@ -210,8 +210,8 @@ export const Cell = {
   },
 
   /**
-   * 树节点
-   */
+     * 树节点
+     */
   renderTreeIcon (params: VxeTableDefines.CellRenderBodyParams, cellVNodes: SlotVNodeType[]) {
     const { $table, isHidden } = params
     const { reactData } = $table
@@ -273,8 +273,8 @@ export const Cell = {
   },
 
   /**
-   * 索引
-   */
+     * 索引
+     */
   renderSeqHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column } = params
     const { slots } = column
@@ -301,8 +301,8 @@ export const Cell = {
   },
 
   /**
-   * 单选
-   */
+     * 单选
+     */
   renderRadioHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column } = params
     const { slots } = column
@@ -376,15 +376,15 @@ export const Cell = {
   },
 
   /**
-   * 多选
-   */
+     * 多选
+     */
   renderCheckboxHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column, isHidden } = params
     const { reactData } = $table
     const { computeIsAllCheckboxDisabled, computeCheckboxOpts } = $table.getComputeMaps()
     const {
       isAllSelected: isAllCheckboxSelected,
-      treeIndeterminateList,
+      treeIndeterminateMaps,
       isIndeterminate: isAllCheckboxIndeterminate
     } = reactData
     const isAllCheckboxDisabled = computeIsAllCheckboxDisabled.value
@@ -425,13 +425,13 @@ export const Cell = {
         class: ['vxe-cell--checkbox', {
           'is--checked': isAllCheckboxSelected,
           'is--disabled': isAllCheckboxDisabled,
-          'is--indeterminate': isAllCheckboxIndeterminate || treeIndeterminateList.length > 0
+          'is--indeterminate': isAllCheckboxIndeterminate || Object.keys(treeIndeterminateMaps).length > 0
         }],
         title: GlobalConfig.i18n('vxe.table.allTitle'),
         ...ons
       }, [
         h('span', {
-          class: ['vxe-checkbox--icon', (isAllCheckboxIndeterminate || treeIndeterminateList.length > 0) ? GlobalConfig.icon.TABLE_CHECKBOX_INDETERMINATE : (isAllCheckboxSelected ? GlobalConfig.icon.TABLE_CHECKBOX_CHECKED : GlobalConfig.icon.TABLE_CHECKBOX_UNCHECKED)]
+          class: ['vxe-checkbox--icon', (isAllCheckboxIndeterminate || Object.keys(treeIndeterminateMaps).length > 0) ? GlobalConfig.icon.TABLE_CHECKBOX_INDETERMINATE : (isAllCheckboxSelected ? GlobalConfig.icon.TABLE_CHECKBOX_CHECKED : GlobalConfig.icon.TABLE_CHECKBOX_UNCHECKED)]
         })
       ].concat(titleSlot || headerTitle ? [
         h('span', {
@@ -511,7 +511,7 @@ export const Cell = {
     const { $table, row, column, isHidden } = params
     const { props, reactData } = $table
     const { treeConfig } = props
-    const { treeIndeterminateList } = reactData
+    const { treeIndeterminateMaps } = reactData
     const { computeCheckboxOpts } = $table.getComputeMaps()
     const checkboxOpts = computeCheckboxOpts.value
     const { labelField, checkField, checkMethod, visibleMethod } = checkboxOpts
@@ -576,8 +576,8 @@ export const Cell = {
   },
 
   /**
-   * 展开行
-   */
+     * 展开行
+     */
   renderExpandCell (params: VxeTableDefines.CellRenderBodyParams) {
     const { $table, isHidden, row, column } = params
     const { reactData } = $table
@@ -636,8 +636,8 @@ export const Cell = {
   },
 
   /**
-   * HTML 标签
-   */
+     * HTML 标签
+     */
   renderHTMLCell (params: VxeTableDefines.CellRenderBodyParams) {
     const { $table, column } = params
     const { slots } = column
@@ -657,8 +657,8 @@ export const Cell = {
   },
 
   /**
-   * 排序和筛选
-   */
+     * 排序和筛选
+     */
   renderSortAndFilterHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     return Cell.renderDefaultHeader(params)
       .concat(Cell.renderSortIcon(params))
@@ -666,8 +666,8 @@ export const Cell = {
   },
 
   /**
-   * 排序
-   */
+     * 排序
+     */
   renderSortHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     return Cell.renderDefaultHeader(params).concat(Cell.renderSortIcon(params))
   },
@@ -706,8 +706,8 @@ export const Cell = {
   },
 
   /**
-   * 筛选
-   */
+     * 筛选
+     */
   renderFilterHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     return Cell.renderDefaultHeader(params).concat(Cell.renderFilterIcon(params))
   },
@@ -736,8 +736,8 @@ export const Cell = {
   },
 
   /**
-   * 可编辑
-   */
+     * 可编辑
+     */
   renderEditHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column } = params
     const { props } = $table

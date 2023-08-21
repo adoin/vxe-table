@@ -843,8 +843,6 @@ export interface TableReactData<D = VxeTableDataRow> {
   treeExpandedMaps: Record<string, D>
   // 懒加载中的树节点的集合
   treeExpandLazyLoadedMaps: Record<string, D>
-  // 树节点不确定状态的列表
-  treeIndeterminateList: D[]
   // 树节点不确定状态的集合
   treeIndeterminateMaps: Record<string, D>
   // 合并单元格的对象集

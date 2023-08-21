@@ -30,8 +30,8 @@
   "typings": "types/index.d.ts",
   "devDependencies": {
     "@types/node": "^18.16.0",
-    "@types/webpack-env": "^1.18.1",
     "@types/resize-observer-browser": "^0.1.7",
+    "@types/webpack-env": "^1.18.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "@vue/cli-plugin-babel": "~5.0.0",
@@ -101,5 +101,8 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/adoin/vxe-table/issues"
+  },
+  "dependencies": {
+    "dom-zindex": "^0.4.0"
   }
 }

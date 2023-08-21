@@ -177,8 +177,6 @@ export default defineComponent({
       treeExpandedMaps: {},
       // 懒加载中的树节点的集合
       treeExpandLazyLoadedMaps: {},
-      // 树节点不确定状态的数组 author：Adoin
-      treeIndeterminateList: [],
       // 树节点不确定状态的集合
       treeIndeterminateMaps: {},
       // 合并单元格的对象集
@@ -945,8 +943,8 @@ export default defineComponent({
     }
 
     /**
-     * 还原自定义列操作状态
-     */
+         * 还原自定义列操作状态
+         */
     const restoreCustomStorage = () => {
       const { id, customConfig } = props
       const { collectColumn } = internalData
@@ -958,14 +956,14 @@ export default defineComponent({
       const isCustomOrder = storage === true || (storage && storage.order)
       if (customConfig && (isCustomResizable || isCustomVisible || isCustomFixed || isCustomOrder)) {
         const customMap: {
-          [key: string]: {
-            field?: VxeColumnPropTypes.Field
-            resizeWidth?: number
-            visible?: boolean
-            fixed?: string
-            order?: number
-          }
-        } = {}
+                    [key: string]: {
+                        field?: VxeColumnPropTypes.Field
+                        resizeWidth?: number
+                        visible?: boolean
+                        fixed?: string
+                        order?: number
+                    }
+                } = {}
         if (!id) {
           errLog('vxe.error.reqProp', ['id'])
           return
@@ -1033,8 +1031,8 @@ export default defineComponent({
           }
         }
         const keyMap: {
-          [key: string]: VxeTableDefines.ColumnInfo
-        } = {}
+                    [key: string]: VxeTableDefines.ColumnInfo
+                } = {}
         XEUtils.eachTree(collectColumn, (column) => {
           const colKey = column.getKey()
           if (colKey) {
@@ -1062,9 +1060,9 @@ export default defineComponent({
     }
 
     /**
-     * 更新数据列的 Map
-     * 牺牲数据组装的耗时，用来换取使用过程中的流畅
-     */
+         * 更新数据列的 Map
+         * 牺牲数据组装的耗时，用来换取使用过程中的流畅
+         */
     const cacheColumnMap = () => {
       const { tableFullColumn, collectColumn } = internalData
       const fullColumnIdData: any = internalData.fullColumnIdData = {}
@@ -1180,11 +1178,11 @@ export default defineComponent({
     }
 
     /**
-     * 列宽算法
-     * 支持 px、%、固定 混合分配
-     * 支持动态列表调整分配
-     * 支持自动分配偏移量
-     */
+         * 列宽算法
+         * 支持 px、%、固定 混合分配
+         * 支持动态列表调整分配
+         * 支持自动分配偏移量
+         */
     const autoCellWidth = () => {
       const tableHeader = refTableHeader.value
       const tableBody = refTableBody.value
@@ -1253,9 +1251,9 @@ export default defineComponent({
       })
       if (fit) {
         /**
-         * 偏移量算法
-         * 如果所有列足够放的情况下，从最后动态列开始分配
-         */
+                 * 偏移量算法
+                 * 如果所有列足够放的情况下，从最后动态列开始分配
+                 */
         const dynamicList = scaleList.concat(scaleMinList).concat(pxMinList).concat(autoList)
         let dynamicSize = dynamicList.length - 1
         if (dynamicSize > 0) {
@@ -1337,9 +1335,9 @@ export default defineComponent({
     }
 
     /**
-     * 预编译
-     * 对渲染中的数据提前解析序号及索引。牺牲提前编译耗时换取渲染中额外损耗，使运行时更加流畅
-     */
+         * 预编译
+         * 对渲染中的数据提前解析序号及索引。牺牲提前编译耗时换取渲染中额外损耗，使运行时更加流畅
+         */
     const updateAfterDataIndex = () => {
       const { treeConfig } = props
       const { afterFullData, fullDataRowIdData, fullAllDataRowIdData } = internalData
@@ -1382,9 +1380,9 @@ export default defineComponent({
     }
 
     /**
-     * 如果为虚拟树，将树结构拍平
-     * @returns
-     */
+         * 如果为虚拟树，将树结构拍平
+         * @returns
+         */
     const handleVirtualTreeToList = () => {
       const { treeConfig } = props
       const { treeExpandedMaps } = reactData
@@ -1392,8 +1390,8 @@ export default defineComponent({
       if (treeConfig && treeOpts.transform) {
         const fullData: any[] = []
         const expandMaps: {
-          [key: string]: number
-        } = {}
+                    [key: string]: number
+                } = {}
         XEUtils.eachTree(internalData.afterTreeFullData, (row, index, items, path, parent) => {
           const rowid = getRowid($xetable, row)
           const parentRowid = getRowid($xetable, parent)
@@ -1410,9 +1408,9 @@ export default defineComponent({
     }
 
     /**
-     * 获取处理后全量的表格数据
-     * 如果存在筛选条件，继续处理
-     */
+         * 获取处理后全量的表格数据
+         * 如果存在筛选条件，继续处理
+         */
     const updateAfterFullData = () => {
       const { treeConfig } = props
       const { tableFullColumn, tableFullData, tableFullTreeData } = internalData
@@ -1428,10 +1426,10 @@ export default defineComponent({
       // 处理列
       if (!allRemoteFilter || !allRemoteSort) {
         const filterColumns: {
-          column: VxeTableDefines.ColumnInfo
-          valueList: any[]
-          itemList: VxeTableDefines.FilterOption[]
-        }[] = []
+                    column: VxeTableDefines.ColumnInfo
+                    valueList: any[]
+                    itemList: VxeTableDefines.FilterOption[]
+                }[] = []
         let orderColumns: VxeTableDefines.SortCheckedParams[] = []
         tableFullColumn.forEach((column) => {
           const { field, sortable, order, filters } = column
@@ -1844,9 +1842,9 @@ export default defineComponent({
     }
 
     /**
-     * 当单元格发生改变时
-     * 如果存在规则，则校验
-     */
+         * 当单元格发生改变时
+         * 如果存在规则，则校验
+         */
     const handleChangeCell = (evnt: Event, params: any) => {
       checkValidate('blur')
         .catch((e: any) => e)
@@ -1886,8 +1884,8 @@ export default defineComponent({
     }
 
     /**
-     * 处理默认勾选
-     */
+         * 处理默认勾选
+         */
     const handleDefaultSelectionChecked = () => {
       const { checkboxConfig } = props
       if (checkboxConfig) {
@@ -1909,8 +1907,8 @@ export default defineComponent({
     }
 
     /**
-     * 处理单选框默认勾选
-     */
+         * 处理单选框默认勾选
+         */
     const handleDefaultRadioChecked = () => {
       const { radioConfig } = props
       if (radioConfig) {
@@ -1930,8 +1928,8 @@ export default defineComponent({
     }
 
     /**
-     * 处理默认展开行
-     */
+         * 处理默认展开行
+         */
     const handleDefaultRowExpand = () => {
       const { expandConfig } = props
       if (expandConfig) {
@@ -2014,9 +2012,9 @@ export default defineComponent({
         reactData.isAllSelected = value
       } else {
         /**
-         * 绑定属性方式（高性能，有污染）
-         * 必须在行数据存在对应的属性，否则将不响应
-         */
+                 * 绑定属性方式（高性能，有污染）
+                 * 必须在行数据存在对应的属性，否则将不响应
+                 */
         if (checkField) {
           const checkValFn = (row: any) => {
             if (isForce || (!checkMethod || checkMethod({ row }))) {
@@ -2038,15 +2036,15 @@ export default defineComponent({
           }
         } else {
           /**
-           * 默认方式（低性能，无污染）
-           * 无需任何属性，直接绑定
-           */
+                     * 默认方式（低性能，无污染）
+                     * 无需任何属性，直接绑定
+                     */
           if (treeConfig) {
             if (value) {
               /**
-               * 如果是树勾选
-               * 如果方法成立，则添加到临时集合中
-               */
+                             * 如果是树勾选
+                             * 如果方法成立，则添加到临时集合中
+                             */
               XEUtils.eachTree(afterFullData, (row) => {
                 if (isForce || (!checkMethod || checkMethod({ row }))) {
                   selectRowMaps[getRowid($xetable, row)] = row
@@ -2054,9 +2052,9 @@ export default defineComponent({
               }, treeOpts)
             } else {
               /**
-               * 如果是树取消
-               * 如果方法成立，则不添加到临时集合中
-               */
+                             * 如果是树取消
+                             * 如果方法成立，则不添加到临时集合中
+                             */
               if (!isForce && checkMethod) {
                 XEUtils.eachTree(afterFullData, (row) => {
                   const rowid = getRowid($xetable, row)
@@ -2069,10 +2067,10 @@ export default defineComponent({
           } else {
             if (value) {
               /**
-               * 如果是行勾选
-               * 如果存在选中方法且成立或者本身已勾选，则添加到临时集合中
-               * 如果不存在选中方法，则添加所有数据到临时集合中
-               */
+                             * 如果是行勾选
+                             * 如果存在选中方法且成立或者本身已勾选，则添加到临时集合中
+                             * 如果不存在选中方法，则添加所有数据到临时集合中
+                             */
               if (!isForce && checkMethod) {
                 afterFullData.forEach((row) => {
                   const rowid = getRowid($xetable, row)
@@ -2087,10 +2085,10 @@ export default defineComponent({
               }
             } else {
               /**
-               * 如果是行取消
-               * 如果方法成立，则不添加到临时集合中；如果方法不成立则判断当前是否已勾选，如果已被勾选则添加到新集合中
-               * 如果不存在选中方法，无需处理，临时集合默认为空
-               */
+                             * 如果是行取消
+                             * 如果方法成立，则不添加到临时集合中；如果方法不成立则判断当前是否已勾选，如果已被勾选则添加到新集合中
+                             * 如果不存在选中方法，无需处理，临时集合默认为空
+                             */
               if (!isForce && checkMethod) {
                 afterFullData.forEach((row) => {
                   const rowid = getRowid($xetable, row)
@@ -2169,8 +2167,8 @@ export default defineComponent({
     }
 
     /**
-     * 处理默认展开树节点
-     */
+         * 处理默认展开树节点
+         */
     const handleDefaultTreeExpand = () => {
       const { treeConfig } = props
       if (treeConfig) {
@@ -2350,9 +2348,9 @@ export default defineComponent({
       })
     }
     /**
-     * 加载表格数据
-     * @param {Array} datas 数据
-     */
+         * 加载表格数据
+         * @param {Array} datas 数据
+         */
     const loadTableData = (datas: any[]) => {
       const { keepSource, treeConfig } = props
       const { editStore, scrollYLoad: oldScrollYLoad } = reactData
@@ -2478,9 +2476,9 @@ export default defineComponent({
     }
 
     /**
-     * 处理数据加载默认行为
-     * 默认执行一次，除非被重置
-     */
+         * 处理数据加载默认行为
+         * 默认执行一次，除非被重置
+         */
     const handleLoadDefaults = () => {
       handleDefaultSelectionChecked()
       handleDefaultRadioChecked()
@@ -2492,9 +2490,9 @@ export default defineComponent({
     }
 
     /**
-     * 处理初始化的默认行为
-     * 只会执行一次
-     */
+         * 处理初始化的默认行为
+         * 只会执行一次
+         */
     const handleInitDefaults = () => {
       handleDefaultSort()
     }
@@ -2690,11 +2688,11 @@ export default defineComponent({
     }
 
     /**
-     * 展开与收起树节点
-     * @param rows
-     * @param expanded
-     * @returns
-     */
+         * 展开与收起树节点
+         * @param rows
+         * @param expanded
+         * @returns
+         */
     const handleBaseTreeExpand = (rows: any[], expanded: boolean) => {
       const { treeExpandedMaps, treeExpandLazyLoadedMaps, treeNodeColumn } = reactData
       const { fullAllDataRowIdData, tableFullData } = internalData
@@ -2759,11 +2757,11 @@ export default defineComponent({
     }
 
     /**
-     * 虚拟树的展开与收起
-     * @param rows
-     * @param expanded
-     * @returns
-     */
+         * 虚拟树的展开与收起
+         * @param rows
+         * @param expanded
+         * @returns
+         */
     const handleVirtualTreeExpand = (rows: any[], expanded: boolean) => {
       return handleBaseTreeExpand(rows, expanded).then(() => {
         handleVirtualTreeToList()
@@ -2774,8 +2772,8 @@ export default defineComponent({
     }
 
     /**
-     * 纵向 Y 可视渲染处理
-     */
+         * 纵向 Y 可视渲染处理
+         */
     const loadScrollYData = (evnt: Event) => {
       const { mergeList } = reactData
       const { scrollYStore } = internalData
@@ -2836,16 +2834,16 @@ export default defineComponent({
         emit(type, Object.assign({ $table: $xetable, $grid: $xegrid, $event: evnt }, params))
       },
       /**
-       * 重置表格的一切数据状态
-       */
+             * 重置表格的一切数据状态
+             */
       clearAll () {
         return clearTableAllStatus($xetable)
       },
       /**
-       * 同步 data 数据（即将废弃）
-       * 如果用了该方法，那么组件将不再记录增删改的状态，只能自行实现对应逻辑
-       * 对于某些特殊的场景，比如深层树节点元素发生变动时可能会用到
-       */
+             * 同步 data 数据（即将废弃）
+             * 如果用了该方法，那么组件将不再记录增删改的状态，只能自行实现对应逻辑
+             * 对于某些特殊的场景，比如深层树节点元素发生变动时可能会用到
+             */
       syncData () {
         return nextTick().then(() => {
           reactData.tableData = []
@@ -2854,9 +2852,9 @@ export default defineComponent({
         })
       },
       /**
-       * 手动处理数据，用于手动排序与筛选
-       * 对于手动更改了排序、筛选...等条件后需要重新处理数据时可能会用到
-       */
+             * 手动处理数据，用于手动排序与筛选
+             * 对于手动更改了排序、筛选...等条件后需要重新处理数据时可能会用到
+             */
       updateData () {
         const { scrollXLoad, scrollYLoad } = reactData
         return tablePrivateMethods.handleTableData(true).then(() => {
@@ -2879,9 +2877,9 @@ export default defineComponent({
         })
       },
       /**
-       * 重新加载数据，不会清空表格状态
-       * @param {Array} datas 数据
-       */
+             * 重新加载数据，不会清空表格状态
+             * @param {Array} datas 数据
+             */
       loadData (datas) {
         const { inited, initStatus } = internalData
         return loadTableData(datas).then(() => {
@@ -2897,9 +2895,9 @@ export default defineComponent({
         })
       },
       /**
-       * 重新加载数据，会清空表格状态
-       * @param {Array} datas 数据
-       */
+             * 重新加载数据，会清空表格状态
+             * @param {Array} datas 数据
+             */
       reloadData (datas) {
         const { inited } = internalData
         return tableMethods.clearAll()
@@ -2917,12 +2915,12 @@ export default defineComponent({
           })
       },
       /**
-       * 局部加载行数据并恢复到初始状态
-       * 对于行数据需要局部更改的场景中可能会用到
-       * @param {Row} row 行对象
-       * @param {Object} record 新数据
-       * @param {String} field 字段名
-       */
+             * 局部加载行数据并恢复到初始状态
+             * 对于行数据需要局部更改的场景中可能会用到
+             * @param {Row} row 行对象
+             * @param {Object} record 新数据
+             * @param {String} field 字段名
+             */
       reloadRow (row, record, field?: string) {
         const { keepSource } = props
         const { tableData } = reactData
@@ -2949,8 +2947,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 用于树结构，给行数据加载子节点
-       */
+             * 用于树结构，给行数据加载子节点
+             */
       loadTreeChildren (row, childRecords) {
         const { keepSource } = props
         const { tableSourceData, fullDataRowIdData, fullAllDataRowIdData } = internalData
@@ -2992,28 +2990,28 @@ export default defineComponent({
         })
       },
       /**
-       * 加载列配置
-       * 对于表格列需要重载、局部递增场景下可能会用到
-       * @param {ColumnInfo} columns 列配置
-       */
+             * 加载列配置
+             * 对于表格列需要重载、局部递增场景下可能会用到
+             * @param {ColumnInfo} columns 列配置
+             */
       loadColumn (columns) {
         const collectColumn = XEUtils.mapTree(columns, column => reactive(Cell.createColumn($xetable, column)))
         return handleColumn(collectColumn)
       },
       /**
-       * 加载列配置并恢复到初始状态
-       * 对于表格列需要重载、局部递增场景下可能会用到
-       * @param {ColumnInfo} columns 列配置
-       */
+             * 加载列配置并恢复到初始状态
+             * 对于表格列需要重载、局部递增场景下可能会用到
+             * @param {ColumnInfo} columns 列配置
+             */
       reloadColumn (columns) {
         return tableMethods.clearAll().then(() => {
           return tableMethods.loadColumn(columns)
         })
       },
       /**
-       * 根据 tr 元素获取对应的 row 信息
-       * @param {Element} tr 元素
-       */
+             * 根据 tr 元素获取对应的 row 信息
+             * @param {Element} tr 元素
+             */
       getRowNode (tr) {
         if (tr) {
           const { fullAllDataRowIdData } = internalData
@@ -3028,9 +3026,9 @@ export default defineComponent({
         return null
       },
       /**
-       * 根据 th/td 元素获取对应的 column 信息
-       * @param {Element} cell 元素
-       */
+             * 根据 th/td 元素获取对应的 column 信息
+             * @param {Element} cell 元素
+             */
       getColumnNode (cell) {
         if (cell) {
           const { fullColumnIdData } = internalData
@@ -3045,55 +3043,55 @@ export default defineComponent({
         return null
       },
       /**
-       * 根据 row 获取序号
-       * @param {Row} row 行对象
-       */
+             * 根据 row 获取序号
+             * @param {Row} row 行对象
+             */
       getRowSeq: createGetRowCacheProp('seq'),
       /**
-       * 根据 row 获取相对于 data 中的索引
-       * @param {Row} row 行对象
-       */
+             * 根据 row 获取相对于 data 中的索引
+             * @param {Row} row 行对象
+             */
       getRowIndex: createGetRowCacheProp('index') as ((row: any) => number),
       /**
-       * 根据 row 获取相对于当前数据中的索引
-       * @param {Row} row 行对象
-       */
+             * 根据 row 获取相对于当前数据中的索引
+             * @param {Row} row 行对象
+             */
       getVTRowIndex: createGetRowCacheProp('_index') as ((row: any) => number),
       /**
-       * 根据 row 获取渲染中的虚拟索引
-       * @param {Row} row 行对象
-       */
+             * 根据 row 获取渲染中的虚拟索引
+             * @param {Row} row 行对象
+             */
       getVMRowIndex: createGetRowCacheProp('$index') as ((row: any) => number),
       /**
-       * 根据 column 获取相对于 columns 中的索引
-       * @param {ColumnInfo} column 列配置
-       */
+             * 根据 column 获取相对于 columns 中的索引
+             * @param {ColumnInfo} column 列配置
+             */
       getColumnIndex: createGetColumnCacheProp('index'),
       /**
-       * 根据 column 获取相对于当前表格列中的索引
-       * @param {ColumnInfo} column 列配置
-       */
+             * 根据 column 获取相对于当前表格列中的索引
+             * @param {ColumnInfo} column 列配置
+             */
       getVTColumnIndex: createGetColumnCacheProp('_index'),
       /**
-       * 根据 column 获取渲染中的虚拟索引
-       * @param {ColumnInfo} column 列配置
-       */
+             * 根据 column 获取渲染中的虚拟索引
+             * @param {ColumnInfo} column 列配置
+             */
       getVMColumnIndex: createGetColumnCacheProp('$index'),
       /**
-       * 创建 data 对象
-       * 对于某些特殊场景可能会用到，会自动对数据的字段名进行检测，如果不存在就自动定义
-       * @param {Array} records 新数据
-       */
+             * 创建 data 对象
+             * 对于某些特殊场景可能会用到，会自动对数据的字段名进行检测，如果不存在就自动定义
+             * @param {Array} records 新数据
+             */
       createData (records) {
         return nextTick().then(() => {
           return reactive(tablePrivateMethods.defineField(records))
         })
       },
       /**
-       * 创建 Row|Rows 对象
-       * 对于某些特殊场景需要对数据进行手动插入时可能会用到
-       * @param {Array/Object} records 新数据
-       */
+             * 创建 Row|Rows 对象
+             * 对于某些特殊场景需要对数据进行手动插入时可能会用到
+             * @param {Array/Object} records 新数据
+             */
       createRow (records) {
         const isArr = XEUtils.isArray(records)
         if (!isArr) {
@@ -3102,12 +3100,12 @@ export default defineComponent({
         return tableMethods.createData(records).then((rows) => isArr ? rows : rows[0])
       },
       /**
-       * 还原数据
-       * 如果不传任何参数，则还原整个表格
-       * 如果传 row 则还原一行
-       * 如果传 rows 则还原多行
-       * 如果还额外传了 field 则还原指定的单元格数据
-       */
+             * 还原数据
+             * 如果不传任何参数，则还原整个表格
+             * 如果传 row 则还原一行
+             * 如果传 rows 则还原多行
+             * 如果还额外传了 field 则还原指定的单元格数据
+             */
       revertData (rows: any, field) {
         const { keepSource } = props
         const { tableSourceData, sourceDataRowIdData } = internalData
@@ -3146,14 +3144,14 @@ export default defineComponent({
         return tableMethods.reloadData(tableSourceData)
       },
       /**
-       * 清空单元格内容
-       * 如果不创参数，则清空整个表格内容
-       * 如果传 row 则清空一行内容
-       * 如果传 rows 则清空多行内容
-       * 如果还额外传了 field 则清空指定单元格内容
-       * @param {Array/Row} rows 行数据
-       * @param {String} field 字段名
-       */
+             * 清空单元格内容
+             * 如果不创参数，则清空整个表格内容
+             * 如果传 row 则清空一行内容
+             * 如果传 rows 则清空多行内容
+             * 如果还额外传了 field 则清空指定单元格内容
+             * @param {Array/Row} rows 行数据
+             * @param {String} field 字段名
+             */
       clearData (rows: any, field: string) {
         const { tableFullData, visibleColumn } = internalData
         if (!arguments.length) {
@@ -3175,28 +3173,28 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 检查是否为临时行数据
-       * @param {Row} row 行对象
-       */
+             * 检查是否为临时行数据
+             * @param {Row} row 行对象
+             */
       isInsertByRow (row) {
         const { editStore } = reactData
         const rowid = getRowid($xetable, row)
         return editStore.insertMaps[rowid]
       },
       /**
-       * 删除所有新增的临时数据
-       * @returns
-       */
+             * 删除所有新增的临时数据
+             * @returns
+             */
       removeInsertRow () {
         const { editStore } = reactData
         editStore.insertMaps = {}
         return $xetable.remove($xetable.getInsertRecords())
       },
       /**
-       * 检查行或列数据是否发生改变
-       * @param {Row} row 行对象
-       * @param {String} field 字段名
-       */
+             * 检查行或列数据是否发生改变
+             * @param {Row} row 行对象
+             * @param {String} field 字段名
+             */
       isUpdateByRow (row, field) {
         const { keepSource } = props
         const { tableFullColumn, fullDataRowIdData, sourceDataRowIdData } = internalData
@@ -3222,33 +3220,33 @@ export default defineComponent({
         return false
       },
       /**
-       * 获取表格的可视列，也可以指定索引获取列
-       * @param {Number} columnIndex 索引
-       */
+             * 获取表格的可视列，也可以指定索引获取列
+             * @param {Number} columnIndex 索引
+             */
       getColumns (columnIndex?: number): any {
         const columns = internalData.visibleColumn
         return XEUtils.isUndefined(columnIndex) ? columns.slice(0) : columns[columnIndex]
       },
       /**
-       * 根据列的唯一主键获取列
-       * @param {String} colid 列主键
-       */
+             * 根据列的唯一主键获取列
+             * @param {String} colid 列主键
+             */
       getColumnById (colid) {
         const fullColumnIdData = internalData.fullColumnIdData
         return fullColumnIdData[colid] ? fullColumnIdData[colid].column : null
       },
       /**
-       * 根据列的字段名获取列
-       * @param {String} field 字段名
-       */
+             * 根据列的字段名获取列
+             * @param {String} field 字段名
+             */
       getColumnByField (field) {
         const fullColumnFieldData = internalData.fullColumnFieldData
         return fullColumnFieldData[field] ? fullColumnFieldData[field].column : null
       },
       /**
-       * 获取当前表格的列
-       * 收集到的全量列、全量表头列、处理条件之后的全量表头列、当前渲染中的表头列
-       */
+             * 获取当前表格的列
+             * 收集到的全量列、全量表头列、处理条件之后的全量表头列、当前渲染中的表头列
+             */
       getTableColumn () {
         return {
           collectColumn: internalData.collectColumn.slice(0),
@@ -3258,15 +3256,15 @@ export default defineComponent({
         }
       },
       /**
-       * 获取数据，和 data 的行为一致，也可以指定索引获取数据
-       */
+             * 获取数据，和 data 的行为一致，也可以指定索引获取数据
+             */
       getData (rowIndex?: number) {
         const tableSynchData = props.data || internalData.tableSynchData
         return XEUtils.isUndefined(rowIndex) ? tableSynchData.slice(0) : tableSynchData[rowIndex]
       },
       /**
-       * 用于多选行，获取已选中的数据
-       */
+             * 用于多选行，获取已选中的数据
+             */
       getCheckboxRecords (isFull) {
         const { treeConfig } = props
         const {
@@ -3301,8 +3299,8 @@ export default defineComponent({
         return rowList
       },
       /**
-       * 只对 tree-config 有效，获取行的父级
-       */
+             * 只对 tree-config 有效，获取行的父级
+             */
       getParentRow (rowOrRowid) {
         const { treeConfig } = props
         const { fullDataRowIdData } = internalData
@@ -3320,26 +3318,26 @@ export default defineComponent({
         return null
       },
       /**
-       * 根据行的唯一主键获取行
-       * @param {String/Number} rowid 行主键
-       */
+             * 根据行的唯一主键获取行
+             * @param {String/Number} rowid 行主键
+             */
       getRowById (cellValue) {
         const { fullDataRowIdData } = internalData
         const rowid = XEUtils.eqNull(cellValue) ? '' : encodeURIComponent(cellValue)
         return fullDataRowIdData[rowid] ? fullDataRowIdData[rowid].row : null
       },
       /**
-       * 根据行获取行的唯一主键
-       * @param {Row} row 行对象
-       */
+             * 根据行获取行的唯一主键
+             * @param {Row} row 行对象
+             */
       getRowid (row) {
         return getRowid($xetable, row)
       },
       /**
-       * 获取处理后的表格数据
-       * 如果存在筛选条件，继续处理
-       * 如果存在排序，继续处理
-       */
+             * 获取处理后的表格数据
+             * 如果存在筛选条件，继续处理
+             * 如果存在排序，继续处理
+             */
       getTableData () {
         const { tableData, footerTableData } = reactData
         const { tableFullData, afterFullData } = internalData
@@ -3351,8 +3349,8 @@ export default defineComponent({
         }
       },
       /**
-       * 设置为固定列
-       */
+             * 设置为固定列
+             */
       setColumnFixed (fieldOrColumn, fixed) {
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
         const targetColumn = getRootColumn($xetable, column as any)
@@ -3377,8 +3375,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 取消指定固定列
-       */
+             * 取消指定固定列
+             */
       clearColumnFixed (fieldOrColumn) {
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
         const targetColumn = getRootColumn($xetable, column as any)
@@ -3392,8 +3390,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 隐藏指定列
-       */
+             * 隐藏指定列
+             */
       hideColumn (fieldOrColumn) {
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
         if (column && column.visible) {
@@ -3403,8 +3401,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 显示指定列
-       */
+             * 显示指定列
+             */
       showColumn (fieldOrColumn) {
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
         if (column && !column.visible) {
@@ -3436,10 +3434,10 @@ export default defineComponent({
         return 0
       },
       /**
-       * 手动重置列的显示隐藏、列宽拖动的状态、固定列、排序列；
-       * 如果为 true 则重置所有状态
-       * 如果已关联工具栏，则会同步更新
-       */
+             * 手动重置列的显示隐藏、列宽拖动的状态、固定列、排序列；
+             * 如果为 true 则重置所有状态
+             * 如果已关联工具栏，则会同步更新
+             */
       resetColumn (options) {
         const { collectColumn } = internalData
         const customOpts = computeCustomOpts.value
@@ -3469,9 +3467,9 @@ export default defineComponent({
         return tablePrivateMethods.handleCustom()
       },
       /**
-       * 刷新列信息
-       * 将固定的列左边、右边分别靠边
-       */
+             * 刷新列信息
+             * 将固定的列左边、右边分别靠边
+             */
       refreshColumn () {
         return parseColumns().then(() => {
           return tableMethods.refreshScroll()
@@ -3480,8 +3478,8 @@ export default defineComponent({
         })
       },
       /**
-       * 刷新滚动操作，手动同步滚动相关位置（对于某些特殊的操作，比如滚动条错位、固定列不同步）
-       */
+             * 刷新滚动操作，手动同步滚动相关位置（对于某些特殊的操作，比如滚动条错位、固定列不同步）
+             */
       refreshScroll () {
         const { lastScrollLeft, lastScrollTop } = internalData
         const tableBody = refTableBody.value
@@ -3510,9 +3508,9 @@ export default defineComponent({
         })
       },
       /**
-       * 计算单元格列宽，动态分配可用剩余空间
-       * 支持 width=? width=?px width=?% min-width=? min-width=?px min-width=?%
-       */
+             * 计算单元格列宽，动态分配可用剩余空间
+             * 支持 width=? width=?px width=?% min-width=? min-width=?px min-width=?%
+             */
       recalculate (refull?: boolean) {
         autoCellWidth()
         if (refull === true) {
@@ -3532,8 +3530,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 关闭 tooltip
-       */
+             * 关闭 tooltip
+             */
       closeTooltip () {
         const { tooltipStore } = reactData
         const $tooltip = refTooltip.value
@@ -3555,20 +3553,20 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 判断列头复选框是否被选中
-       */
+             * 判断列头复选框是否被选中
+             */
       isAllCheckboxChecked () {
         return reactData.isAllSelected
       },
       /**
-       * 判断列头复选框是否被半选
-       */
+             * 判断列头复选框是否被半选
+             */
       isAllCheckboxIndeterminate () {
         return !reactData.isAllSelected && reactData.isIndeterminate
       },
       /**
-       * 获取复选框半选状态的行数据
-       */
+             * 获取复选框半选状态的行数据
+             */
       getCheckboxIndeterminateRecords (isFull) {
         const { treeConfig } = props
         const { fullDataRowIdData } = internalData
@@ -3592,10 +3590,10 @@ export default defineComponent({
         return []
       },
       /**
-       * 用于多选行，设置行为选中状态，第二个参数为选中与否
-       * @param {Array/Row} rows 行数据
-       * @param {Boolean} value 是否选中
-       */
+             * 用于多选行，设置行为选中状态，第二个参数为选中与否
+             * @param {Array/Row} rows 行数据
+             * @param {Boolean} value 是否选中
+             */
       setCheckboxRow (rows: any, value) {
         return handleCheckedCheckboxRow(rows, value, true)
       },
@@ -3613,8 +3611,8 @@ export default defineComponent({
         return treeIndeterminateMaps[getRowid($xetable, row)] && !tableMethods.isCheckedByCheckboxRow(row)
       },
       /**
-       * 多选，切换某一行的选中状态
-       */
+             * 多选，切换某一行的选中状态
+             */
       toggleCheckboxRow (row) {
         const { selectCheckboxMaps } = reactData
         const checkboxOpts = computeCheckboxOpts.value
@@ -3624,15 +3622,15 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 用于多选行，设置所有行的选中状态
-       * @param {Boolean} value 是否选中
-       */
+             * 用于多选行，设置所有行的选中状态
+             * @param {Boolean} value 是否选中
+             */
       setAllCheckboxRow (value) {
         return handleCheckedAllCheckboxRow(value, true)
       },
       /**
-       * 获取单选框保留选中的行
-       */
+             * 获取单选框保留选中的行
+             */
       getRadioReserveRecord (isFull) {
         const { treeConfig } = props
         const { fullDataRowIdData, radioReserveRow, afterFullData } = internalData
@@ -3665,8 +3663,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 获取复选框保留选中的行
-       */
+             * 获取复选框保留选中的行
+             */
       getCheckboxReserveRecords (isFull) {
         const { treeConfig } = props
         const { afterFullData, fullDataRowIdData, checkboxReserveRowMap } = internalData
@@ -3705,16 +3703,16 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 多选，切换所有行的选中状态
-       */
+             * 多选，切换所有行的选中状态
+             */
       toggleAllCheckboxRow () {
         tablePrivateMethods.triggerCheckAllEvent(null, !reactData.isAllSelected)
         return nextTick()
       },
       /**
-       * 用于多选行，手动清空用户的选择
-       * 清空行为不管是否被禁用还是保留记录，都将彻底清空选中状态
-       */
+             * 用于多选行，手动清空用户的选择
+             * 清空行为不管是否被禁用还是保留记录，都将彻底清空选中状态
+             */
       clearCheckboxRow () {
         const { treeConfig } = props
         const { tableFullData } = internalData
@@ -3745,9 +3743,9 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 用于当前行，设置某一行为高亮状态
-       * @param {Row} row 行对象
-       */
+             * 用于当前行，设置某一行为高亮状态
+             * @param {Row} row 行对象
+             */
       setCurrentRow (row) {
         const rowOpts = computeRowOpts.value
         const el = refElem.value
@@ -3765,15 +3763,15 @@ export default defineComponent({
         return $xetable.eqRow(reactData.selectRadioRow, row)
       },
       /**
-       * 用于单选行，设置某一行为选中状态
-       * @param {Row} row 行对象
-       */
+             * 用于单选行，设置某一行为选中状态
+             * @param {Row} row 行对象
+             */
       setRadioRow (row) {
         return handleCheckedRadioRow(row, true)
       },
       /**
-       * 用于当前行，手动清空当前高亮的状态
-       */
+             * 用于当前行，手动清空当前高亮的状态
+             */
       clearCurrentRow () {
         const el = refElem.value
         reactData.currentRow = null
@@ -3784,22 +3782,22 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 用于单选行，手动清空用户的选择
-       */
+             * 用于单选行，手动清空用户的选择
+             */
       clearRadioRow () {
         reactData.selectRadioRow = null
         return nextTick()
       },
       /**
-       * 用于当前行，获取当前行的数据
-       */
+             * 用于当前行，获取当前行的数据
+             */
       getCurrentRecord () {
         const rowOpts = computeRowOpts.value
         return rowOpts.isCurrent || props.highlightCurrentRow ? reactData.currentRow : null
       },
       /**
-       * 用于单选行，获取当已选中的数据
-       */
+             * 用于单选行，获取当已选中的数据
+             */
       getRadioRecord (isFull) {
         const { fullDataRowIdData, afterFullRowMaps } = internalData
         const { selectRadioRow } = reactData
@@ -3822,8 +3820,8 @@ export default defineComponent({
         return columnOpts.isCurrent || props.highlightCurrentColumn ? reactData.currentColumn : null
       },
       /**
-       * 用于当前列，设置某列行为高亮状态
-       */
+             * 用于当前列，设置某列行为高亮状态
+             */
       setCurrentColumn (fieldOrColumn) {
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
         if (column) {
@@ -3834,8 +3832,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 用于当前列，手动清空当前高亮的状态
-       */
+             * 用于当前列，手动清空当前高亮的状态
+             */
       clearCurrentColumn () {
         reactData.currentColumn = null
         return nextTick()
@@ -3885,10 +3883,10 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 清空指定列的排序条件
-       * 如果为空则清空所有列的排序条件
-       * @param {String} fieldOrColumn 列或字段名
-       */
+             * 清空指定列的排序条件
+             * 如果为空则清空所有列的排序条件
+             * @param {String} fieldOrColumn 列或字段名
+             */
       clearSort (fieldOrColumn) {
         const sortOpts = computeSortOpts.value
         if (fieldOrColumn) {
@@ -3928,9 +3926,9 @@ export default defineComponent({
         return sortList
       },
       /**
-       * 关闭筛选
-       * @param {Event} evnt 事件
-       */
+             * 关闭筛选
+             * @param {Event} evnt 事件
+             */
       closeFilter () {
         const { filterStore } = reactData
         const { column, visible } = filterStore
@@ -3952,9 +3950,9 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 判断指定列是否为筛选状态，如果为空则判断所有列
-       * @param {String} fieldOrColumn 字段名
-       */
+             * 判断指定列是否为筛选状态，如果为空则判断所有列
+             * @param {String} fieldOrColumn 字段名
+             */
       isActiveFilterByColumn (fieldOrColumn) {
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
         if (column) {
@@ -3966,9 +3964,9 @@ export default defineComponent({
         return tableMethods.isActiveFilterByColumn(fieldOrColumn)
       },
       /**
-       * 判断展开行是否懒加载完成
-       * @param {Row} row 行对象
-       */
+             * 判断展开行是否懒加载完成
+             * @param {Row} row 行对象
+             */
       isRowExpandLoaded (row) {
         const { fullAllDataRowIdData } = internalData
         const rest = fullAllDataRowIdData[getRowid($xetable, row)]
@@ -3988,9 +3986,9 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 重新懒加载展开行，并展开内容
-       * @param {Row} row 行对象
-       */
+             * 重新懒加载展开行，并展开内容
+             * @param {Row} row 行对象
+             */
       reloadRowExpand (row) {
         const { rowExpandLazyLoadedMaps } = reactData
         const expandOpts = computeExpandOpts.value
@@ -4010,15 +4008,15 @@ export default defineComponent({
         return tableMethods.reloadRowExpand(row)
       },
       /**
-       * 切换展开行
-       */
+             * 切换展开行
+             */
       toggleRowExpand (row) {
         return tableMethods.setRowExpand(row, !tableMethods.isExpandByRow(row))
       },
       /**
-       * 设置所有行的展开与否
-       * @param {Boolean} expanded 是否展开
-       */
+             * 设置所有行的展开与否
+             * @param {Boolean} expanded 是否展开
+             */
       setAllRowExpand (expanded) {
         const treeOpts = computeTreeOpts.value
         const { tableFullData, tableFullTreeData } = internalData
@@ -4033,12 +4031,12 @@ export default defineComponent({
         return tableMethods.setRowExpand(expandedRows, expanded)
       },
       /**
-       * 设置展开行，二个参数设置这一行展开与否
-       * 支持单行
-       * 支持多行
-       * @param {Array/Row} rows 行数据
-       * @param {Boolean} expanded 是否展开
-       */
+             * 设置展开行，二个参数设置这一行展开与否
+             * 支持单行
+             * 支持多行
+             * @param {Array/Row} rows 行数据
+             * @param {Boolean} expanded 是否展开
+             */
       setRowExpand (rows, expanded) {
         let { rowExpandedMaps, rowExpandLazyLoadedMaps, expandColumn: column } = reactData
         const { fullAllDataRowIdData } = internalData
@@ -4095,17 +4093,17 @@ export default defineComponent({
         return Promise.all(lazyRests).then(() => tableMethods.recalculate())
       },
       /**
-       * 判断行是否为展开状态
-       * @param {Row} row 行对象
-       */
+             * 判断行是否为展开状态
+             * @param {Row} row 行对象
+             */
       isExpandByRow (row) {
         const { rowExpandedMaps } = reactData
         const rowid = getRowid($xetable, row)
         return !!rowExpandedMaps[rowid]
       },
       /**
-       * 手动清空展开行状态，数据会恢复成未展开的状态
-       */
+             * 手动清空展开行状态，数据会恢复成未展开的状态
+             */
       clearRowExpand () {
         const { tableFullData } = internalData
         const expandOpts = computeExpandOpts.value
@@ -4144,9 +4142,9 @@ export default defineComponent({
         return rest
       },
       /**
-       * 判断树节点是否懒加载完成
-       * @param {Row} row 行对象
-       */
+             * 判断树节点是否懒加载完成
+             * @param {Row} row 行对象
+             */
       isTreeExpandLoaded (row) {
         const { fullAllDataRowIdData } = internalData
         const rest = fullAllDataRowIdData[getRowid($xetable, row)]
@@ -4172,9 +4170,9 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 重新懒加载树节点，并展开该节点
-       * @param {Row} row 行对象
-       */
+             * 重新懒加载树节点，并展开该节点
+             * @param {Row} row 行对象
+             */
       reloadTreeExpand (row) {
         const { treeExpandLazyLoadedMaps } = reactData
         const treeOpts = computeTreeOpts.value
@@ -4203,15 +4201,15 @@ export default defineComponent({
         return tableMethods.reloadTreeExpand(row)
       },
       /**
-       * 切换/展开树节点
-       */
+             * 切换/展开树节点
+             */
       toggleTreeExpand (row) {
         return tableMethods.setTreeExpand(row, !tableMethods.isTreeExpandByRow(row))
       },
       /**
-       * 设置所有树节点的展开与否
-       * @param {Boolean} expanded 是否展开
-       */
+             * 设置所有树节点的展开与否
+             * @param {Boolean} expanded 是否展开
+             */
       setAllTreeExpand (expanded: boolean) {
         const { tableFullData } = internalData
         const treeOpts = computeTreeOpts.value
@@ -4232,12 +4230,12 @@ export default defineComponent({
         })
       },
       /**
-       * 设置展开树形节点，二个参数设置这一行展开与否
-       * 支持单行
-       * 支持多行
-       * @param {Array/Row} rows 行数据
-       * @param {Boolean} expanded 是否展开
-       */
+             * 设置展开树形节点，二个参数设置这一行展开与否
+             * 支持单行
+             * 支持多行
+             * @param {Array/Row} rows 行数据
+             * @param {Boolean} expanded 是否展开
+             */
       setTreeExpand (rows, expanded) {
         const treeOpts = computeTreeOpts.value
         const { transform } = treeOpts
@@ -4257,16 +4255,16 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 判断行是否为树形节点展开状态
-       * @param {Row} row 行对象
-       */
+             * 判断行是否为树形节点展开状态
+             * @param {Row} row 行对象
+             */
       isTreeExpandByRow (row) {
         const { treeExpandedMaps } = reactData
         return !!treeExpandedMaps[getRowid($xetable, row)]
       },
       /**
-       * 手动清空树形节点的展开状态，数据会恢复成未展开的状态
-       */
+             * 手动清空树形节点的展开状态，数据会恢复成未展开的状态
+             */
       clearTreeExpand () {
         const { tableFullTreeData } = internalData
         const treeOpts = computeTreeOpts.value
@@ -4292,8 +4290,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 获取表格的滚动状态
-       */
+             * 获取表格的滚动状态
+             */
       getScroll () {
         const { scrollXLoad, scrollYLoad } = reactData
         const tableBody = refTableBody.value
@@ -4306,10 +4304,10 @@ export default defineComponent({
         }
       },
       /**
-       * 如果有滚动条，则滚动到对应的位置
-       * @param {Number} scrollLeft 左距离
-       * @param {Number} scrollTop 上距离
-       */
+             * 如果有滚动条，则滚动到对应的位置
+             * @param {Number} scrollLeft 左距离
+             * @param {Number} scrollTop 上距离
+             */
       scrollTo (scrollLeft: number, scrollTop?: number) {
         const tableBody = refTableBody.value
         const tableFooter = refTableFooter.value
@@ -4335,10 +4333,10 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 如果有滚动条，则滚动到对应的行
-       * @param {Row} row 行对象
-       * @param {ColumnInfo} fieldOrColumn 列配置
-       */
+             * 如果有滚动条，则滚动到对应的行
+             * @param {Row} row 行对象
+             * @param {ColumnInfo} fieldOrColumn 列配置
+             */
       scrollToRow (row, fieldOrColumn) {
         const rest = []
         if (row) {
@@ -4354,8 +4352,8 @@ export default defineComponent({
         return Promise.all(rest)
       },
       /**
-       * 如果有滚动条，则滚动到对应的列
-       */
+             * 如果有滚动条，则滚动到对应的列
+             */
       scrollToColumn (fieldOrColumn) {
         const { fullColumnIdData } = internalData
         const column = handleFieldOrColumn($xetable, fieldOrColumn)
@@ -4365,8 +4363,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 手动清除滚动相关信息，还原到初始状态
-       */
+             * 手动清除滚动相关信息，还原到初始状态
+             */
       clearScroll () {
         const { scrollXStore, scrollYStore } = internalData
         const tableBody = refTableBody.value
@@ -4392,8 +4390,8 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 更新表尾合计
-       */
+             * 更新表尾合计
+             */
       updateFooter () {
         const { showFooter, footerMethod } = props
         const { visibleColumn, afterFullData } = internalData
@@ -4408,10 +4406,10 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 更新列状态
-       * 如果组件值 v-model 发生 change 时，调用改函数用于更新某一列编辑状态
-       * 如果单元格配置了校验规则，则会进行校验
-       */
+             * 更新列状态
+             * 如果组件值 v-model 发生 change 时，调用改函数用于更新某一列编辑状态
+             * 如果单元格配置了校验规则，则会进行校验
+             */
       updateStatus (slotParams, cellValue) {
         const customVal = !XEUtils.isUndefined(cellValue)
         return nextTick().then(() => {
@@ -4445,9 +4443,9 @@ export default defineComponent({
         })
       },
       /**
-       * 设置合并单元格
-       * @param {TableMergeConfig[]} merges { row: Row|number, column: ColumnInfo|number, rowspan: number, colspan: number }
-       */
+             * 设置合并单元格
+             * @param {TableMergeConfig[]} merges { row: Row|number, column: ColumnInfo|number, rowspan: number, colspan: number }
+             */
       setMergeCells (merges) {
         if (props.spanMethod) {
           errLog('vxe.error.errConflicts', ['merge-cells', 'span-method'])
@@ -4456,9 +4454,9 @@ export default defineComponent({
         return nextTick().then(() => tableMethods.updateCellAreas())
       },
       /**
-       * 移除单元格合并
-       * @param {TableMergeConfig[]} merges 多个或数组 [{row:Row|number, col:ColumnInfo|number}]
-       */
+             * 移除单元格合并
+             * @param {TableMergeConfig[]} merges 多个或数组 [{row:Row|number, col:ColumnInfo|number}]
+             */
       removeMergeCells (merges) {
         if (props.spanMethod) {
           errLog('vxe.error.errConflicts', ['merge-cells', 'span-method'])
@@ -4470,14 +4468,14 @@ export default defineComponent({
         })
       },
       /**
-       * 获取所有被合并的单元格
-       */
+             * 获取所有被合并的单元格
+             */
       getMergeCells () {
         return reactData.mergeList.slice(0)
       },
       /**
-       * 清除所有单元格合并
-       */
+             * 清除所有单元格合并
+             */
       clearMergeCells () {
         reactData.mergeList = []
         return nextTick()
@@ -4500,14 +4498,14 @@ export default defineComponent({
         })
       },
       /**
-       * 获取所有被合并的表尾
-       */
+             * 获取所有被合并的表尾
+             */
       getMergeFooterItems () {
         return reactData.mergeFooterList.slice(0)
       },
       /**
-       * 清除所有表尾合并
-       */
+             * 清除所有表尾合并
+             */
       clearMergeFooterItems () {
         reactData.mergeFooterList = []
         return nextTick()
@@ -4529,9 +4527,9 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 连接工具栏
-       * @param $toolbar
-       */
+             * 连接工具栏
+             * @param $toolbar
+             */
       connect ($toolbar) {
         if ($toolbar) {
           $xetoolbar = $toolbar
@@ -4544,8 +4542,8 @@ export default defineComponent({
     }
 
     /**
-     * 全局按下事件处理
-     */
+         * 全局按下事件处理
+         */
     const handleGlobalMousedownEvent = (evnt: MouseEvent) => {
       const { editStore, ctxMenuStore, filterStore } = reactData
       const { mouseConfig, editRules } = props
@@ -4607,8 +4605,8 @@ export default defineComponent({
                   }
                   if (
                     isClear ||
-                    // 如果点击了当前表格之外
-                    !getEventTargetNode(evnt, el).flag
+                                        // 如果点击了当前表格之外
+                                        !getEventTargetNode(evnt, el).flag
                   ) {
                     setTimeout(() => $xetable.clearEdit(evnt))
                   }
@@ -4646,8 +4644,8 @@ export default defineComponent({
     }
 
     /**
-     * 窗口失焦事件处理
-     */
+         * 窗口失焦事件处理
+         */
     const handleGlobalBlurEvent = () => {
       tableMethods.closeFilter()
       if ($xetable.closeMenu) {
@@ -4656,8 +4654,8 @@ export default defineComponent({
     }
 
     /**
-     * 全局滚动事件
-     */
+         * 全局滚动事件
+         */
     const handleGlobalMousewheelEvent = () => {
       tableMethods.closeTooltip()
       if ($xetable.closeMenu) {
@@ -4666,8 +4664,8 @@ export default defineComponent({
     }
 
     /**
-     * 表格键盘事件
-     */
+         * 表格键盘事件
+         */
     const keydownEvent = (evnt: KeyboardEvent) => {
       const { mouseConfig, keyboardConfig } = props
       const { filterStore, ctxMenuStore, editStore } = reactData
@@ -4706,8 +4704,8 @@ export default defineComponent({
     }
 
     /**
-     * 全局键盘事件
-     */
+         * 全局键盘事件
+         */
     const handleGlobalKeydownEvent = (evnt: KeyboardEvent) => {
       // 该行为只对当前激活的表格有效
       if (internalData.isActivated) {
@@ -5011,13 +5009,13 @@ export default defineComponent({
     }
 
     /**
-     * 处理显示 tooltip
-     * @param {Event} evnt 事件
-     * @param cell 单元格
-     * @param overflowElem 溢出的文本元素
-     * @param tipElem tooltip元素
-     * @param params 参数
-     */
+         * 处理显示 tooltip
+         * @param {Event} evnt 事件
+         * @param cell 单元格
+         * @param overflowElem 溢出的文本元素
+         * @param tipElem tooltip元素
+         * @param params 参数
+         */
     const handleTooltip = (evnt: MouseEvent, cell: HTMLTableCellElement, overflowElem: HTMLElement, tipElem: HTMLElement | null, params: any) => {
       params.cell = cell
       const { tooltipStore } = reactData
@@ -5046,8 +5044,8 @@ export default defineComponent({
     }
 
     /**
-     * 内部方法
-     */
+         * 内部方法
+         */
     tablePrivateMethods = {
       getSetupOptions () {
         return GlobalConfig
@@ -5065,8 +5063,8 @@ export default defineComponent({
         return []
       },
       /**
-       * 获取父容器元素
-       */
+             * 获取父容器元素
+             */
       getParentElem () {
         const el = refElem.value
         if ($xegrid) {
@@ -5076,8 +5074,8 @@ export default defineComponent({
         return el ? el.parentNode as HTMLElement : null
       },
       /**
-       * 获取父容器的高度
-       */
+             * 获取父容器的高度
+             */
       getParentHeight () {
         const { height } = props
         const el = refElem.value
@@ -5089,17 +5087,17 @@ export default defineComponent({
         return 0
       },
       /**
-       * 获取需要排除的高度
-       * 但渲染表格高度时，需要排除工具栏或分页等相关组件的高度
-       * 如果存在表尾合计滚动条，则需要排除滚动条高度
-       */
+             * 获取需要排除的高度
+             * 但渲染表格高度时，需要排除工具栏或分页等相关组件的高度
+             * 如果存在表尾合计滚动条，则需要排除滚动条高度
+             */
       getExcludeHeight () {
         return $xegrid ? $xegrid.getExcludeHeight() : 0
       },
       /**
-       * 定义行数据中的列属性，如果不存在则定义
-       * @param {Row} records 行数据
-       */
+             * 定义行数据中的列属性，如果不存在则定义
+             * @param {Row} records 行数据
+             */
       defineField (records) {
         const { treeConfig } = props
         const expandOpts = computeExpandOpts.value
@@ -5166,9 +5164,9 @@ export default defineComponent({
         return nextTick()
       },
       /**
-       * 更新数据行的 Map
-       * 牺牲数据组装的耗时，用来换取使用过程中的流畅
-       */
+             * 更新数据行的 Map
+             * 牺牲数据组装的耗时，用来换取使用过程中的流畅
+             */
       cacheRowMap (isSource) {
         const { treeConfig } = props
         const treeOpts = computeTreeOpts.value
@@ -5238,8 +5236,8 @@ export default defineComponent({
         internalData.tableSourceData = sourceData
       },
       /**
-       * 指定列宽的列进行拆分
-       */
+             * 指定列宽的列进行拆分
+             */
       analyColumnWidth () {
         const { tableFullColumn } = internalData
         const columnOpts = computeColumnOpts.value
@@ -5395,14 +5393,13 @@ export default defineComponent({
         const childrenField = treeOpts.children || treeOpts.childrenField
         const backupData = XEUtils.clone(treeData)
         const checkHalf = (row: VxeTableDataRow) => row[childrenField] && row[childrenField].length &&
-          (row[childrenField].some((s: VxeTableDataRow) => checkHalf(s)) || (row[childrenField].some((r: VxeTableDataRow) => r[checkField]) && row[childrenField].some((r: VxeTableDataRow) => !r[checkField])))
-        reactData.treeIndeterminateList = []
+                    (row[childrenField].some((s: VxeTableDataRow) => checkHalf(s)) || (row[childrenField].some((r: VxeTableDataRow) => r[checkField]) && row[childrenField].some((r: VxeTableDataRow) => !r[checkField])))
+        reactData.treeIndeterminateMaps = {}
         XEUtils.eachTree(backupData, (row) => {
           if (checkHalf(row)) {
-            reactData.treeIndeterminateList.push(row)
+            reactData.treeIndeterminateMaps[getRowid($xetable, row)] = row
           }
         })
-        console.log(' log -：5399 treeIndeterminateList', reactData.treeIndeterminateList)
       },
       checkSelectionStatus () {
         const { treeConfig } = props
@@ -5480,9 +5477,9 @@ export default defineComponent({
         }
       },
       /**
-       * 多选，行选中事件
-       * value 选中true 不选false 半选-1
-       */
+             * 多选，行选中事件
+             * value 选中true 不选false 半选-1
+             */
       handleSelectRow ({ row }, value, isForce) {
         const { treeConfig } = props
         const { selectCheckboxMaps, treeIndeterminateMaps } = reactData
@@ -5663,8 +5660,8 @@ export default defineComponent({
         }
       },
       /**
-       * 触发表头 tooltip 事件
-       */
+             * 触发表头 tooltip 事件
+             */
       triggerHeaderTooltipEvent (evnt, params) {
         const { tooltipStore } = reactData
         const { column } = params
@@ -5675,8 +5672,8 @@ export default defineComponent({
         }
       },
       /**
-       * 触发单元格 tooltip 事件
-       */
+             * 触发单元格 tooltip 事件
+             */
       triggerBodyTooltipEvent (evnt, params) {
         const { editConfig } = props
         const { editStore } = reactData
@@ -5712,8 +5709,8 @@ export default defineComponent({
         }
       },
       /**
-       * 触发表尾 tooltip 事件
-       */
+             * 触发表尾 tooltip 事件
+             */
       triggerFooterTooltipEvent (evnt, params) {
         const { column } = params
         const { tooltipStore } = reactData
@@ -5766,10 +5763,10 @@ export default defineComponent({
         tableMethods.dispatchEvent('header-cell-dblclick', Object.assign({ cell: evnt.currentTarget }, params), evnt)
       },
       /**
-       * 列点击事件
-       * 如果是单击模式，则激活为编辑状态
-       * 如果是双击模式，则单击后选中状态
-       */
+             * 列点击事件
+             * 如果是单击模式，则激活为编辑状态
+             * 如果是双击模式，则单击后选中状态
+             */
       triggerCellClickEvent (evnt, params) {
         const { highlightCurrentRow, editConfig } = props
         const { editStore } = reactData
@@ -5839,9 +5836,9 @@ export default defineComponent({
         tableMethods.dispatchEvent('cell-click', params, evnt)
       },
       /**
-       * 列双击点击事件
-       * 如果是双击模式，则激活为编辑状态
-       */
+             * 列双击点击事件
+             * 如果是双击模式，则激活为编辑状态
+             */
       triggerCellDblclickEvent (evnt, params) {
         const { editConfig } = props
         const { editStore } = reactData
@@ -5916,8 +5913,8 @@ export default defineComponent({
         }
       },
       /**
-       * 多选，选中所有事件
-       */
+             * 多选，选中所有事件
+             */
       triggerCheckAllEvent (evnt, value) {
         handleCheckedAllCheckboxRow(value)
         if (evnt) {
@@ -5930,8 +5927,8 @@ export default defineComponent({
         }
       },
       /**
-       * 单选，行选中事件
-       */
+             * 单选，行选中事件
+             */
       triggerRadioRowEvent (evnt, params) {
         const { selectRadioRow: oldValue } = reactData
         const { row } = params
@@ -5961,8 +5958,8 @@ export default defineComponent({
         }
       },
       /**
-       * 展开行事件
-       */
+             * 展开行事件
+             */
       triggerRowExpandEvent (evnt, params) {
         const { rowExpandLazyLoadedMaps, expandColumn: column } = reactData
         const expandOpts = computeExpandOpts.value
@@ -5986,8 +5983,8 @@ export default defineComponent({
         }
       },
       /**
-       * 展开树节点事件
-       */
+             * 展开树节点事件
+             */
       triggerTreeExpandEvent (evnt, params) {
         const { treeExpandLazyLoadedMaps } = reactData
         const treeOpts = computeTreeOpts.value
@@ -6003,8 +6000,8 @@ export default defineComponent({
         }
       },
       /**
-       * 点击排序事件
-       */
+             * 点击排序事件
+             */
       triggerSortEvent (evnt, column, order) {
         const { mouseConfig } = props
         const sortOpts = computeSortOpts.value
@@ -6033,14 +6030,14 @@ export default defineComponent({
         }
       },
       /**
-       * 横向 X 可视渲染事件处理
-       */
+             * 横向 X 可视渲染事件处理
+             */
       triggerScrollXEvent () {
         loadScrollXData()
       },
       /**
-       * 纵向 Y 可视渲染事件处理
-       */
+             * 纵向 Y 可视渲染事件处理
+             */
       triggerScrollYEvent (evnt) {
         const { scrollYStore } = internalData
         const { adaptive, offsetSize, visibleSize } = scrollYStore
@@ -6052,10 +6049,10 @@ export default defineComponent({
         }
       },
       /**
-       * 对于树形结构中，可以直接滚动到指定深层节点中
-       * 对于某些特定的场景可能会用到，比如定位到某一节点
-       * @param {Row} row 行对象
-       */
+             * 对于树形结构中，可以直接滚动到指定深层节点中
+             * 对于某些特定的场景可能会用到，比如定位到某一节点
+             * @param {Row} row 行对象
+             */
       scrollToTreeRow (row) {
         const { treeConfig } = props
         const { tableFullData } = internalData
@@ -6161,8 +6158,8 @@ export default defineComponent({
         })
       },
       /**
-       * 处理固定列的显示状态
-       */
+             * 处理固定列的显示状态
+             */
       checkScrolling () {
         const leftContainerElem = refLeftContainer.value
         const rightContainerElem = refRightContainer.value
@@ -6194,8 +6191,8 @@ export default defineComponent({
       },
       handleCheckedCheckboxRow,
       /**
-       * 行 hover 事件
-       */
+             * 行 hover 事件
+             */
       triggerHoverEvent (evnt, { row }) {
         tablePrivateMethods.setHoverRow(row)
       },
@@ -6314,11 +6311,11 @@ export default defineComponent({
     Object.assign($xetable, tableMethods, tablePrivateMethods)
 
     /**
-     * 渲染浮固定列
-     * 分别渲染左边固定列和右边固定列
-     * 如果宽度足够情况下，则不需要渲染固定列
-     * @param {String} fixedType 固定列类型
-     */
+         * 渲染浮固定列
+         * 分别渲染左边固定列和右边固定列
+         * 如果宽度足够情况下，则不需要渲染固定列
+         * @param {String} fixedType 固定列类型
+         */
     const renderFixed = (fixedType: 'left' | 'right') => {
       const { showHeader, showFooter } = props
       const { tableData, tableColumn, tableGroupColumn, columnStore, footerTableData } = reactData
@@ -6809,8 +6806,8 @@ export default defineComponent({
         onKeydown: keydownEvent
       }, [
         /**
-         * 隐藏列
-         */
+                 * 隐藏列
+                 */
         h('div', {
           class: 'vxe-table-slots'
         }, slots.default ? slots.default({}) : []),
@@ -6821,8 +6818,8 @@ export default defineComponent({
             class: 'vxe-table--main-wrapper'
           }, [
             /**
-             * 表头
-             */
+                         * 表头
+                         */
             showHeader ? h(TableHeaderComponent, {
               ref: refTableHeader,
               tableData,
@@ -6830,16 +6827,16 @@ export default defineComponent({
               tableGroupColumn
             }) : createCommentVNode(),
             /**
-             * 表体
-             */
+                         * 表体
+                         */
             h(TableBodyComponent as ComponentOptions, {
               ref: refTableBody,
               tableData,
               tableColumn
             }),
             /**
-             * 表尾
-             */
+                         * 表尾
+                         */
             showFooter ? h(TableFooterComponent, {
               ref: refTableFooter,
               footerTableData,
@@ -6850,18 +6847,18 @@ export default defineComponent({
             class: 'vxe-table--fixed-wrapper'
           }, [
             /**
-             * 左侧固定区域
-             */
+                         * 左侧固定区域
+                         */
             leftList && leftList.length && overflowX ? renderFixed('left') : createCommentVNode(),
             /**
-             * 右侧固定区域
-             */
+                         * 右侧固定区域
+                         */
             rightList && rightList.length && overflowX ? renderFixed('right') : createCommentVNode()
           ])
         ]),
         /**
-         * 空数据
-         */
+                 * 空数据
+                 */
         h('div', {
           ref: refEmptyPlaceholder,
           class: 'vxe-table--empty-placeholder'
@@ -6871,14 +6868,14 @@ export default defineComponent({
           }, renderEmptyContenet())
         ]),
         /**
-         * 边框线
-         */
+                 * 边框线
+                 */
         h('div', {
           class: 'vxe-table--border-line'
         }),
         /**
-         * 列宽线
-         */
+                 * 列宽线
+                 */
         h('div', {
           ref: refCellResizeBar,
           class: 'vxe-table--resizable-bar',
@@ -6887,8 +6884,8 @@ export default defineComponent({
           } : null
         }),
         /**
-         * 加载中
-         */
+                 * 加载中
+                 */
         h(VxeLoading, {
           class: 'vxe-table--loading',
           modelValue: loading,
@@ -6898,43 +6895,43 @@ export default defineComponent({
           default: () => loadingSlot({ $table: $xetable, $grid: $xegrid })
         } : {}),
         /**
-         * 筛选
-         */
+                 * 筛选
+                 */
         initStore.filter ? h(resolveComponent('vxe-table-filter') as ComponentOptions, {
           ref: refTableFilter,
           filterStore
         }) : createCommentVNode(),
         /**
-         * 导入
-         */
+                 * 导入
+                 */
         initStore.import && props.importConfig ? h(resolveComponent('vxe-import-panel') as ComponentOptions, {
           defaultOptions: reactData.importParams,
           storeData: reactData.importStore
         }) : createCommentVNode(),
         /**
-         * 导出/导出
-         */
+                 * 导出/导出
+                 */
         initStore.export && (props.exportConfig || props.printConfig) ? h(resolveComponent('vxe-export-panel') as ComponentOptions, {
           defaultOptions: reactData.exportParams,
           storeData: reactData.exportStore
         }) : createCommentVNode(),
         /**
-         * 快捷菜单
-         */
+                 * 快捷菜单
+                 */
         isMenu ? h(resolveComponent('vxe-table-context-menu') as ComponentOptions, {
           ref: refTableMenu
         }) : createCommentVNode(),
         /**
-         * 通用提示
-         */
+                 * 通用提示
+                 */
         hasUseTooltip ? h(resolveComponent('vxe-tooltip') as ComponentOptions, {
           ref: refCommTooltip,
           isArrow: false,
           enterable: false
         }) : createCommentVNode(),
         /**
-         * 校验提示
-         */
+                 * 校验提示
+                 */
         hasUseTooltip && props.editRules && validOpts.showMessage && (validOpts.message === 'default' ? !height : validOpts.message === 'tooltip') ? h(resolveComponent('vxe-tooltip') as ComponentOptions, {
           ref: refValidTooltip,
           class: [{
@@ -6943,8 +6940,8 @@ export default defineComponent({
           ...(validOpts.message === 'tooltip' || tableData.length === 1 ? validTipOpts : {})
         }) : createCommentVNode(),
         /**
-         * 工具提示
-         */
+                 * 工具提示
+                 */
         hasUseTooltip ? h(resolveComponent('vxe-tooltip') as ComponentOptions, {
           ref: refTooltip,
           ...tipConfig

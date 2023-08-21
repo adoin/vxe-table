@@ -5,11 +5,11 @@
     </p>
 
     <vxe-table
-      resizable
-      :tree-config="{transform: true, rowField: 'id', parentField: 'parentId'}"
-      :data="demo1.tableData"
-      :checkbox-config="{checkField:'checked',labelField: 'id', highlight: true}"
-      @checkbox-change="selectChangeEvent">
+        resizable
+        :tree-config="{transform: true, rowField: 'id', parentField: 'parentId'}"
+        :data="demo1.tableData"
+        :checkbox-config="{checkField:'checked',labelField: 'id', highlight: true}"
+        @checkbox-change="selectChangeEvent">
       <vxe-column type="checkbox" title="ID" width="280" tree-node></vxe-column>
       <vxe-column field="name" title="Name"></vxe-column>
       <vxe-column field="size" title="Size"></vxe-column>
@@ -21,11 +21,11 @@
     </p>
 
     <vxe-table
-      resizable
-      :tree-config="{transform: true, rowField: 'id', parentField: 'parentId'}"
-      :data="demo1.tableData"
-      :checkbox-config="{labelField: 'id', highlight: true}"
-      @checkbox-change="selectChangeEvent">
+        resizable
+        :tree-config="{transform: true, rowField: 'id', parentField: 'parentId'}"
+        :data="demo1.tableData"
+        :checkbox-config="{labelField: 'id', highlight: true}"
+        @checkbox-change="selectChangeEvent">
       <vxe-column type="checkbox" title="ID" width="280" tree-node></vxe-column>
       <vxe-column field="name" title="Name"></vxe-column>
       <vxe-column field="size" title="Size"></vxe-column>
@@ -46,12 +46,12 @@
     </p>
 
     <vxe-table
-      resizable
-      :row-config="{keyField: 'id'}"
-      :data="demo2.tableData"
-      :tree-config="{transform: true}"
-      :checkbox-config="{labelField: 'name', checkRowKeys: [10053, 23666]}"
-      @checkbox-change="selectChangeEvent">
+        resizable
+        :row-config="{keyField: 'id'}"
+        :data="demo2.tableData"
+        :tree-config="{transform: true}"
+        :checkbox-config="{labelField: 'name', checkRowKeys: [10053, 23666]}"
+        @checkbox-change="selectChangeEvent">
       <vxe-column type="checkbox" title="Sex" width="400" tree-node></vxe-column>
       <vxe-column field="size" title="Size"></vxe-column>
       <vxe-column field="type" title="Type"></vxe-column>
@@ -73,10 +73,10 @@
     </p>
 
     <vxe-table
-      resizable
-      :data="demo3.tableData"
-      :tree-config="{transform: true}"
-      :checkbox-config="{labelField: 'name', checkStrictly: true}">
+        resizable
+        :data="demo3.tableData"
+        :tree-config="{transform: true}"
+        :checkbox-config="{labelField: 'name', checkStrictly: true}">
       <vxe-column type="checkbox" title="Name" width="280" tree-node></vxe-column>
       <vxe-column field="size" title="Size"></vxe-column>
       <vxe-column field="type" title="Type"></vxe-column>
@@ -169,7 +169,7 @@ export default defineComponent({
         { id: 20045, parentId: 24300, name: 'test abc4', type: 'html', size: 600, date: '2021-04-01' },
         { id: 10053, parentId: 24300, name: 'test abc96', type: 'avi', size: null, date: '2021-04-01' },
         { id: 24330, parentId: 10053, name: 'test abc5', type: 'txt', size: 25, date: '2021-10-01' },
-        { id: 21011, parentId: 10053, name: 'Test6', type: 'pdf', size: 512, date: '2020-01-01' },
+        { id: 21011, parentId: 10053, name: 'Test6', type: 'pdf', size: 512, date: '2020-01-01', checked: true },
         { id: 22200, parentId: 10053, name: 'Test7', type: 'js', size: 1024, date: '2021-06-01' },
         { id: 23666, parentId: null, name: 'Test8', type: 'xlsx', size: 2048, date: '2020-11-01' },
         { id: 23677, parentId: 23666, name: 'Test7', type: 'js', size: 1024, date: '2021-06-01' },

@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  dom-zindex:
+    specifier: ^0.4.0
+    version: 0.4.0
+
 devDependencies:
   '@types/node':
     specifier: ^18.16.0
@@ -4508,6 +4513,10 @@ packages:
       domhandler: 4.3.1
       entities: 2.2.0
     dev: true
+
+  /dom-zindex@0.4.0:
+    resolution: {integrity: sha512-SrHMdaK/GDxV1sabQ3FMh7xiJlfLQ6pwLUjLxkAgswcOFLv1NCLECPR6XwbQTe8LAiiSn2CS1S/IajQSK2/W3g==}
+    dev: false
 
   /domelementtype@2.3.0:
     resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
