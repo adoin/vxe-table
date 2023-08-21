@@ -1,4 +1,17 @@
-import { createCommentVNode, defineComponent, h, ref, Ref, PropType, inject, nextTick, ComputedRef, onBeforeUnmount, onMounted, onUnmounted } from 'vue'
+import {
+  createCommentVNode,
+  defineComponent,
+  h,
+  ref,
+  Ref,
+  PropType,
+  inject,
+  nextTick,
+  ComputedRef,
+  onBeforeUnmount,
+  onMounted,
+  onUnmounted
+} from 'vue'
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { VXETable } from '../../v-x-e-table'
@@ -7,7 +20,15 @@ import { updateCellTitle, getPropClass } from '../../tools/dom'
 import { isEnableConf } from '../../tools/utils'
 import { getSlotVNs } from '../../tools/vn'
 
-import { VxeTablePrivateMethods, VxeTableConstructor, VxeTableDefines, VxeTableMethods, VxeGlobalRendererHandles, VxeColumnPropTypes, SizeType } from '../../../types/all'
+import {
+  VxeTablePrivateMethods,
+  VxeTableConstructor,
+  VxeTableDefines,
+  VxeTableMethods,
+  VxeGlobalRendererHandles,
+  VxeColumnPropTypes,
+  SizeType
+} from '../../../types/all'
 
 const renderType = 'body'
 
@@ -717,8 +738,10 @@ export default defineComponent({
         elemStore[`${prefix}xSpace`] = refBodyXSpace
         elemStore[`${prefix}ySpace`] = refBodyYSpace
         elemStore[`${prefix}emptyBlock`] = refBodyEmptyBlock
-        el.onscroll = scrollEvent
-        el._onscroll = scrollEvent
+        if (el) {
+          el.onscroll = scrollEvent
+          el._onscroll = scrollEvent
+        }
       })
     })
 
