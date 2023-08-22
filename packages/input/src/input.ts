@@ -728,7 +728,6 @@ export default defineComponent({
       emit('update:modelValue', realValue)
       inputMethods.dispatchEvent('input', { value }, evnt)
       if (props.modelValue !== realValue) {
-        console.log('change')
         inputMethods.dispatchEvent('change', { value }, evnt)
         // 自动更新校验状态
         if ($xeform && $xeformiteminfo) {
