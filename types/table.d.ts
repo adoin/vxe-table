@@ -92,7 +92,6 @@ export interface TablePrivateComputed<D = VxeTableDataRow> {
   computeEmptyOpts: ComputedRef<VxeTablePropTypes.EmptyOpts>
   computeLoadingOpts: ComputedRef<VxeTablePropTypes.LoadingOpts>
   computeCustomOpts: ComputedRef<VxeTablePropTypes.CustomOpts<D>>
-  computeIsVMScrollProcess: ComputedRef<boolean>
   computeFixedColumnSize: ComputedRef<number>
   computeIsMaxFixedColumn: ComputedRef<boolean>
   computeIsAllCheckboxDisabled: ComputedRef<boolean>
@@ -844,8 +843,6 @@ export interface TableReactData<D = VxeTableDataRow> {
   treeExpandedMaps: Record<string, D>
   // 懒加载中的树节点的集合
   treeExpandLazyLoadedMaps: Record<string, D>
-  // 树节点不确定状态的列表
-  treeIndeterminateList: D[]
   // 树节点不确定状态的集合
   treeIndeterminateMaps: Record<string, D>
   // 合并单元格的对象集
@@ -993,6 +990,7 @@ export interface TableReactData<D = VxeTableDataRow> {
     isHeader: boolean
     isFooter: boolean
   },
+  scrollVMLoading: boolean
   _isResize: boolean
 }
 
@@ -1538,7 +1536,7 @@ export namespace VxeTablePropTypes {
     reserve?: boolean
     labelField?: string
     checkField?: string
-    halfField?: string
+    indeterminateField?: string
     showHeader?: boolean
     checkAll?: boolean
     checkRowKeys?: string[] | number[]
@@ -1554,6 +1552,12 @@ export namespace VxeTablePropTypes {
     trigger?: 'default' | 'cell' | 'row' | '' | null
     highlight?: boolean
     range?: boolean
+
+    /**
+     * 请使用 indeterminateField
+     * @deprecated
+     */
+    halfField?: string
   }
   export interface CheckboxOpts<D = VxeTableDataRow> extends CheckboxConfig<D> { }
 

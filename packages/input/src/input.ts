@@ -722,11 +722,12 @@ export default defineComponent({
       inputMethods.dispatchEvent(evnt.type, { value: inputValue }, evnt)
     }
 
-    const emitModel = (value: string|null, evnt: Event | { type: string }) => {
+    const emitModel = (value: string | null, evnt: Event | { type: string }) => {
       reactData.inputValue = value
-      emit('update:modelValue', (value !== undefined && value !== null && ['number', 'integer', 'float'].includes(props.type) ? toNumber(value) : value))
+      const realValue = (value !== undefined && value !== null && ['number', 'integer', 'float'].includes(props.type) ? toNumber(value) : value)
+      emit('update:modelValue', realValue)
       inputMethods.dispatchEvent('input', { value }, evnt)
-      if (XEUtils.toValueString(props.modelValue) !== value) {
+      if (props.modelValue !== realValue) {
         inputMethods.dispatchEvent('change', { value }, evnt)
         // 自动更新校验状态
         if ($xeform && $xeformiteminfo) {
