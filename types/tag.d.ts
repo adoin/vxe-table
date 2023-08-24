@@ -6,7 +6,8 @@ export namespace VxeTagPropTypes {
   export type content = string
   export type color = 'info' | 'primary' | 'success' | 'warning' | 'danger' | 'error' | 'perfect' | string
   export type closable = boolean
-  export type tagStyle = 'default' | 'outline' | 'flag' | 'dashed' | 'mark'
+  export type round = boolean
+  export type tagStyle = 'default' | 'outline' |'flag' | 'dashed' | 'mark' |'arrow'
   export type size = 'medium' | 'small' | 'mini' | 'large'
   export type icon = string
   export type iconSet = string
@@ -26,6 +27,10 @@ export type VxeTagProps = {
    * 是否可关闭
    */
   closable?: VxeTagPropTypes.closable
+  /**
+   * 是否圆角
+   */
+  round?: VxeTagPropTypes.round
   /**
    * 标签风格样式
    */
@@ -64,7 +69,7 @@ export interface TagMethods {
   /**
    * 关闭
    */
-  close (): Promise<any>
+  close (event:Event): Promise<any>
 }
 
 export interface VxeTagMethods extends TagMethods {}

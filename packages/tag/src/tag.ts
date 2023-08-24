@@ -25,6 +25,7 @@ export default defineComponent({
       type: Boolean as PropType<VxeTagPropTypes.closable>,
       default: false
     },
+    round: Boolean as PropType<VxeTagPropTypes.round>,
     tagStyle: {
       type: String as PropType<VxeTagPropTypes.tagStyle>,
       default: 'default'
@@ -45,6 +46,9 @@ export default defineComponent({
   setup (props, context) {
     const { slots, emit } = context
     const xID = XEUtils.uniqueId()
+    const tagStyleList = [
+      'default', 'outline', 'flag', 'dashed', 'mark', 'arrow'
+    ]
     const reactData = reactive<TagReactData>({
       inited: false
     })
@@ -52,8 +56,8 @@ export default defineComponent({
     const refMaps = {
       refElem
     }
-    const closeTag = () => new Promise(() => {
-      // todo
+    const closeTag = (event: Event) => new Promise(() => {
+      event.stopPropagation()
       emit('close', { $event: { tag: $vxtag } })
     })
     let tagMethods = {} as VxeTagMethods
@@ -66,8 +70,8 @@ export default defineComponent({
     } as unknown as VxeTagConstructor
 
     tagMethods = {
-      dispatchEvent (type, params, evnt) {
-        emit(type, Object.assign({ $tag: $vxtag, $event: evnt }, params))
+      dispatchEvent (type, params, event) {
+        emit(type, Object.assign({ $tag: $vxtag, $event: event }, params))
       },
       close: closeTag
     }
@@ -82,7 +86,8 @@ export default defineComponent({
         class: [
           'vxe-tag',
             `size--${props.size}`,
-            `vxe-tag-type--${props.tagStyle}`,
+            `vxe-tag-type--${tagStyleList.includes(props.tagStyle) ? props.tagStyle : 'default'}`,
+            props.round ? 'is--round' : '',
             `vxe-tag-align--${props.align}`,
             props.color
               ? presetColors.includes(props.color)
@@ -95,18 +100,28 @@ export default defineComponent({
         ],
         style: presetColors.includes(props.color) ? null : {
           '--tag-color': props.color
-        },
-        onClick: (evnt: Event) => {
-          closeTag()
-          tagMethods.dispatchEvent('close', {}, evnt)
         }
       },
       [
-        h('div',
+        props.closable ? h('div',
           {
             class: 'vxe-tag-close-modal'
-          }
-        ),
+          },
+          [
+            h('div',
+              {
+                class: 'vxe-tag-close-icon',
+                onClick: (event: Event) => {
+                  closeTag(event)
+                  tagMethods.dispatchEvent('close', {}, event)
+                }
+              },
+              [
+                'x'
+              ]
+            )
+          ]
+        ) : null,
         h('span', {
           class: 'vxe-tag-content'
         }, [renderContent()])

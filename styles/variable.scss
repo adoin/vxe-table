@@ -304,18 +304,12 @@ $vxe-card-header-padding: 10px 20px !default;
 $vxe-card-footer-padding: 4px !default;
 $vxe-card-border-radius: 8px !default;
 
-$vxe-tag-padding: 0.15em 0.5em !default;
+/*tag*/
+$vxe-tag-default-color: #bbbccc;
+$vxe-tag-padding: 0.1em 0.5em !default;
 $vxe-tag-border-radius: 4px !default;
-$vxe-tag-line-height--mini: 1.2!default;
-$vxe-tag-line-height--small: 1.414!default;
-$vxe-tag-line-height--medium: 1.5715!default;
-$vxe-tag-line-height--large: 1.632!default;
-$vxe-tag-tail-size--mini: 1.4em!default;
-$vxe-tag-tail-size--small: 1.514em!default;
-$vxe-tag-tail-size--medium: 1.6715em!default;
-$vxe-tag-tail-size--large: 1.832em!default;
+$vxe-tag-line-height--mini: 1.2 !default;
+$vxe-tag-line-height--small: 1.3 !default;
+$vxe-tag-line-height--medium: 1.4 !default;
+$vxe-tag-line-height--large: 1.45 !default;
 
-$vxe-tag-tail-mini-right:-1.38em;
-$vxe-tag-tail-small-right:-1.4715em;
-$vxe-tag-tail-medium-right:-1.65em;
-$vxe-tag-tail-large-right:-1.8em;
