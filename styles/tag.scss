@@ -1,21 +1,10 @@
-$tail-right-map: (
-        mini:var(--vxe-tag-tail-mini-right),
-        small:var(--vxe-tag-tail-small-right),
-        medium:var(--vxe-tag-tail-medium-right),
-        large:var(--vxe-tag-tail-large-right)
-);
-$tail-type-map: (
-        mark:polygon(0 0, 0% 100%, 35% 50%),
-        flag:polygon(50% 0, 0 50%, 50% 100%, 0 100%, 0 50%, 0 0),
-);
-
 @mixin TagToRight {
+  position: relative;
   border-radius: 4px 0 0 4px;
   background-color: var(--tag-color);
   color: #fff;
-  position: relative;
   padding-left: 1.2em;
-  margin-right: 1.25em;
+  padding-right: 1.25em;
   
   &:before {
     background: #fff;
@@ -28,18 +17,6 @@ $tail-type-map: (
     width: 0.45em;
     top: calc(50% - 0.225em);
   }
-}
-
-@mixin TagTailBase($size,$type) {
-  background: var(--tag-color);
-  content: '';
-  position: absolute;
-  width: var(--tag-tail-size);
-  height: 100%;
-  right: map-get($tail-right-map, $size);
-  top: 0;
-  clip-path: map-get($tail-type-map, $type);
-  box-shadow: inset 0 2px 3px var(--tag-color), inset 0 -2px 3px var(--tag-color);
 }
 
 .vxe-tag {
@@ -70,44 +47,12 @@ $tail-type-map: (
   
   &.vxe-tag-type--mark {
     @include TagToRight;
-   
-    &.size--mini:after {
-      @include TagTailBase(mini, mark)
-    }
-    
-    &.size--small:after {
-      @include TagTailBase(small, mark)
-    }
-    
-    &.size--medium:after {
-      @include TagTailBase(medium, mark)
-    }
-    
-    &.size--large:after {
-      @include TagTailBase(large, mark)
-    }
-    
+    clip-path: polygon(0% 0%, calc(100% - 0.5em) 0%, 100% 50%, calc(100% - 0.5em) 100%, 0% 100%);
   }
   
   &.vxe-tag-type--flag {
     @include TagToRight;
-    
-    &.size--mini:after {
-      @include TagTailBase(mini, flag);
-    }
-    
-    &.size--small:after {
-      @include TagTailBase(small, flag);
-    }
-    
-    &.size--medium:after {
-      @include TagTailBase(medium, flag);
-    }
-    
-    &.size--large:after {
-      @include TagTailBase(large, flag);
-    }
-    
+    clip-path: polygon(100% 0%, calc(100% - 0.5em) 50%, 100% 100%, 0.5em 100%, 0% 50%, 0.5em 0%);
   }
   
   &.size--mini {
