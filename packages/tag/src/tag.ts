@@ -41,7 +41,8 @@ export default defineComponent({
     }
   },
   emits: [
-    'close'
+    'close',
+    'icon-click'
   ] as VxeTagEmits,
   setup (props, context) {
     const { slots, emit } = context
@@ -60,6 +61,9 @@ export default defineComponent({
       event.stopPropagation()
       emit('close', { $event: { tag: $vxtag } })
     })
+    const handleIconClick = () => {
+      emit('icon-click', { $event: { tag: $vxtag } })
+    }
     let tagMethods = {} as VxeTagMethods
     const $vxtag = {
       xID,
@@ -77,6 +81,14 @@ export default defineComponent({
     }
     Object.assign($vxtag, tagMethods)
     const renderContent = () => slots?.default?.() ?? getFuncText(props.content)
+    const renderIcon = () => slots?.icon?.() ?? (props.icon ? h('i', {
+      class: [
+        'vxe-tag--icon',
+        props.iconSet,
+        props.icon
+      ],
+      onClick: handleIconClick
+    }) : null)
     const renderVN = () => {
       const presetColors = [
         'default', 'info', 'primary', 'success', 'warning', 'danger', 'error', 'perfect'
@@ -124,7 +136,7 @@ export default defineComponent({
         ) : null,
         h('span', {
           class: 'vxe-tag-content'
-        }, [renderContent()])
+        }, [slots?.avatar?.() ?? null, renderContent(), renderIcon()])
       ]
       )
     }

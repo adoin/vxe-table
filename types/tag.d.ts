@@ -60,7 +60,8 @@ export interface TagPrivateRef {
 export interface VxeTagPrivateRef extends TagPrivateRef {}
 
 export type VxeTagEmits = [
-  'close'
+  'close',
+  'icon-click'
 ]
 
 export interface TagMethods {
@@ -85,20 +86,25 @@ export interface VxeTagConstructor extends VxeComponentBase, VxeTagMethods {
 }
 
 export namespace VxeTagDefines {
+
   interface TagEventParams extends VxeEvent {
     $tag: VxeTagConstructor
   }
 
   export interface CloseParams {}
+  export interface IconClickParams {}
 
   export interface CloseEventParams extends TagEventParams, CloseParams {}
+  export interface IconClickEventParams extends TagEventParams, IconClickParams {}
 }
 export namespace VxeTagEvents {
   export type Close = (params: VxeTagDefines.CloseEventParams) => void;
+  export type IconClick = (params: VxeTagDefines.IconClickEventParams) => void;
 }
 
 export interface VxeTagEventProps {
   onClose?: VxeTagEvents.Close;
+  onIconClick?: VxeTagEvents.IconClick;
 }
 
 export interface VxeTagSlots {
