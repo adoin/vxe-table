@@ -58,7 +58,7 @@
     </div>
     <div style="width: 100%;">旗帜风格：
       <vxe-tag tag-style="flag">abc</vxe-tag>
-      <vxe-tag tag-style="flag" content="老王绿老王绿老王绿老王绿" color="#45adbe"/>
+      <vxe-tag tag-style="flag" content="老王绿老王绿老王绿老王绿" editable color="#45adbe"/>
       <vxe-tag tag-style="flag" content="mini" color="primary" size="mini"/>
       <vxe-tag tag-style="flag" content="small" color="warning" size="small" icon="vxe-icon-warning-circle"/>
       <vxe-tag tag-style="flag" content="large" color="error" size="large"/>

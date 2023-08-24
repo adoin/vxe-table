@@ -6,6 +6,7 @@ export namespace VxeTagPropTypes {
   export type content = string
   export type color = 'info' | 'primary' | 'success' | 'warning' | 'danger' | 'error' | 'perfect' | string
   export type closable = boolean
+  export type editable = boolean
   export type round = boolean
   export type tagStyle = 'default' | 'outline' |'flag' | 'dashed' | 'mark' |'arrow'
   export type size = 'medium' | 'small' | 'mini' | 'large'
@@ -14,6 +15,9 @@ export namespace VxeTagPropTypes {
   export type align='top'|'middle'|'bottom'
 }
 export type VxeTagProps = {
+  /**
+   * 内容
+   */
   content?: VxeTagPropTypes.content
   /**
    * 颜色
@@ -27,6 +31,10 @@ export type VxeTagProps = {
    * 是否可关闭
    */
   closable?: VxeTagPropTypes.closable
+  /**
+   * 是否可编辑
+   */
+  editable?: VxeTagPropTypes.editable
   /**
    * 是否圆角
    */
@@ -51,17 +59,19 @@ export type VxeTagProps = {
 
 export interface TagReactData {
   inited: boolean,
+  editing: boolean
 }
 
 export interface TagPrivateRef {
-  refElem: Ref<HTMLDivElement>
+  refElem: Ref<HTMLSpanElement>
 }
 
 export interface VxeTagPrivateRef extends TagPrivateRef {}
 
 export type VxeTagEmits = [
   'close',
-  'icon-click'
+  'icon-click',
+  'edit',
 ]
 
 export interface TagMethods {

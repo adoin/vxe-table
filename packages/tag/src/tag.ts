@@ -25,6 +25,10 @@ export default defineComponent({
       type: Boolean as PropType<VxeTagPropTypes.closable>,
       default: false
     },
+    editable: {
+      type: Boolean as PropType<VxeTagPropTypes.editable>,
+      default: false
+    },
     round: Boolean as PropType<VxeTagPropTypes.round>,
     tagStyle: {
       type: String as PropType<VxeTagPropTypes.tagStyle>,
@@ -42,7 +46,8 @@ export default defineComponent({
   },
   emits: [
     'close',
-    'icon-click'
+    'icon-click',
+    'edit'
   ] as VxeTagEmits,
   setup (props, context) {
     const { slots, emit } = context
@@ -51,9 +56,11 @@ export default defineComponent({
       'default', 'outline', 'flag', 'dashed', 'mark', 'arrow'
     ]
     const reactData = reactive<TagReactData>({
-      inited: false
+      inited: false,
+      editing: false
     })
     const refElem = ref() as Ref<HTMLSpanElement>
+    const refContent = ref() as Ref<HTMLSpanElement>
     const refMaps = {
       refElem
     }
@@ -61,6 +68,19 @@ export default defineComponent({
       event.stopPropagation()
       emit('close', { $event: { tag: $vxtag } })
     })
+    const handleContentDblclick = () => {
+      if (props.editable) {
+        reactData.editing = true
+      }
+    }
+    const handleContentBlur = () => {
+      if (props.editable) {
+        if (reactData.editing) {
+          emit('edit', refContent.value.innerText)
+        }
+        reactData.editing = false
+      }
+    }
     const handleIconClick = () => {
       emit('icon-click', { $event: { tag: $vxtag } })
     }
@@ -97,6 +117,8 @@ export default defineComponent({
         ref: refElem,
         class: [
           'vxe-tag',
+          props.editable && reactData.editing ? 'is--editing' : '',
+          props.closable ? 'vxe-tag--closable' : '',
             `size--${props.size}`,
             `vxe-tag-type--${tagStyleList.includes(props.tagStyle) ? props.tagStyle : 'default'}`,
             props.round ? 'is--round' : '',
@@ -117,26 +139,25 @@ export default defineComponent({
       [
         props.closable ? h('div',
           {
-            class: 'vxe-tag-close-modal'
+            class: 'vxe-tag-close-icon',
+            onClick: (event: Event) => {
+              closeTag(event)
+              tagMethods.dispatchEvent('close', {}, event)
+            }
           },
           [
-            h('div',
-              {
-                class: 'vxe-tag-close-icon',
-                onClick: (event: Event) => {
-                  closeTag(event)
-                  tagMethods.dispatchEvent('close', {}, event)
-                }
-              },
-              [
-                'x'
-              ]
-            )
+            'x'
           ]
         ) : null,
+        slots?.avatar?.() ?? null,
         h('span', {
-          class: 'vxe-tag-content'
-        }, [slots?.avatar?.() ?? null, renderContent(), renderIcon()])
+          class: 'vxe-tag-content',
+          ref: refContent,
+          contentEditable: props.editable && reactData.editing,
+          onDblclick: handleContentDblclick,
+          onBlur: handleContentBlur
+        }, [renderContent()]),
+        renderIcon()
       ]
       )
     }
