@@ -73,7 +73,7 @@ export default defineComponent({
         reactData.editing = true
       }
     }
-    const handleContentBlur = () => {
+    const handleContentEdited = () => {
       if (props.editable) {
         if (reactData.editing) {
           emit('edit', refContent.value.innerText)
@@ -155,7 +155,12 @@ export default defineComponent({
           ref: refContent,
           contentEditable: props.editable && reactData.editing,
           onDblclick: handleContentDblclick,
-          onBlur: handleContentBlur
+          onBlur: handleContentEdited,
+          onKeydown: (event: KeyboardEvent) => {
+            if (event.key === 'Enter') {
+              handleContentEdited()
+            }
+          }
         }, [renderContent()]),
         renderIcon()
       ]
