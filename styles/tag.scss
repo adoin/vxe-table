@@ -86,22 +86,22 @@
   }
   
   &.size--mini {
-    font-size: var(--vxe-font-size-mini);
+    font-size: var(--vxe-tag-font-size-mini);
     line-height: var(--vxe-tag-line-height--mini);
   }
   
   &.size--small {
-    font-size: var(--vxe-font-size-small);
+    font-size: var(--vxe-tag-font-size-small);
     line-height: var(--vxe-tag-line-height--small);
   }
   
   &.size--medium {
-    font-size: var(--vxe-font-size-medium);
+    font-size: var(--vxe-tag-font-size-medium);
     line-height: var(--vxe-tag-line-height--medium);
   }
   
   &.size--large {
-    font-size: var(--vxe-font-size-medium);
+    font-size: var(--vxe-tag-font-size-large);
     line-height: var(--vxe-tag-line-height--large);
   }
   
@@ -133,8 +133,13 @@
     margin-left: 4px;
     font-size: 11px;
   }
-  &>.vxe-tag-content{
+  
+  & > .vxe-tag-content {
     outline: unset;
+    
+    &.tag-select-none {
+      user-select: none;
+    }
   }
 }
 

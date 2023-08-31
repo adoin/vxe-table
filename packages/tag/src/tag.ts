@@ -151,10 +151,13 @@ export default defineComponent({
         ) : null,
         slots?.avatar?.() ?? null,
         h('span', {
-          class: 'vxe-tag-content',
+          class: ['vxe-tag-content', { 'tag-select-none': props.editable }],
           ref: refContent,
           contentEditable: props.editable && reactData.editing,
-          onDblclick: handleContentDblclick,
+          onContextmenu: (event: Event) => {
+            event.preventDefault()
+            handleContentDblclick()
+          },
           onBlur: handleContentEdited,
           onKeydown: (event: KeyboardEvent) => {
             if (event.key === 'Enter') {
