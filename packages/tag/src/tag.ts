@@ -86,9 +86,6 @@ export default defineComponent({
       }
     })
 
-    const handleContentClick = () => {
-      startEditing()
-    }
     const handleContentEdited = () => {
       if (props.editable) {
         if (reactData.editing) {
@@ -172,7 +169,7 @@ export default defineComponent({
           class: ['vxe-tag-content', { 'tag-select-none': props.editable }],
           ref: refContent,
           contentEditable: props.editable && reactData.editing,
-          onClick: handleContentClick,
+          onClick: startEditing,
           onBlur: handleContentEdited,
           onKeydown: (event: KeyboardEvent) => {
             if (event.key === 'Enter') {

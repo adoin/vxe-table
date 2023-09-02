@@ -97,4 +97,7 @@ const tagPropList = ref<VxeTagProps[]>([
     color: '#b074d2'
   }
 ])
+setInterval(() => {
+  console.log(' log -：100 tagPropList.value', tagPropList.value)
+}, 6000)
 </script>

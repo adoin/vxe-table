@@ -10,11 +10,12 @@ import {
   resolveComponent
 } from 'vue'
 import {
-  TagsReactData, VxeTagsConstructor,
-  VxeTagsEmits, VxeTagsPrivateRef,
+  TagsReactData,
+  VxeTagsEmits,
+  VxeTagsPrivateRef,
   VxeTagsPropTypes
 } from '../../../types/tags'
-import { isFunction, isObject, isString, pick, uniqueId } from 'xe-utils'
+import { clone, isFunction, isObject, isString, pick, uniqueId } from 'xe-utils'
 import { VxeTagConstructor, VxeTagInstance, VxeTagProps } from '../../../types'
 
 export default defineComponent({
@@ -119,8 +120,12 @@ export default defineComponent({
         key: index,
         ref: refTags.value[index],
         onClose: () => closeTag(index),
-        onEdit: (index: number, value: string) => {
-          innerTags[index] = value
+        onEdit: (value: string) => {
+          if (isString(innerTags[index])) {
+            innerTags[index] = value
+          } else {
+            (innerTags[index] as VxeTagProps).content = value
+          }
           emit('update:modelValue', innerTags)
           emit('edit', { $event: { index, tag: item } })
         },
@@ -137,12 +142,19 @@ export default defineComponent({
         onClick: () => {
           if (props.creator) {
             const created = isFunction(props.creator) ? props.creator('', props.modelValue) : ''
-            const tag = isSimple.value && isString(created) ? '' : created
+            const tag = isSimple.value && isString(created)
+              ? ''
+              : created === ''
+                ? reactive({
+                  ...clone(parentProps.value),
+                  content: ''
+                })
+                : created
+            console.log(' log -：148 tag', tag)
             reactData.innerTags.push(tag)
             emit('update:modelValue', reactData.innerTags)
             emit('tag-created', { $event: { tag } })
             activeTag.value = refTags.value[refTags.value.length - 1]
-            console.log(' log -：145 refTags.value', refTags.value)
             nextTick(() => {
               setTimeout(() => {
                 /* activeTag 进入编辑状态 */
