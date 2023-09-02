@@ -156,7 +156,7 @@ export default defineComponent({
           {
             class: 'vxe-tag-close-icon',
             onClick: (event: Event) => {
-              closeTag(event)
+              // closeTag(event)
               tagMethods.dispatchEvent('close', {}, event)
             }
           },

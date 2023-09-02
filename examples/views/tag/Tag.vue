@@ -107,7 +107,8 @@ const tagPropList = ref<VxeTagProps[]>([
 const tagPropList1 = ref<VxeTagProps[]>([
   {
     tagStyle: 'mark',
-    content: '吖吖啊'
+    content: '吖吖啊',
+    closable: true
   },
   {
     tagStyle: 'flag',

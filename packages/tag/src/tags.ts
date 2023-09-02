@@ -117,7 +117,7 @@ export default defineComponent({
     const renderTags = () => {
       const { innerTags } = reactData
       const tags = innerTags.map((item, index) => h(resolveComponent('vxe-tag') as ComponentOptions, {
-        key: index,
+        key: uniqueId(),
         ref: refTags.value[index],
         onClose: () => closeTag(index),
         onEdit: (value: string) => {
