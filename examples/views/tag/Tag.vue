@@ -77,8 +77,12 @@
         tagStyle: 'flag',
         content: ''
       })"/>
-      <span> 混搭创建标签组：</span>
-      <vxe-tags tag-style="mark" v-model="tagStrList" :creator="(tags:any[])=>(tags[tags?.length-1])"/>
+      <span> 混搭创建标签组分隔符插槽：</span>
+      <vxe-tags tag-style="mark" v-model="tagStrList" :creator="(tags:any[])=>(tags[tags?.length-1])">
+        <template #separator>
+          <span>    |    </span>
+        </template>
+      </vxe-tags>
     </div>
   </div>
 </template>

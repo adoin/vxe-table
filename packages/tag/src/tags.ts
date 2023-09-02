@@ -132,7 +132,9 @@ export default defineComponent({
         content: isSimple.value ? item : (item as VxeTagProps).content,
         ...(isSimple.value ? parentProps.value : { ...parentProps.value, ...(item as VxeTagProps) })
       }))
-      return interleave(tags, renderSeparator())
+      const separator = renderSeparator()
+      console.log(' log -：136 separator', separator)
+      return interleave(tags, separator)
     }
     const renderCreator = () => {
       return h(resolveComponent('vxe-button') as ComponentOptions, {
@@ -160,7 +162,7 @@ export default defineComponent({
         }
       })
     }
-    const renderSeparator = () => slots?.seperator?.() ?? null
+    const renderSeparator = () => slots?.separator?.() ?? null
     const renderVN = () => {
       return h('span', {
         ref: refElem,
