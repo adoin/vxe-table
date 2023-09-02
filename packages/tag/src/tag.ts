@@ -180,7 +180,7 @@ export default defineComponent({
               handleContentEdited()
             }
           }
-        }, [renderContent()]),
+        }, renderContent()),
         renderIcon()
       ]
       )

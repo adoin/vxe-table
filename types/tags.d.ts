@@ -12,7 +12,7 @@ export namespace VxeTagsPropTypes {
   export type icon = VxeTagPropTypes.icon
   export type iconSet = VxeTagPropTypes.iconSet
   export type align = VxeTagPropTypes.align
-  export type creator = boolean | ((value: string, exist: Array<string | number | VxeTagProps>) => VxeTagProps)
+  export type creator = boolean | ((exist?: Array<string | number | VxeTagProps>) => VxeTagProps)
 }
 export type VxeTagsProps = {
   modelValue?: VxeTagsPropTypes.modelValue

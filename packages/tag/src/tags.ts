@@ -7,7 +7,7 @@ import {
   PropType,
   reactive, Ref,
   ref,
-  resolveComponent
+  resolveComponent, unref
 } from 'vue'
 import {
   TagsReactData,
@@ -141,26 +141,21 @@ export default defineComponent({
         status: 'primary',
         onClick: () => {
           if (props.creator) {
-            const created = isFunction(props.creator) ? props.creator('', props.modelValue) : ''
-            const tag = isSimple.value && isString(created)
-              ? ''
+            const created = isFunction(props.creator) ? props.creator(props.modelValue) : ''
+            const tag = isSimple.value
+              ? isString(created) ? created : created?.content
               : created === ''
-                ? reactive({
-                  ...clone(parentProps.value),
-                  content: ''
-                })
+                ? {
+                    ...unref(parentProps),
+                    content: ''
+                  }
                 : created
-            console.log(' log -：148 tag', tag)
             reactData.innerTags.push(tag)
             emit('update:modelValue', reactData.innerTags)
             emit('tag-created', { $event: { tag } })
             activeTag.value = refTags.value[refTags.value.length - 1]
-            nextTick(() => {
-              setTimeout(() => {
-                /* activeTag 进入编辑状态 */
-                activeTag.value?.startEditing()
-              }, 100)
-            })
+            /* activeTag 进入编辑状态 */
+            activeTag.value?.startEditing()
           }
         }
       })

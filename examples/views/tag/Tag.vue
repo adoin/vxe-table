@@ -72,6 +72,13 @@
     <div style="width: 100%;">
       <span> 五花八门标签组：</span>
       <vxe-tags tag-style="mark" v-model="tagPropList" creator/>
+      <span> 自定义创建标签组：</span>
+      <vxe-tags tag-style="mark" v-model="tagPropList1" :creator="()=>({
+        tagStyle: 'flag',
+        content: ''
+      })"/>
+      <span> 混搭创建标签组：</span>
+      <vxe-tags tag-style="mark" v-model="tagStrList" :creator="(tags:any[])=>(tags[tags?.length-1])"/>
     </div>
   </div>
 </template>
@@ -79,7 +86,7 @@
 import { ref } from 'vue'
 import { VxeTagProps } from '../../../types'
 
-const str = ref('实时可编辑文本')
+const str = ref('')
 const tagStrList = ref(['a', 'n', 'y'])
 const tagPropList = ref<VxeTagProps[]>([
   {
@@ -97,7 +104,20 @@ const tagPropList = ref<VxeTagProps[]>([
     color: '#b074d2'
   }
 ])
-setInterval(() => {
-  console.log(' log -：100 tagPropList.value', tagPropList.value)
-}, 6000)
+const tagPropList1 = ref<VxeTagProps[]>([
+  {
+    tagStyle: 'mark',
+    content: '吖吖啊'
+  },
+  {
+    tagStyle: 'flag',
+    content: '不不不',
+    color: 'primary'
+  },
+  {
+    tagStyle: 'arrow',
+    content: '出出出',
+    color: '#b074d2'
+  }
+])
 </script>
