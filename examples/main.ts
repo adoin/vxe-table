@@ -51,6 +51,7 @@ import {
   VxePulldown,
   VxeCard,
   VxeTag,
+  VxeTags,
   VxeTable
 } from '../packages/all'
 
@@ -129,6 +130,7 @@ app.use(VxeList)
 app.use(VxePulldown)
 app.use(VxeCard)
 app.use(VxeTag)
+app.use(VxeTags)
 app.use(VxeTable)
 
 app.use(store)

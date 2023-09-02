@@ -61,7 +61,6 @@ export type VxeCardProps = {
    */
   rotateMode?: VxeCardPropTypes.rotateMode
 }
-
 export interface CardReactData {
   inited: boolean,
   isCollapse: boolean,

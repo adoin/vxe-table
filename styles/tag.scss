@@ -136,6 +136,9 @@
   
   & > .vxe-tag-content {
     outline: unset;
+    min-width: 1em;
+    min-height: 1em;
+    display: inline-block;
     
     &.tag-select-none {
       user-select: none;

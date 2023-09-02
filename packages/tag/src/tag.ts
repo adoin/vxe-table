@@ -1,4 +1,4 @@
-import { defineComponent, h, PropType, reactive, ref, Ref } from 'vue'
+import { defineComponent, h, nextTick, PropType, reactive, ref, Ref } from 'vue'
 import {
   TagReactData,
   VxeTagConstructor,
@@ -46,6 +46,7 @@ export default defineComponent({
   },
   emits: [
     'close',
+    'update:content',
     'icon-click',
     'edit'
   ] as VxeTagEmits,
@@ -68,14 +69,30 @@ export default defineComponent({
       event.stopPropagation()
       emit('close', { $event: { tag: $vxtag } })
     })
-    const handleContentDblclick = () => {
-      if (props.editable) {
+    const startEditing = () => new Promise(resolve => {
+      if (props.editable && !reactData.editing) {
         reactData.editing = true
+        nextTick(() => {
+          refContent.value.focus()
+          const range = document.createRange()
+          range.selectNodeContents(refContent.value)
+          const selection = window.getSelection()
+          selection?.removeAllRanges()
+          selection?.addRange(range)
+          resolve(true)
+        })
+      } else {
+        resolve(true)
       }
+    })
+
+    const handleContentClick = () => {
+      startEditing()
     }
     const handleContentEdited = () => {
       if (props.editable) {
         if (reactData.editing) {
+          emit('update:content', refContent.value.innerText)
           emit('edit', refContent.value.innerText)
         }
         reactData.editing = false
@@ -97,7 +114,8 @@ export default defineComponent({
       dispatchEvent (type, params, event) {
         emit(type, Object.assign({ $tag: $vxtag, $event: event }, params))
       },
-      close: closeTag
+      close: closeTag,
+      startEditing
     }
     Object.assign($vxtag, tagMethods)
     const renderContent = () => slots?.default?.() ?? getFuncText(props.content)
@@ -154,13 +172,14 @@ export default defineComponent({
           class: ['vxe-tag-content', { 'tag-select-none': props.editable }],
           ref: refContent,
           contentEditable: props.editable && reactData.editing,
-          onContextmenu: (event: Event) => {
-            event.preventDefault()
-            handleContentDblclick()
-          },
+          onClick: handleContentClick,
           onBlur: handleContentEdited,
           onKeydown: (event: KeyboardEvent) => {
             if (event.key === 'Enter') {
+              handleContentEdited()
+            } else if (event.key === 'Escape') {
+              handleContentEdited()
+            } else if (event.key === 'Tab') {
               handleContentEdited()
             }
           }

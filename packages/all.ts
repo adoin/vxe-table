@@ -35,7 +35,7 @@ import { VxeSwitch } from './switch'
 import { VxeList } from './list'
 import { VxePulldown } from './pulldown'
 import { VxeCard } from './card'
-import { VxeTag } from './tag'
+import { VxeTag, VxeTags } from './tag'
 import { VxeTable } from './table'
 
 import zhCN from './locale/lang/zh-CN'
@@ -78,6 +78,7 @@ const components = [
   VxePulldown,
   VxeCard,
   VxeTag,
+  VxeTags,
   // 核心
   VxeTable
 ]

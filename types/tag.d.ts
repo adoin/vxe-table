@@ -1,4 +1,4 @@
-import { Ref, RenderFunction, SetupContext } from 'vue'
+import { ComponentPublicInstance, Ref, RenderFunction, SetupContext } from 'vue'
 import { ValueOf, VXEComponent, VxeComponentBase, VxeEvent } from './component'
 import { VNode, VNodeArrayChildren } from 'vue/dist/vue'
 
@@ -8,11 +8,11 @@ export namespace VxeTagPropTypes {
   export type closable = boolean
   export type editable = boolean
   export type round = boolean
-  export type tagStyle = 'default' | 'outline' |'flag' | 'dashed' | 'mark' |'arrow'
+  export type tagStyle = 'default' | 'outline' | 'flag' | 'dashed' | 'mark' | 'arrow'
   export type size = 'medium' | 'small' | 'mini' | 'large'
   export type icon = string
   export type iconSet = string
-  export type align='top'|'middle'|'bottom'
+  export type align = 'top' | 'middle' | 'bottom'
 }
 export type VxeTagProps = {
   /**
@@ -70,6 +70,7 @@ export interface VxeTagPrivateRef extends TagPrivateRef {}
 
 export type VxeTagEmits = [
   'close',
+  'update:content',
   'icon-click',
   'edit',
 ]
@@ -80,7 +81,12 @@ export interface TagMethods {
   /**
    * 关闭
    */
-  close (event:Event): Promise<any>
+  close (event: Event): Promise<any>
+
+  /**
+   * 开始编辑
+   */
+  startEditing (): Promise<any>
 }
 
 export interface VxeTagMethods extends TagMethods {}
@@ -102,9 +108,11 @@ export namespace VxeTagDefines {
   }
 
   export interface CloseParams {}
+
   export interface IconClickParams {}
 
   export interface CloseEventParams extends TagEventParams, CloseParams {}
+
   export interface IconClickEventParams extends TagEventParams, IconClickParams {}
 }
 export namespace VxeTagEvents {
@@ -132,9 +140,10 @@ export interface VxeTagSlots {
   icon: () => string | VNode
 }
 
+export type VxeTagInstance = ComponentPublicInstance<VxeTagProps, VxeTagConstructor>
 export const VxeTag: VXEComponent<VxeTagProps, VxeTagEventProps, VxeTagSlots>
 /**
  * 组件 - 标签
  * @example import { VxeTag } from 'exv'
  */
-export const card: typeof VxeTag
+export const tag: typeof VxeTag
