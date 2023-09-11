@@ -455,9 +455,9 @@ export const Cell = {
     let isChecked = false
     const isVisible = !visibleMethod || visibleMethod({ row })
     let isDisabled = !!checkMethod
-    const rowid = getRowid($table, row)
     let ons
     if (!isHidden) {
+      const rowid = getRowid($table, row)
       isChecked = !!selectCheckboxMaps[rowid]
       ons = {
         onClick (evnt: MouseEvent) {
@@ -525,6 +525,7 @@ export const Cell = {
     let isDisabled = !!checkMethod
     let ons
     if (!isHidden) {
+      const rowid = getRowid($table, row)
       isChecked = XEUtils.get(row, checkField as string)
       ons = {
         onClick (evnt: MouseEvent) {
@@ -538,7 +539,7 @@ export const Cell = {
         isDisabled = !checkMethod({ row })
       }
       if (treeConfig) {
-        isIndeterminate = !!treeIndeterminateMaps[getRowid($table, row)]
+        isIndeterminate = !!treeIndeterminateMaps[rowid]
       }
     }
     const checkboxParams = { ...params, checked: isChecked, disabled: isDisabled, visible: isVisible, indeterminate: isIndeterminate }
