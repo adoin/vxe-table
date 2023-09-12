@@ -110,8 +110,8 @@ export default defineComponent({
     const reactData = reactive<SelectReactData>({
       inited: false,
       staticOptions: [],
-      fullGroupList: [],
-      fullOptionList: [],
+      fullGroupList: props.optionGroups ?? [],
+      fullOptionList: props.options ?? [],
       visibleGroupList: [],
       visibleOptionList: [],
       remoteValueList: [],
@@ -356,7 +356,7 @@ export default defineComponent({
       return nextTick()
     }
 
-    const cacheItemMap = () => {
+    const cacheItemMap = (init?: boolean) => {
       const { fullOptionList, fullGroupList } = reactData
       const groupOptionsField = computeGroupOptionsField.value
       const key = getOptkey()
@@ -375,7 +375,7 @@ export default defineComponent({
       } else if (fullOptionList.length) {
         fullOptionList.forEach(handleOptis)
       }
-      refreshOption()
+      refreshOption(!!init)
     }
 
     const setCurrentOption = (option: any) => {
@@ -970,7 +970,7 @@ export default defineComponent({
         } else if (options) {
           reactData.fullOptionList = options
         }
-        cacheItemMap()
+        cacheItemMap(true)
       })
       GlobalEvent.on($xeselect, 'mousewheel', handleGlobalMousewheelEvent)
       GlobalEvent.on($xeselect, 'mousedown', handleGlobalMousedownEvent)
