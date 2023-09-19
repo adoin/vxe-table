@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   dom-zindex:
-    specifier: ^0.4.0
-    version: 0.4.0
+    specifier: ^1.0.0
+    version: 1.0.0
 
 devDependencies:
   '@types/node':
@@ -4514,8 +4514,8 @@ packages:
       entities: 2.2.0
     dev: true
 
-  /dom-zindex@0.4.0:
-    resolution: {integrity: sha512-SrHMdaK/GDxV1sabQ3FMh7xiJlfLQ6pwLUjLxkAgswcOFLv1NCLECPR6XwbQTe8LAiiSn2CS1S/IajQSK2/W3g==}
+  /dom-zindex@1.0.0:
+    resolution: {integrity: sha512-pBKBPSfInArD3L+NPnGny/9l3g6NmFbbOEacpc0nB28PGXdcphZdnr794KFnPglNm2Wdt2hYOdUkYYej8CbvsQ==}
     dev: false
 
   /domelementtype@2.3.0:
