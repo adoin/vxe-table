@@ -15,7 +15,7 @@ import {
   VxeTagsPrivateRef,
   VxeTagsPropTypes
 } from '../../../types/tags'
-import { clone, isFunction, isObject, isString, pick, uniqueId } from 'xe-utils'
+import { isFunction, isObject, isString, pick, uniqueId } from 'xe-utils'
 import { VxeTagConstructor, VxeTagInstance, VxeTagProps } from '../../../types'
 
 export default defineComponent({
@@ -133,7 +133,6 @@ export default defineComponent({
         ...(isSimple.value ? parentProps.value : { ...parentProps.value, ...(item as VxeTagProps) })
       }))
       const separator = renderSeparator()
-      console.log(' log -：136 separator', separator)
       return interleave(tags, separator)
     }
     const renderCreator = () => {
