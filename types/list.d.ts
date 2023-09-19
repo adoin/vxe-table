@@ -5,7 +5,7 @@ import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf } from './c
 
 /**
  * 组件 - 虚拟列表
- * @example import { VxeList } from 'exv'
+ * @example import { VxeList } from 'vxe-components'
  */
 export const VxeList: VXEComponent<VxeListProps, VxeListEventProps, VxeListSlots>
 /**

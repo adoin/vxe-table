@@ -185,6 +185,6 @@ export type VxeCardInstance = ComponentPublicInstance<VxeCardProps, VxeCardConst
 export const VxeCard: VXEComponent<VxeCardProps, VxeCardEventProps, VxeCardSlots>
 /**
  * 组件 - 卡片
- * @example import { VxeCard } from 'exv'
+ * @example import { VxeCard } from 'vxe-components'
  */
 export const Card: typeof VxeCard

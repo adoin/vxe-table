@@ -5,7 +5,7 @@ import { VxeOptionPropTypes } from './option'
 
 /**
  * 组件 - 下拉框选项分组
- * @example import { VxeOptgroup } from 'exv'
+ * @example import { VxeOptgroup } from 'vxe-components'
  */
 export const VxeOptgroup: VXEComponent<VxeOptgroupProps>
 /**

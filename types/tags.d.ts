@@ -122,6 +122,6 @@ export const VxeTags: VXEComponent<VxeTagsProps, VxeTagsEventProps, VxeTagsSlots
 
 /**
  * 组件 - 标签集
- * @example import { VxeTags } from 'exv'
+ * @example import { VxeTags } from 'vxe-components'
  */
-export const tags: typeof VxeTags
+export const Tags: typeof VxeTags

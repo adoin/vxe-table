@@ -5,7 +5,7 @@ import { VxeFormItemPropTypes } from './form-item'
 
 /**
  * 组件 - 表单项集合
- * @example import { VxeFormGather } from 'exv'
+ * @example import { VxeFormGather } from 'vxe-components'
  */
 export const VxeFormGather: VXEComponent<VxeFormGatherProps>
 /**

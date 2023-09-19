@@ -5,7 +5,7 @@ import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf, SlotVNodeT
 
 /**
  * 组件 - 弹窗
- * @example import { VxeModal } from 'exv'
+ * @example import { VxeModal } from 'vxe-components'
  */
 export const VxeModal: VXEComponent<VxeModalProps, VxeModalEventProps, VxeModalSlots>
 /**

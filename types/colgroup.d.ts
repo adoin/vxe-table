@@ -6,7 +6,7 @@ import { VxeColumnPropTypes, VxeColumnSlotTypes } from './column'
 
 /**
  * 组件 - 表格分组列
- * @example import { VxeColgroup } from 'exv'
+ * @example import { VxeColgroup } from 'vxe-components'
  */
 export const VxeColgroup: VXEComponent<VxeColgroupProps, VxeColgroupEventProps, VxeColgroupSlots<any>>
 /**

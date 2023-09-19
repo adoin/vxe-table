@@ -7,7 +7,7 @@ import { VxeGridConstructor } from './grid'
 
 /**
  * 组件 - 表单
- * @example import { VxeForm } from 'exv'
+ * @example import { VxeForm } from 'vxe-components'
  */
 export const VxeForm: VXEComponent<VxeFormProps, VxeFormEventProps>
 /**

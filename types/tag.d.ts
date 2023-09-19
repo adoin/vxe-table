@@ -144,6 +144,6 @@ export type VxeTagInstance = ComponentPublicInstance<VxeTagProps, VxeTagConstruc
 export const VxeTag: VXEComponent<VxeTagProps, VxeTagEventProps, VxeTagSlots>
 /**
  * 组件 - 标签
- * @example import { VxeTag } from 'exv'
+ * @example import { VxeTag } from 'vxe-components'
  */
-export const tag: typeof VxeTag
+export const Tag: typeof VxeTag

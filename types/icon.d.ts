@@ -5,7 +5,7 @@ import { VXEComponent, VxeComponentBase } from './component'
 
 /**
  * 组件 - 图标
- * @example import { VxeIcon } from 'exv'
+ * @example import { VxeIcon } from 'vxe-components'
  */
 export const VxeIcon: VXEComponent<{ [key: string]: any }>
 /**

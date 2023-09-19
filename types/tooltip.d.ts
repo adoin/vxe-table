@@ -5,7 +5,7 @@ import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf, VNodeStyle
 
 /**
  * 组件 - 工具提示
- * @example import { VxeTooltip } from 'exv'
+ * @example import { VxeTooltip } from 'vxe-components'
  */
 export const VxeTooltip: VXEComponent<VxeTooltipProps, VxeTooltipEventProps, VxeTooltipSlots>
 /**

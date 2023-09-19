@@ -5,7 +5,7 @@ import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf } from './c
 
 /**
  * 组件 - 单选框
- * @example import { VxeRadio } from 'exv'
+ * @example import { VxeRadio } from 'vxe-components'
  */
 export const VxeRadio: VXEComponent<VxeRadioProps, VxeRadioEventProps, VxeRadioSlots>
 /**

@@ -9,7 +9,7 @@ declare type Recordable<T = any> = Record<string, T>;
 
 /**
  * 组件 - 下拉框
- * @example import { VxeSelect } from 'exv'
+ * @example import { VxeSelect } from 'vxe-components'
  */
 export const VxeSelect: VXEComponent<VxeSelectProps, VxeSelectEventProps, VxeSelectSlots>
 /**
