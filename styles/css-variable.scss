@@ -22,6 +22,7 @@
   --vxe-info-color: #{$vxe-info-color};
   --vxe-warning-color: #{$vxe-warning-color};
   --vxe-danger-color: #{$vxe-danger-color};
+  --vxe-perfect-color: #{$vxe-perfect-color};
   
   --vxe-font-lighten-color: #{$vxe-font-lighten-color};
   --vxe-primary-lighten-color: #{$vxe-primary-lighten-color};
@@ -297,4 +298,17 @@
   --vxe-card-footer-padding: #{$vxe-card-footer-padding};
   --vxe-card-border-radius: #{$vxe-card-border-radius};
   --vxe-card-header-border-color: #{$vxe-modal-border-color};
+  
+  /*tag*/
+  --vxe-tag-default-color: #{$vxe-tag-default-color};
+  --vxe-tag-padding: #{$vxe-tag-padding};
+  --vxe-tag-border-radius: #{$vxe-tag-border-radius};
+  --vxe-tag-line-height--mini: #{$vxe-tag-line-height--mini};
+  --vxe-tag-line-height--small: #{$vxe-tag-line-height--small};
+  --vxe-tag-line-height--medium: #{$vxe-tag-line-height--medium};
+  --vxe-tag-line-height--large: #{$vxe-tag-line-height--large};
+  --vxe-tag-font-size-mini: #{$vxe-tag-font-size-mini};
+  --vxe-tag-font-size-small: #{$vxe-tag-font-size-small};
+  --vxe-tag-font-size-medium: #{$vxe-tag-font-size-medium};
+  --vxe-tag-font-size-large: #{$vxe-tag-font-size-large};
 }

@@ -10,7 +10,7 @@ import { VxeTableDataRow, VxeTableDefines, VxeTableEmits, VxeTableConstructor, V
 
 /**
  * 组件 - 高级表格
- * @example import { VxeGrid } from 'vxe-table'
+ * @example import { VxeGrid } from 'exv'
  */
 export const VxeGrid: VXEComponent<VxeGridProps<any>, VxeGridEventProps<any>, VxeGridSlots<any>>
 /**

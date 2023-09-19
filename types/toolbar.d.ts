@@ -8,7 +8,7 @@ import { VxeButtonProps } from './button'
 
 /**
  * 组件 - 工具栏
- * @example import { VxeToolbar } from 'vxe-table'
+ * @example import { VxeToolbar } from 'exv'
  */
 export const VxeToolbar: VXEComponent<VxeToolbarProps, VxeToolbarEventProps, VxeToolbarSlots>
 /**

@@ -17,6 +17,8 @@ import { Input } from './input'
 import { Textarea } from './textarea'
 import { Button } from './button'
 import { Card } from './card'
+import { Tag } from './tag'
+import { Tags } from './tags'
 import { Select } from './select'
 import { Optgroup } from './optgroup'
 import { Option } from './option'
@@ -51,6 +53,8 @@ declare module '@vue/runtime-core' {
     VxeTextarea: typeof Textarea
     VxeButton: typeof Button
     VxeCard: typeof Card
+    VxeTag: typeof Tag
+    VxeTags: typeof Tags
     VxeSelect: typeof Select
     VxeOptgroup: typeof Optgroup
     VxeOption: typeof Option
@@ -111,6 +115,9 @@ export * from './form-item'
 export * from './switch'
 export * from './list'
 export * from './pulldown'
+export * from './card'
+export * from './tag'
+export * from './tags'
 
 // Plugins
 export * from './plugins'

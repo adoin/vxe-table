@@ -6,7 +6,7 @@ import { VxeRadioPropTypes } from './radio'
 
 /**
  * 组件 - 单选框按钮
- * @example import { VxeRadioButton } from 'vxe-table'
+ * @example import { VxeRadioButton } from 'exv'
  */
 export const VxeRadioButton: VXEComponent<VxeRadioButtonProps, VxeRadioButtonEventProps, VxeRadioButtonSlots>
 /**

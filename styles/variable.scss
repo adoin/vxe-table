@@ -19,6 +19,8 @@ $vxe-success-color: #67c23a !default;
 $vxe-info-color: #909399 !default;
 $vxe-warning-color: #e6a23c !default;
 $vxe-danger-color: #f56c6c !default;
+$vxe-perfect-color: #934db7 !default;
+
 $vxe-light-shadow: #fff9 !default;
 $vxe-dark-shadow: #0002 !default;
 $vxe-fit-shadow: #0001 !default;
@@ -283,21 +285,35 @@ $vxe-card-cover-font-color: $vxe-font-color !default;
 $vxe-card-cover-padding: 20px !default;
 $vxe-card-border-color: $vxe-primary-color !default;
 $vxe-card-border-width: 1px !default;
-$vxe-card-animation-duration:1.5s !default;
+$vxe-card-animation-duration: 1.5s !default;
 $vxe-card-box-shadow: -7px -7px 20px 0px $vxe-light-shadow,
-                      -4px -4px 5px 0px $vxe-light-shadow,
-                      7px 7px 20px 0px $vxe-dark-shadow,
-                      4px 4px 5px 0px $vxe-fit-shadow,
-                      inset 0px 0px 0px 0px $vxe-light-shadow,
-                      inset 0px 0px 0px 0px $vxe-fit-shadow,
-                      inset 0px 0px 0px 0px $vxe-light-shadow,
-                      inset 0px 0px 0px 0px $vxe-fit-shadow!default;
+-4px -4px 5px 0px $vxe-light-shadow,
+7px 7px 20px 0px $vxe-dark-shadow,
+4px 4px 5px 0px $vxe-fit-shadow,
+inset 0px 0px 0px 0px $vxe-light-shadow,
+inset 0px 0px 0px 0px $vxe-fit-shadow,
+inset 0px 0px 0px 0px $vxe-light-shadow,
+inset 0px 0px 0px 0px $vxe-fit-shadow !default;
 $vxe-card-box-shadow-sink: 2px 3px 6px 0 #ffffff7f,
-                          -4px -4px 6px 0 #747D8833,
-                          inset -4px -4px 6px 0 #ffffff7f,
-                          inset 4px 4px 6px 0 #747D884C !default;
+-4px -4px 6px 0 #747d8833,
+inset -4px -4px 6px 0 #ffffff7f,
+inset 4px 4px 6px 0 #747d884c !default;
 $vxe-card-shaking-distance: 2px !default;
-$vxe-card-body-padding:12px !default;
-$vxe-card-header-padding:10px 20px !default;
-$vxe-card-footer-padding:4px !default;
+$vxe-card-body-padding: 12px !default;
+$vxe-card-header-padding: 10px 20px !default;
+$vxe-card-footer-padding: 4px !default;
 $vxe-card-border-radius: 8px !default;
+
+/*tag*/
+$vxe-tag-default-color: #bbbccc;
+$vxe-tag-padding: 0.1em 0.5em !default;
+$vxe-tag-border-radius: 4px !default;
+$vxe-tag-line-height--mini: 1.2 !default;
+$vxe-tag-line-height--small: 1.35 !default;
+$vxe-tag-line-height--medium: 1.6 !default;
+$vxe-tag-line-height--large: 1.7 !default;
+$vxe-tag-font-size-mini: 11px !default;
+$vxe-tag-font-size-small: 13px !default;
+$vxe-tag-font-size-medium: 14px !default;
+$vxe-tag-font-size-large: 15px !default;
+
