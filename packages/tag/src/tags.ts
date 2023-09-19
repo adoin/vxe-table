@@ -3,7 +3,6 @@ import {
   computed,
   defineComponent,
   h,
-  nextTick,
   PropType,
   reactive, Ref,
   ref,
