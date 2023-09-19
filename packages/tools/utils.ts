@@ -44,3 +44,30 @@ export function formatText (value: any, placeholder?: any) {
 export function eqEmptyValue (cellValue: any) {
   return cellValue === '' || XEUtils.eqNull(cellValue)
 }
+
+export const multiDebounce = (functionArray: Array<(...args: any[]) => any>, duration: number) => {
+  let timer: number
+  return functionArray.reduce((acc, cur) => {
+    acc[cur.name] = (...args: any[]) => {
+      window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        cur(...args)
+      }, duration)
+    }
+    return acc
+  }, {} as Record<string, (...args: any[]) => any>)
+}
+export const multiThrottle = (functionArray: Array<(...args: any[]) => any>, duration: number) => {
+  let timer: number
+  return functionArray.reduce((acc, cur) => {
+    acc[cur.name] = (...args: any[]) => {
+      if (!timer) {
+        timer = window.setTimeout(() => {
+          cur(...args)
+          timer = 0
+        }, duration)
+      }
+    }
+    return acc
+  }, {} as Record<string, (...args: any[]) => any>)
+}

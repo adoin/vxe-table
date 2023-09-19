@@ -265,6 +265,11 @@ const GlobalConfig: VXETableConfigOptions = {
     // pageSizes: [10, 15, 20, 50, 100],
     // layouts: ['PrevJump', 'PrevPage', 'Jump', 'PageCount', 'NextPage', 'NextJump', 'Sizes', 'Total']
   },
+  card: {
+    round: true,
+    shadow: true,
+    bordered: true
+  },
   form: {
     // preventSubmit: false,
     // size: null,

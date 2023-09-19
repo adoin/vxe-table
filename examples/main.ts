@@ -49,7 +49,7 @@ import {
   VxeSwitch,
   VxeList,
   VxePulldown,
-
+  VxeCard,
   VxeTable
 } from '../packages/all'
 
@@ -126,6 +126,7 @@ app.use(VxeFormItem)
 app.use(VxeFormGather)
 app.use(VxeList)
 app.use(VxePulldown)
+app.use(VxeCard)
 app.use(VxeTable)
 
 app.use(store)

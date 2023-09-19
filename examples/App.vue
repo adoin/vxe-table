@@ -200,6 +200,13 @@ export default defineComponent({
               keywords: ['button']
             },
             {
+              label: 'app.aside.nav.card',
+              locat: {
+                name: 'ModuleCard'
+              },
+              keywords: ['card']
+            },
+            {
               label: 'app.aside.nav.radio',
               locat: {
                 name: 'ModuleRadio'

@@ -249,6 +249,7 @@ import TableEditFull from '../views/table/edit/Full.vue'
 
 import ModuleIcon from '../views/icon/Icon.vue'
 import ModuleButton from '../views/button/Button.vue'
+import ModuleCard from '../views/card/Card.vue'
 import ModuleRadio from '../views/radio/Radio.vue'
 import ModuleCheckbox from '../views/checkbox/Checkbox.vue'
 import ModuleInput from '../views/input/Input.vue'
@@ -1479,6 +1480,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/table/module/button',
     name: 'ModuleButton',
     component: ModuleButton
+  },
+  {
+    path: '/table/module/card',
+    name: 'ModuleCard',
+    component: ModuleCard
   },
   {
     path: '/table/module/radio',
