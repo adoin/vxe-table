@@ -1,6 +1,6 @@
 {
-  "name": "vxe-table-demonic",
-  "version": "4.5.0-beta.7",
+  "name": "vxe-components",
+  "version": "4.5.4",
   "description": "vxe-components base on vxe-table",
   "scripts": {
     "test": "vue-tsc --noEmit --skipLibCheck",
@@ -28,6 +28,9 @@
   "jsdelivr": "lib/index.umd.js",
   "style": "lib/style.css",
   "typings": "types/index.d.ts",
+  "dependencies": {
+    "dom-zindex": "^1.0.0"
+  },
   "devDependencies": {
     "@types/node": "^18.16.0",
     "@types/webpack-env": "^1.18.1",

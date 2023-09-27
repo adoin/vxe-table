@@ -12,7 +12,7 @@
 [![pull requests closed](https://img.shields.io/github/issues-pr-closed/x-extends/vxe-table.svg)](https://github.com/x-extends/vxe-table/pulls?q=is%3Apr+is%3Aclosed)
 [![npm license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
-A [vue](https://www.npmjs.com/package/vue) based PC form component, support add, delete, change, virtual list, virtual tree, lazy load, shortcut menu, data validation, print export, form rendering, data paging, modal window, custom template, renderer, JSON configuration designed for zero code...
+A [vue](https://www.npmjs.com/package/vue) based PC form component, support add, delete, change, virtual list, virtual tree, lazy load, shortcut menu, data validation, print export, form rendering, data paging, modal window, custom template, renderer, JSON configuration...
 
 * Design concept
   * Efficient and concise API design for modern browsers.
@@ -20,10 +20,10 @@ A [vue](https://www.npmjs.com/package/vue) based PC form component, support add,
   * Designed for single row table editing, supports addition, deletion, modification and query as well as more expansion, with powerful functions and performance at the same time.
 
 * Plan
-  * [x] ~~v1.0 Based on vue2.6 < 3, Support for all major browsers.~~
-  * [x] ~~v2.0 Based on vue2.6 < 3, Support for all major browsers.~~
-  * [x] v3.0 Based on vue2.6 < 3, supports modern browsers and retains compatibility with IE11.
-  * [x] v4.0 Based on vue3.2 < 4, Only support modern browser, not IE.
+  * [x] ~~v1.0 Based on vue2.6, Support for all major browsers.~~
+  * [x] ~~v2.0 Based on vue2.6, Support for all major browsers.~~
+  * [x] v3.0 Based on vue2.6, supports modern browsers and retains compatibility with IE11.
+  * [x] v4.0 Based on vue3.x, Only support modern browser, not IE.
 
 ## Browser Support
 
@@ -78,13 +78,13 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 * [x] Virtual scroller
 * [x] Virtual merger
 * [x] CSS Variable Theme
-* [x] (pro) Cell area selection
-* [x] (pro) Cell copy & paste
-* [x] (pro) Cell find and replace
+* [x] (插件) Cell area selection
+* [x] (插件) Cell copy & paste
+* [x] (插件) Cell find and replace
 
 ## Installing
 
-Version: [vue](https://www.npmjs.com/package/vue) 3.x, Dependent: [xe-utils](https://www.npmjs.com/package/xe-utils)
+Version: [vue](https://www.npmjs.com/package/vue) 3.x
 
 ```shell
 npm install xe-utils vxe-table@next

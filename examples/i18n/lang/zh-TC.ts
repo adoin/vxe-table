@@ -183,6 +183,8 @@ export default {
 
         module: '功能模組',
         button: '按钮',
+        card: '卡片',
+        tag: '標籤',
         input: '输入框',
         textarea: '文本域',
         select: '下拉框',

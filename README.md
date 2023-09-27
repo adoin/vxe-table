@@ -12,7 +12,7 @@
 [![pull requests closed](https://img.shields.io/github/issues-pr-closed/x-extends/vxe-table.svg)](https://github.com/x-extends/vxe-table/pulls?q=is%3Apr+is%3Aclosed)
 [![npm license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
-一个基于 [vue](https://www.npmjs.com/package/vue) 的 PC 端表单/表格组件，支持增删改查、虚拟列表、虚拟树、懒加载、快捷菜单、数据校验、打印导出、表单渲染、数据分页、弹窗、自定义模板、渲染器、JSON 配置式为零代码而设计...  
+一个基于 [vue](https://www.npmjs.com/package/vue) 的 PC 端表单/表格组件，支持增删改查、虚拟列表、虚拟树、懒加载、快捷菜单、数据校验、打印导出、表单渲染、数据分页、弹窗、自定义模板、渲染器、JSON 配置式...  
 
 * 设计理念
   * 面向现代浏览器，高效的简洁 API 设计
@@ -20,10 +20,10 @@
   * 为单行编辑表格而设计，支持增删改查及更多扩展，强大的功能的同时兼具性能
 
 * 计划
-  * [x] ~~v1.0 基于 vue2.6 < 3，支持所有主流的浏览器，实现表格的一切实用的功能~~
-  * [x] ~~v2.0 基于 vue2.6 < 3，支持所有主流的浏览器，同时兼具功能与性能~~
-  * [x] v3.0 基于 vue2.6 < 3，支持现代浏览器并保留兼容 IE11
-  * [x] v4.0 基于 vue3.2 < 4，只支持现代浏览器，不支持 IE
+  * [x] ~~v1.0 基于 vue2.6，支持所有主流的浏览器，实现表格的一切实用的功能~~
+  * [x] ~~v2.0 基于 vue2.6，支持所有主流的浏览器，同时兼具功能与性能~~
+  * [x] v3.0 基于 vue2.6，支持现代浏览器并保留兼容 IE11
+  * [x] v4.0 基于 vue3.x，只支持现代浏览器，不支持 IE
   * [ ] 下一阶段：sticky 渲染模式、将虚拟滚动提升到极致、虚拟滚动动态行高、数据图表可视化
 
 ## 浏览器支持
@@ -79,13 +79,13 @@
 * [x] 虚拟滚动
 * [x] 虚拟合并
 * [x] CSS 变量主题
-* [x] (pro) 单元格区域选取
-* [x] (pro) 单元格复制/粘贴
-* [x] (pro) 单元格查找和替换
+* [x] (插件) 单元格区域选取
+* [x] (插件) 单元格复制/粘贴
+* [x] (插件) 单元格查找和替换
 
 ## 安装
 
-版本：[vue](https://www.npmjs.com/package/vue) 3.x, 依赖库：[xe-utils](https://www.npmjs.com/package/xe-utils)
+版本：[vue](https://www.npmjs.com/package/vue) 3.x
 
 ```shell
 npm install xe-utils vxe-table@next

@@ -5,7 +5,7 @@ import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf, SlotVNodeT
 
 /**
  * 组件 - 弹窗
- * @example import { VxeModal } from 'vxe-table'
+ * @example import { VxeModal } from 'vxe-components'
  */
 export const VxeModal: VXEComponent<VxeModalProps, VxeModalEventProps, VxeModalSlots>
 /**
@@ -122,7 +122,7 @@ export namespace VxeModalPropTypes {
   export type Position = 'center' | ModalPosition
   export type Title = string | number
   export type Duration = number | string
-  export type Content = number | string
+  export type Content = number | string | null
   /**
    * 请使用 content
    * @deprecated

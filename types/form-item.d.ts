@@ -9,7 +9,7 @@ import { VxeGlobalRendererHandles } from './v-x-e-table'
 
 /**
  * 组件 - 表单项
- * @example import { VxeFormItem } from 'vxe-table'
+ * @example import { VxeFormItem } from 'vxe-components'
  */
 export const VxeFormItem: VXEComponent<VxeFormItemProps>
 /**
@@ -54,6 +54,10 @@ export interface VxeFormItemProps {
    * 是否显示标题
    */
   showTitle?: VxeFormItemPropTypes.ShowTitle
+  /**
+   * 使用垂直布局
+   */
+  vertical?: VxeFormItemPropTypes.Vertical
   /**
    * 给表单项附加 className
    */
@@ -121,6 +125,7 @@ export namespace VxeFormItemPropTypes {
   export type TitleColon = VxeFormPropTypes.TitleColon
   export type TitleAsterisk = VxeFormPropTypes.TitleAsterisk
   export type ShowTitle = boolean
+  export type Vertical = boolean
 
   interface ClassNameParams {
     $form: VxeFormConstructor

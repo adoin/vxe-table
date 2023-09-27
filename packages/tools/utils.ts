@@ -1,8 +1,6 @@
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../v-x-e-table/src/conf'
-
-let zindexIndex = 0
-let lastZindex = 1
+import DomZIndex from 'dom-zindex'
 
 export function isEnableConf (conf: any): boolean {
   return conf && conf.enabled !== false
@@ -21,12 +19,11 @@ export function parseFile (file: File) {
 }
 
 export function nextZIndex () {
-  lastZindex = GlobalConfig.zIndex + zindexIndex++
-  return lastZindex
+  return DomZIndex.getNext()
 }
 
 export function getLastZIndex () {
-  return lastZindex
+  return DomZIndex.getCurrent()
 }
 
 export function hasChildrenList (item: any) {
@@ -46,4 +43,31 @@ export function formatText (value: any, placeholder?: any) {
  */
 export function eqEmptyValue (cellValue: any) {
   return cellValue === '' || XEUtils.eqNull(cellValue)
+}
+
+export const multiDebounce = (functionArray: Array<(...args: any[]) => any>, duration: number) => {
+  let timer: number
+  return functionArray.reduce((acc, cur) => {
+    acc[cur.name] = (...args: any[]) => {
+      window.clearTimeout(timer)
+      timer = window.setTimeout(() => {
+        cur(...args)
+      }, duration)
+    }
+    return acc
+  }, {} as Record<string, (...args: any[]) => any>)
+}
+export const multiThrottle = (functionArray: Array<(...args: any[]) => any>, duration: number) => {
+  let timer: number
+  return functionArray.reduce((acc, cur) => {
+    acc[cur.name] = (...args: any[]) => {
+      if (!timer) {
+        timer = window.setTimeout(() => {
+          cur(...args)
+          timer = 0
+        }, duration)
+      }
+    }
+    return acc
+  }, {} as Record<string, (...args: any[]) => any>)
 }

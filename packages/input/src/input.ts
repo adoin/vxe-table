@@ -104,6 +104,10 @@ export default defineComponent({
     },
     multiple: Boolean as PropType<VxeInputPropTypes.Multiple>,
 
+    // text
+    showWordCount: Boolean as PropType<VxeInputPropTypes.ShowWordCount>,
+    countMethod: Function as PropType<VxeInputPropTypes.CountMethod>,
+
     // number、integer、float
     min: { type: [String, Number] as PropType<VxeInputPropTypes.Min>, default: null },
     max: { type: [String, Number] as PropType<VxeInputPropTypes.Max>, default: null },
@@ -248,6 +252,15 @@ export default defineComponent({
 
     const computeIsNumType = computed(() => {
       return ['number', 'integer', 'float'].indexOf(props.type) > -1
+    })
+
+    const computeInputCount = computed(() => {
+      return XEUtils.getSize(reactData.inputValue)
+    })
+
+    const computeIsCountError = computed(() => {
+      const inputCount = computeInputCount.value
+      return props.maxlength && inputCount > XEUtils.toNumber(props.maxlength)
     })
 
     const computeIsDatePickerType = computed(() => {
@@ -722,11 +735,12 @@ export default defineComponent({
       inputMethods.dispatchEvent(evnt.type, { value: inputValue }, evnt)
     }
 
-    const emitModel = (value: string|null, evnt: Event | { type: string }) => {
+    const emitModel = (value: string | null, evnt: Event | { type: string }) => {
       reactData.inputValue = value
-      emit('update:modelValue', (value !== undefined && value !== null && ['number', 'integer', 'float'].includes(props.type) ? toNumber(value) : value))
+      const realValue = (value !== undefined && value !== null && ['number', 'integer', 'float'].includes(props.type) ? toNumber(value) : value)
+      emit('update:modelValue', realValue)
       inputMethods.dispatchEvent('input', { value }, evnt)
-      if (XEUtils.toValueString(props.modelValue) !== value) {
+      if (props.modelValue !== realValue) {
         inputMethods.dispatchEvent('change', { value }, evnt)
         // 自动更新校验状态
         if ($xeform && $xeformiteminfo) {
@@ -2423,9 +2437,11 @@ export default defineComponent({
     initValue()
 
     const renderVN = () => {
-      const { className, controls, type, align, name, disabled, readonly, autocomplete } = props
+      const { className, controls, type, align, showWordCount, countMethod, name, disabled, readonly, autocomplete } = props
       const { inputValue, visiblePanel, isActivated } = reactData
       const vSize = computeSize.value
+      const isCountError = computeIsCountError.value
+      const inputCount = computeInputCount.value
       const isDatePickerType = computeIsDatePickerType.value
       const inpReadonly = computeInpReadonly.value
       const inpMaxlength = computeInpMaxlength.value
@@ -2471,6 +2487,18 @@ export default defineComponent({
       if (isDatePickerType) {
         childs.push(renderPanel())
       }
+      let isWordCount = false
+      // 统计字数
+      if (showWordCount && ['text', 'search'].includes(type)) {
+        isWordCount = true
+        childs.push(
+          h('span', {
+            class: ['vxe-input--count', {
+              'is--error': isCountError
+            }]
+          }, countMethod ? `${countMethod({ value: inputValue })}` : `${inputCount}${inpMaxlength ? `/${inpMaxlength}` : ''}`)
+        )
+      }
       return h('div', {
         ref: refElem,
         class: ['vxe-input', `type--${type}`, className, {
@@ -2481,6 +2509,7 @@ export default defineComponent({
           'is--suffix': !!suffix,
           'is--readonly': readonly,
           'is--visivle': visiblePanel,
+          'is--count': isWordCount,
           'is--disabled': disabled,
           'is--active': isActivated
         }]

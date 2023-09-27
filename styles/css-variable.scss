@@ -7,14 +7,14 @@
   --vxe-font-size-medium: #{$vxe-font-size-medium};
   --vxe-font-size-small: #{$vxe-font-size-small};
   --vxe-font-size-mini: #{$vxe-font-size-mini};
-
+  
   /*size*/
   --vxe-border-radius: #{$vxe-border-radius};
-
+  
   /*icon*/
   --vxe-icon-font-family: #{$vxe-icon-font-family};
   --vxe-icon-background-color: #{$vxe-icon-background-color};
-
+  
   /*color*/
   --vxe-font-color: #{$vxe-font-color};
   --vxe-primary-color: #{$vxe-primary-color};
@@ -22,37 +22,38 @@
   --vxe-info-color: #{$vxe-info-color};
   --vxe-warning-color: #{$vxe-warning-color};
   --vxe-danger-color: #{$vxe-danger-color};
-
+  --vxe-perfect-color: #{$vxe-perfect-color};
+  
   --vxe-font-lighten-color: #{$vxe-font-lighten-color};
   --vxe-primary-lighten-color: #{$vxe-primary-lighten-color};
   --vxe-success-lighten-color: #{$vxe-success-lighten-color};
   --vxe-info-lighten-color: #{$vxe-info-lighten-color};
   --vxe-warning-lighten-color: #{$vxe-warning-lighten-color};
   --vxe-danger-lighten-color: #{$vxe-danger-lighten-color};
-
+  
   --vxe-font-darken-color: #{$vxe-font-darken-color};
   --vxe-primary-darken-color: #{$vxe-primary-darken-color};
   --vxe-success-darken-color: #{$vxe-success-darken-color};
   --vxe-info-darken-color: #{$vxe-info-darken-color};
   --vxe-warning-darken-color: #{$vxe-warning-darken-color};
   --vxe-danger-darken-color: #{$vxe-danger-darken-color};
-
+  
   --vxe-font-disabled-color: #{$vxe-font-disabled-color};
   --vxe-primary-disabled-color: #{$vxe-primary-disabled-color};
   --vxe-success-disabled-color: #{$vxe-success-disabled-color};
   --vxe-info-disabled-color: #{$vxe-info-disabled-color};
   --vxe-warning-disabled-color: #{$vxe-warning-disabled-color};
   --vxe-danger-disabled-color: #{$vxe-danger-disabled-color};
-
+  
   /*input/radio/checkbox*/
   --vxe-input-border-color: #{$vxe-input-border-color};
   --vxe-input-disabled-color: #{$vxe-input-disabled-color};
   --vxe-input-disabled-background-color: #{$vxe-input-disabled-background-color};
   --vxe-input-placeholder-color: #{$vxe-input-placeholder-color};
-
+  
   /*popup*/
   --vxe-table-popup-border-color: #{$vxe-table-popup-border-color};
-
+  
   /*table*/
   --vxe-table-header-font-color: #{$vxe-table-header-font-color};
   --vxe-table-footer-font-color: #{$vxe-table-footer-font-color};
@@ -67,7 +68,7 @@
   --vxe-table-tree-node-line-color: #{$vxe-table-tree-node-line-color};
   --vxe-table-tree-node-line-style: #{$vxe-table-tree-node-line-style};
   --vxe-table-header-font-weight: #{$vxe-table-header-font-weight};
-
+  
   --vxe-table-row-height-default: #{$vxe-table-row-height-default};
   --vxe-table-row-height-medium: #{$vxe-table-row-height-medium};
   --vxe-table-row-height-small: #{$vxe-table-row-height-small};
@@ -82,7 +83,7 @@
   --vxe-table-row-hover-checkbox-checked-background-color: #{$vxe-table-row-hover-checkbox-checked-background-color};
   --vxe-table-row-current-background-color: #{$vxe-table-row-current-background-color};
   --vxe-table-row-hover-current-background-color: #{$vxe-table-row-hover-current-background-color};
-
+  
   --vxe-table-column-padding-default: #{$vxe-table-column-padding-default};
   --vxe-table-column-padding-medium: #{$vxe-table-column-padding-medium};
   --vxe-table-column-padding-small: #{$vxe-table-column-padding-small};
@@ -91,7 +92,7 @@
   --vxe-table-column-current-background-color: #{$vxe-table-column-current-background-color};
   --vxe-table-column-icon-border-color: #{$vxe-table-column-icon-border-color};
   --vxe-table-column-icon-border-hover-color: #{$vxe-table-column-icon-border-hover-color};
-
+  
   --vxe-table-cell-placeholder-color: #{$vxe-table-cell-placeholder-color};
   --vxe-table-cell-padding-left: #{$vxe-table-cell-padding-left};
   --vxe-table-cell-padding-right: #{$vxe-table-cell-padding-right};
@@ -113,53 +114,53 @@
   --vxe-table-cell-extend-area-border-color: #{$vxe-table-cell-extend-area-border-color};
   --vxe-table-cell-active-area-border-color: #{$vxe-table-cell-active-area-border-color};
   --vxe-table-cell-area-background-color: #{$vxe-table-cell-area-background-color};
-
+  
   --vxe-table-checkbox-range-border-width: #{$vxe-table-checkbox-range-border-width};
   --vxe-table-checkbox-range-border-color: #{$vxe-table-checkbox-range-border-color};
   --vxe-table-checkbox-range-background-color: #{$vxe-table-checkbox-range-background-color};
-
+  
   --vxe-table-fixed-left-scrolling-box-shadow: #{$vxe-table-fixed-left-scrolling-box-shadow};
   --vxe-table-fixed-right-scrolling-box-shadow: #{$vxe-table-fixed-right-scrolling-box-shadow};
-
+  
   /*filter*/
   --vxe-table-filter-panel-background-color: #{$vxe-table-filter-panel-background-color};
-
+  
   /*menu*/
   --vxe-table-menu-item-width: #{$vxe-table-menu-item-width};
   --vxe-table-menu-background-color: #{$vxe-table-menu-background-color};
-
+  
   /*loading*/
   --vxe-loading-color: #{$vxe-loading-color};
   --vxe-loading-background-color: #{$vxe-loading-background-color};
   --vxe-loading-z-index: #{$vxe-loading-z-index};
-
+  
   /*validate*/
   --vxe-table-validate-error-color: #{$vxe-table-validate-error-color};
   --vxe-table-validate-error-background-color: #{$vxe-table-validate-error-background-color};
-
+  
   /*grid*/
   --vxe-grid-maximize-background-color: #{$vxe-grid-maximize-background-color};
-
+  
   /*toolbar*/
   --vxe-toolbar-background-color: #{$vxe-toolbar-background-color};
   --vxe-toolbar-custom-active-background-color: #{$vxe-toolbar-custom-active-background-color};
   --vxe-toolbar-panel-background-color: #{$vxe-toolbar-panel-background-color};
-
+  
   /*tooltip*/
   --vxe-tooltip-dark-color: #{$vxe-tooltip-dark-color};
   --vxe-tooltip-dark-background-color: #{$vxe-tooltip-dark-background-color};
   --vxe-tooltip-light-background-color: #{$vxe-tooltip-light-background-color};
-
+  
   /*pager*/
   --vxe-pager-background-color: #{$vxe-pager-background-color};
   --vxe-pager-perfect-background-color: #{$vxe-pager-perfect-background-color};
   --vxe-pager-perfect-button-background-color: #{$vxe-pager-perfect-button-background-color};
-
+  
   /*modal*/
   --vxe-modal-header-background-color: #{$vxe-modal-header-background-color};
   --vxe-modal-body-background-color: #{$vxe-modal-body-background-color};
   --vxe-modal-border-color: #{$vxe-modal-border-color};
-
+  
   /*checkbox*/
   --vxe-checkbox-font-size-default: #{$vxe-checkbox-font-size-default};
   --vxe-checkbox-font-size-medium: #{$vxe-checkbox-font-size-medium};
@@ -174,7 +175,7 @@
   --vxe-checkbox-icon-background-color: #{$vxe-checkbox-icon-background-color};
   --vxe-checkbox-checked-icon-border-color: #{$vxe-checkbox-checked-icon-border-color};
   --vxe-checkbox-indeterminate-icon-background-color: #{$vxe-checkbox-indeterminate-icon-background-color};
-
+  
   /*radio*/
   --vxe-radio-font-size-default: #{$vxe-radio-font-size-default};
   --vxe-radio-font-size-medium: #{$vxe-radio-font-size-medium};
@@ -185,7 +186,7 @@
   --vxe-radio-checked-icon-background-color: #{$vxe-radio-checked-icon-background-color};
   --vxe-radio-indeterminate-icon-background-color: #{$vxe-radio-indeterminate-icon-background-color};
   --vxe-radio-button-default-background-color: #{$vxe-radio-button-default-background-color};
-
+  
   /*button*/
   --vxe-button-max-width: #{$vxe-button-max-width};
   --vxe-button-default-background-color: #{$vxe-button-default-background-color};
@@ -198,7 +199,7 @@
   --vxe-button-round-border-radius-medium: #{$vxe-button-round-border-radius-medium};
   --vxe-button-round-border-radius-small: #{$vxe-button-round-border-radius-small};
   --vxe-button-round-border-radius-mini: #{$vxe-button-round-border-radius-mini};
-
+  
   /*input*/
   --vxe-input-background-color: #{$vxe-input-background-color};
   --vxe-input-panel-background-color: #{$vxe-input-panel-background-color};
@@ -233,14 +234,14 @@
   --vxe-input-height-medium: #{$vxe-input-height-medium};
   --vxe-input-height-small: #{$vxe-input-height-small};
   --vxe-input-height-mini: #{$vxe-input-height-mini};
-
+  --vxe-input-count-color: #{$vxe-input-count-color};
+  --vxe-input-count-background-color: #{$vxe-input-count-background-color};
+  --vxe-input-count-error-color: #{$vxe-input-count-error-color};
+  
   /*textarea*/
   --vxe-textarea-line-height: #{$vxe-textarea-line-height};
   --vxe-textarea-background-color: #{$vxe-textarea-background-color};
-  --vxe-textarea-count-color: #{$vxe-textarea-count-color};
-  --vxe-textarea-count-background-color: #{$vxe-textarea-count-background-color};
-  --vxe-textarea-count-error-color: #{$vxe-textarea-count-error-color};
-
+  
   /*form*/
   --vxe-form-item-min-height-default: #{$vxe-form-item-min-height-default};
   --vxe-form-item-min-height-medium: #{$vxe-form-item-min-height-medium};
@@ -249,7 +250,7 @@
   --vxe-form-background-color: #{$vxe-form-background-color};
   --vxe-form-validate-error-color: #{$vxe-form-validate-error-color};
   --vxe-form-validate-error-background-color: #{$vxe-form-validate-error-background-color};
-
+  
   /*select*/
   --vxe-select-option-height-default: #{$vxe-select-option-height-default};
   --vxe-select-option-height-medium: #{$vxe-select-option-height-medium};
@@ -259,14 +260,52 @@
   --vxe-select-panel-background-color: #{$vxe-select-panel-background-color};
   --vxe-select-empty-color: #{$vxe-select-empty-color};
   --vxe-optgroup-title-color: #{$vxe-optgroup-title-color};
-
+  
   /*switch*/
   --vxe-switch-font-color: #{$vxe-switch-font-color};
   --vxe-switch-icon-background-color: #{$vxe-switch-icon-background-color};
   --vxe-switch-open-background-color: #{$vxe-switch-open-background-color};
   --vxe-switch-close-background-color: #{$vxe-switch-close-background-color};
   --vxe-switch-disabled-background-color: #{$vxe-switch-disabled-background-color};
-
+  
   /*pulldown*/
   --vxe-pulldown-panel-background-color: #{$vxe-pulldown-panel-background-color};
+  
+  /*card*/
+  --vxe-card-background-color: #{$vxe-card-background-color};
+  --vxe-card-line-height: #{$vxe-card-line-height};
+  --vxe-card-header-font-color: #{$vxe-card-header-font-color};
+  --vxe-card-body-font-color: #{$vxe-card-body-font-color};
+  --vxe-card-header-font-size: #{$vxe-card-header-font-size};
+  --vxe-card-header-font-weight: #{$vxe-card-header-font-weight};
+  --vxe-card-footer-font-color: #{$vxe-card-footer-font-color};
+  --vxe-card-footer-font-size: #{$vxe-card-footer-font-size};
+  --vxe-card-back-font-color: #{$vxe-card-back-font-color};
+  --vxe-card-cover-font-color: #{$vxe-card-cover-font-color};
+  --vxe-card-cover-padding: #{$vxe-card-cover-padding};
+  --vxe-card-cover-background-color: #{$vxe-card-background-color};
+  --vxe-card-border-color: #{$vxe-card-border-color};
+  --vxe-card-border-width: #{$vxe-card-border-width};
+  --vxe-card-animation-duration: #{$vxe-card-animation-duration};
+  --vxe-card-box-shadow: #{$vxe-card-box-shadow};
+  --vxe-card-box-shadow-sink: #{$vxe-card-box-shadow-sink};
+  --vxe-card-shaking-distance: #{$vxe-card-shaking-distance};
+  --vxe-card-body-padding: #{$vxe-card-body-padding};
+  --vxe-card-header-padding: #{$vxe-card-header-padding};
+  --vxe-card-footer-padding: #{$vxe-card-footer-padding};
+  --vxe-card-border-radius: #{$vxe-card-border-radius};
+  --vxe-card-header-border-color: #{$vxe-modal-border-color};
+  
+  /*tag*/
+  --vxe-tag-default-color: #{$vxe-tag-default-color};
+  --vxe-tag-padding: #{$vxe-tag-padding};
+  --vxe-tag-border-radius: #{$vxe-tag-border-radius};
+  --vxe-tag-line-height--mini: #{$vxe-tag-line-height--mini};
+  --vxe-tag-line-height--small: #{$vxe-tag-line-height--small};
+  --vxe-tag-line-height--medium: #{$vxe-tag-line-height--medium};
+  --vxe-tag-line-height--large: #{$vxe-tag-line-height--large};
+  --vxe-tag-font-size-mini: #{$vxe-tag-font-size-mini};
+  --vxe-tag-font-size-small: #{$vxe-tag-font-size-small};
+  --vxe-tag-font-size-medium: #{$vxe-tag-font-size-medium};
+  --vxe-tag-font-size-large: #{$vxe-tag-font-size-large};
 }

@@ -5,7 +5,7 @@ import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf } from './c
 
 /**
  * 组件 - 分页
- * @example import { VxePager } from 'vxe-table'
+ * @example import { VxePager } from 'vxe-components'
  */
 export const VxePager: VXEComponent<VxePagerProps, VxePagerEventProps, VxePagerSlots>
 /**

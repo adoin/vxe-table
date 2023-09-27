@@ -148,8 +148,8 @@ export const Cell = {
     return createColumn($xetable, columnOpts, renConfs)
   },
   /**
-   * 单元格
-   */
+     * 单元格
+     */
   renderHeaderTitle (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column } = params
     const { slots, editRender, cellRender } = column
@@ -210,8 +210,8 @@ export const Cell = {
   },
 
   /**
-   * 树节点
-   */
+     * 树节点
+     */
   renderTreeIcon (params: VxeTableDefines.CellRenderBodyParams, cellVNodes: SlotVNodeType[]) {
     const { $table, isHidden } = params
     const { reactData } = $table
@@ -273,8 +273,8 @@ export const Cell = {
   },
 
   /**
-   * 索引
-   */
+     * 索引
+     */
   renderSeqHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column } = params
     const { slots } = column
@@ -301,8 +301,8 @@ export const Cell = {
   },
 
   /**
-   * 单选
-   */
+     * 单选
+     */
   renderRadioHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column } = params
     const { slots } = column
@@ -376,15 +376,15 @@ export const Cell = {
   },
 
   /**
-   * 多选
-   */
+     * 多选
+     */
   renderCheckboxHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column, isHidden } = params
     const { reactData } = $table
     const { computeIsAllCheckboxDisabled, computeCheckboxOpts } = $table.getComputeMaps()
     const {
       isAllSelected: isAllCheckboxSelected,
-      treeIndeterminateList,
+      treeIndeterminateMaps,
       isIndeterminate: isAllCheckboxIndeterminate
     } = reactData
     const isAllCheckboxDisabled = computeIsAllCheckboxDisabled.value
@@ -425,13 +425,13 @@ export const Cell = {
         class: ['vxe-cell--checkbox', {
           'is--checked': isAllCheckboxSelected,
           'is--disabled': isAllCheckboxDisabled,
-          'is--indeterminate': isAllCheckboxIndeterminate || treeIndeterminateList.length > 0
+          'is--indeterminate': isAllCheckboxIndeterminate || Object.keys(treeIndeterminateMaps).length > 0
         }],
         title: GlobalConfig.i18n('vxe.table.allTitle'),
         ...ons
       }, [
         h('span', {
-          class: ['vxe-checkbox--icon', (isAllCheckboxIndeterminate || treeIndeterminateList.length > 0) ? GlobalConfig.icon.TABLE_CHECKBOX_INDETERMINATE : (isAllCheckboxSelected ? GlobalConfig.icon.TABLE_CHECKBOX_CHECKED : GlobalConfig.icon.TABLE_CHECKBOX_UNCHECKED)]
+          class: ['vxe-checkbox--icon', (isAllCheckboxIndeterminate || Object.keys(treeIndeterminateMaps).length > 0) ? GlobalConfig.icon.TABLE_CHECKBOX_INDETERMINATE : (isAllCheckboxSelected ? GlobalConfig.icon.TABLE_CHECKBOX_CHECKED : GlobalConfig.icon.TABLE_CHECKBOX_UNCHECKED)]
         })
       ].concat(titleSlot || headerTitle ? [
         h('span', {
@@ -455,9 +455,9 @@ export const Cell = {
     let isChecked = false
     const isVisible = !visibleMethod || visibleMethod({ row })
     let isDisabled = !!checkMethod
-    const rowid = getRowid($table, row)
     let ons
     if (!isHidden) {
+      const rowid = getRowid($table, row)
       isChecked = !!selectCheckboxMaps[rowid]
       ons = {
         onClick (evnt: MouseEvent) {
@@ -511,19 +511,21 @@ export const Cell = {
     const { $table, row, column, isHidden } = params
     const { props, reactData } = $table
     const { treeConfig } = props
-    const { treeIndeterminateList } = reactData
+    const { treeIndeterminateMaps } = reactData
     const { computeCheckboxOpts } = $table.getComputeMaps()
     const checkboxOpts = computeCheckboxOpts.value
-    const { labelField, checkField, halfField, checkMethod, visibleMethod } = checkboxOpts
+    const { labelField, checkField, checkMethod, visibleMethod } = checkboxOpts
+    const indeterminateField = checkboxOpts.indeterminateField || checkboxOpts.halfField
     const { slots } = column
     const defaultSlot = slots ? slots.default : null
     const checkboxSlot = slots ? slots.checkbox : null
-    let indeterminate = false
+    let isIndeterminate = false
     let isChecked = false
     const isVisible = !visibleMethod || visibleMethod({ row })
     let isDisabled = !!checkMethod
     let ons
     if (!isHidden) {
+      const rowid = getRowid($table, row)
       isChecked = XEUtils.get(row, checkField as string)
       ons = {
         onClick (evnt: MouseEvent) {
@@ -537,10 +539,10 @@ export const Cell = {
         isDisabled = !checkMethod({ row })
       }
       if (treeConfig) {
-        indeterminate = $table.findRowIndexOf(treeIndeterminateList, row) > -1
+        isIndeterminate = !!treeIndeterminateMaps[rowid]
       }
     }
-    const checkboxParams = { ...params, checked: isChecked, disabled: isDisabled, visible: isVisible, indeterminate }
+    const checkboxParams = { ...params, checked: isChecked, disabled: isDisabled, visible: isVisible, indeterminate: isIndeterminate }
     if (checkboxSlot) {
       return $table.callSlot(checkboxSlot, checkboxParams)
     }
@@ -548,7 +550,7 @@ export const Cell = {
     if (isVisible) {
       checkVNs.push(
         h('span', {
-          class: ['vxe-checkbox--icon', indeterminate ? GlobalConfig.icon.TABLE_CHECKBOX_INDETERMINATE : (isChecked ? GlobalConfig.icon.TABLE_CHECKBOX_CHECKED : GlobalConfig.icon.TABLE_CHECKBOX_UNCHECKED)]
+          class: ['vxe-checkbox--icon', isIndeterminate ? GlobalConfig.icon.TABLE_CHECKBOX_INDETERMINATE : (isChecked ? GlobalConfig.icon.TABLE_CHECKBOX_CHECKED : GlobalConfig.icon.TABLE_CHECKBOX_UNCHECKED)]
         })
       )
       if (defaultSlot || labelField) {
@@ -564,7 +566,7 @@ export const Cell = {
         class: ['vxe-cell--checkbox', {
           'is--checked': isChecked,
           'is--disabled': isDisabled,
-          'is--indeterminate': halfField && !isChecked ? row[halfField] : indeterminate
+          'is--indeterminate': indeterminateField && !isChecked ? row[indeterminateField] : isIndeterminate
         }],
         ...ons
       }, checkVNs)
@@ -575,8 +577,8 @@ export const Cell = {
   },
 
   /**
-   * 展开行
-   */
+     * 展开行
+     */
   renderExpandCell (params: VxeTableDefines.CellRenderBodyParams) {
     const { $table, isHidden, row, column } = params
     const { reactData } = $table
@@ -635,8 +637,8 @@ export const Cell = {
   },
 
   /**
-   * HTML 标签
-   */
+     * HTML 标签
+     */
   renderHTMLCell (params: VxeTableDefines.CellRenderBodyParams) {
     const { $table, column } = params
     const { slots } = column
@@ -656,8 +658,8 @@ export const Cell = {
   },
 
   /**
-   * 排序和筛选
-   */
+     * 排序和筛选
+     */
   renderSortAndFilterHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     return Cell.renderDefaultHeader(params)
       .concat(Cell.renderSortIcon(params))
@@ -665,8 +667,8 @@ export const Cell = {
   },
 
   /**
-   * 排序
-   */
+     * 排序
+     */
   renderSortHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     return Cell.renderDefaultHeader(params).concat(Cell.renderSortIcon(params))
   },
@@ -705,8 +707,8 @@ export const Cell = {
   },
 
   /**
-   * 筛选
-   */
+     * 筛选
+     */
   renderFilterHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     return Cell.renderDefaultHeader(params).concat(Cell.renderFilterIcon(params))
   },
@@ -727,7 +729,9 @@ export const Cell = {
           class: ['vxe-filter--btn', hasFilter ? (iconMatch || GlobalConfig.icon.TABLE_FILTER_MATCH) : (iconNone || GlobalConfig.icon.TABLE_FILTER_NONE)],
           title: GlobalConfig.i18n('vxe.table.filter'),
           onClick (evnt: Event) {
-            $table.triggerFilterEvent(evnt, params.column, params)
+            if ($table.triggerFilterEvent) {
+              $table.triggerFilterEvent(evnt, params.column, params)
+            }
           }
         })
       ])
@@ -735,8 +739,8 @@ export const Cell = {
   },
 
   /**
-   * 可编辑
-   */
+     * 可编辑
+     */
   renderEditHeader (params: VxeTableDefines.CellRenderHeaderParams) {
     const { $table, column } = params
     const { props } = $table

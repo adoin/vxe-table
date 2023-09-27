@@ -98,18 +98,6 @@ declare module '../grid' {
   export interface VxeGridPrivateMethods<D = VxeTableDataRow> extends VxeTableProPrivateMethods<D> { }
 }
 
-export interface VXETableProClipboard {
-  text?: string
-  html?: string
-  [key: string]: any
-}
-
-declare module '../vxe-table' {
-  export interface VXETableConfig {
-    clipboard?: VXETableProClipboard
-  }
-}
-
 export namespace VxeTableProDefines {
   export interface CellAreaParams<D = VxeTableDataRow> {
     cols: VxeTableDefines.ColumnInfo<D>[]
@@ -418,11 +406,29 @@ declare module '../table' {
     onActiveCellChangeEnd?: VxeTableEvents.ActiveCellChangeEnd<D>
   }
   export interface VxeTableListeners<D = VxeTableDataRow> {
+    /**
+     * 只对 keyboard-config.isFNR 配置时有效，在查找与替换弹框被打开时会触发该事件
+     */
     openFnr?: VxeTableEvents.OpenFnr<D>
+    /**
+     * 只对 keyboard-config.isFNR 配置时有效，在查找与替换弹框的 Tab 页被切换时会触发该事件
+     */
     fnrChange?: VxeTableEvents.FnrChange<D>
+    /**
+     * 只对 keyboard-config.isFNR 配置时有效，在点击查找时会触发该事件
+     */
     fnrFind?: VxeTableEvents.FnrFind<D>
+    /**
+     * 只对 keyboard-config.isFNR 配置时有效，在点击查找所有时会触发该事件
+     */
     fnrFindAll?: VxeTableEvents.FnrFindAll<D>
+    /**
+     * 只对 keyboard-config.isFNR 配置时有效，在点击替换时会触发该事件
+     */
     fnrReplace?: VxeTableEvents.FnrReplace<D>
+    /**
+     * 只对 keyboard-config.isFNR 配置时有效，在点击替换所有时会触发该事件
+     */
     fnrReplaceAll?: VxeTableEvents.FnrReplaceAll<D>
     cellAreaCopy?: VxeTableEvents.CellAreaCopy<D>
     cellAreaCut?: VxeTableEvents.CellAreaCut<D>
@@ -525,6 +531,7 @@ declare module '../grid' {
     fnrReplaceAll?: VxeGridEvents.FnrReplaceAll<D>
     cellAreaCopy?: VxeGridEvents.CellAreaCopy<D>
     cellAreaCut?: VxeGridEvents.CellAreaCut<D>
+    cellAreaPaste?: VxeGridEvents.CellAreaPaste<D>
     cellAreaMerge?: VxeGridEvents.CellAreaMerge<D>
     clearCellAreaMerge?: VxeGridEvents.ClearCellAreaMerge<D>
     headerCellAreaSelection?: VxeGridEvents.HeaderCellAreaSelection<D>
@@ -538,8 +545,8 @@ declare module '../grid' {
     cellAreaSelectionAllEnd?: VxeGridEvents.CellAreaSelectionAllEnd<D>
     cellAreaArrowsStart?: VxeGridEvents.CellAreaArrowsStart<D>
     cellAreaArrowsEnd?: VxeGridEvents.CellAreaArrowsEnd<D>
-    ActiveCellChangeStart?: VxeGridEvents.ActiveCellChangeStart<D>
-    ActiveCellChangeEnd?: VxeGridEvents.ActiveCellChangeEnd<D>
+    activeCellChangeStart?: VxeGridEvents.ActiveCellChangeStart<D>
+    activeCellChangeEnd?: VxeGridEvents.ActiveCellChangeEnd<D>
   }
   export namespace VxeGridEvents {
     export type OpenFnr<D = any> = (params: VxeTableProDefines.OpenFnrParams<D>) => void

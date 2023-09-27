@@ -1,4 +1,17 @@
-import { createCommentVNode, defineComponent, h, ref, Ref, PropType, inject, nextTick, ComputedRef, onBeforeUnmount, onMounted, onUnmounted } from 'vue'
+import {
+  createCommentVNode,
+  defineComponent,
+  h,
+  ref,
+  Ref,
+  PropType,
+  inject,
+  nextTick,
+  ComputedRef,
+  onBeforeUnmount,
+  onMounted,
+  onUnmounted
+} from 'vue'
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { VXETable } from '../../v-x-e-table'
@@ -7,7 +20,15 @@ import { updateCellTitle, getPropClass } from '../../tools/dom'
 import { isEnableConf } from '../../tools/utils'
 import { getSlotVNs } from '../../tools/vn'
 
-import { VxeTablePrivateMethods, VxeTableConstructor, VxeTableDefines, VxeTableMethods, VxeGlobalRendererHandles, VxeColumnPropTypes, SizeType } from '../../../types/all'
+import {
+  VxeTablePrivateMethods,
+  VxeTableConstructor,
+  VxeTableDefines,
+  VxeTableMethods,
+  VxeGlobalRendererHandles,
+  VxeColumnPropTypes,
+  SizeType
+} from '../../../types/all'
 
 const renderType = 'body'
 
@@ -32,7 +53,7 @@ export default defineComponent({
 
     const { xID, props: tableProps, context: tableContext, reactData: tableReactData, internalData: tableInternalData } = $xetable
     const { refTableHeader, refTableBody, refTableFooter, refTableLeftBody, refTableRightBody, refValidTooltip } = $xetable.getRefMaps()
-    const { computeEditOpts, computeMouseOpts, computeSYOpts, computeEmptyOpts, computeKeyboardOpts, computeTooltipOpts, computeRadioOpts, computeExpandOpts, computeTreeOpts, computeCheckboxOpts, computeValidOpts, computeRowOpts, computeColumnOpts, computeIsVMScrollProcess } = $xetable.getComputeMaps()
+    const { computeEditOpts, computeMouseOpts, computeSYOpts, computeEmptyOpts, computeKeyboardOpts, computeTooltipOpts, computeRadioOpts, computeExpandOpts, computeTreeOpts, computeCheckboxOpts, computeValidOpts, computeRowOpts, computeColumnOpts } = $xetable.getComputeMaps()
 
     const refElem = ref() as Ref<XEBodyScrollElement>
     const refBodyTable = ref() as Ref<HTMLTableElement>
@@ -52,6 +73,13 @@ export default defineComponent({
       return 0
     }
 
+    // 滚动、拖动过程中不需要触发
+    const isVMScrollProcess = () => {
+      const { delayHover } = tableProps
+      const { lastScrollTime, _isResize } = tableReactData
+      return !!(_isResize || (lastScrollTime && Date.now() < lastScrollTime + (delayHover as number)))
+    }
+
     const countTreeExpand = (prevRow: any, params: any) => {
       let count = 1
       if (!prevRow) {
@@ -60,7 +88,7 @@ export default defineComponent({
       const treeOpts = computeTreeOpts.value
       const childrenField = treeOpts.children || treeOpts.childrenField
       const rowChildren = prevRow[childrenField]
-      if ($xetable.isTreeExpandByRow(prevRow)) {
+      if (rowChildren && $xetable.isTreeExpandByRow(prevRow)) {
         for (let index = 0; index < rowChildren.length; index++) {
           count += countTreeExpand(rowChildren[index], params)
         }
@@ -159,7 +187,7 @@ export default defineComponent({
       // hover 进入事件
       if (showTitle || showTooltip || showAllTip || tooltipConfig) {
         tdOns.onMouseenter = (evnt: MouseEvent) => {
-          if (computeIsVMScrollProcess.value) {
+          if (isVMScrollProcess()) {
             return
           }
           if (showTitle) {
@@ -174,7 +202,7 @@ export default defineComponent({
       // hover 退出事件
       if (showTooltip || showAllTip || tooltipConfig) {
         tdOns.onMouseleave = (evnt: MouseEvent) => {
-          if (computeIsVMScrollProcess.value) {
+          if (isVMScrollProcess()) {
             return
           }
           if (showTooltip || showAllTip) {
@@ -331,13 +359,13 @@ export default defineComponent({
         // 事件绑定
         if (rowOpts.isHover || highlightHoverRow) {
           trOn.onMouseenter = (evnt: any) => {
-            if (computeIsVMScrollProcess.value) {
+            if (isVMScrollProcess()) {
               return
             }
             $xetable.triggerHoverEvent(evnt, { row, rowIndex })
           }
           trOn.onMouseleave = () => {
-            if (computeIsVMScrollProcess.value) {
+            if (isVMScrollProcess()) {
               return
             }
             $xetable.clearHoverRow()
@@ -435,11 +463,8 @@ export default defineComponent({
           )
         }
         // 如果是树形表格
-        if (treeConfig && !scrollYLoad && !transform) {
-          const rowChildren = row[childrenField]
-          if (rowChildren && rowChildren.length && treeExpandedMaps[rowid]) {
-            rows.push(...renderRows(fixedType, rowChildren, tableColumn))
-          }
+        if (isExpandTree) {
+          rows.push(...renderRows(fixedType, rowChildren, tableColumn))
         }
       })
       return rows
@@ -483,9 +508,12 @@ export default defineComponent({
           // setScrollTop(bodyElem, targetTop)
           // setScrollTop(leftElem, targetTop)
           // setScrollTop(rightElem, targetTop)
+          tableReactData.lastScrollTime = Date.now()
         }, 300)
       }
     }
+
+    const scrollLoadingTime: any = null
 
     /**
      * 滚动处理
@@ -548,12 +576,29 @@ export default defineComponent({
           }
         }
       }
+      // let isLoadScroll = false
       if (scrollXLoad && isRollX) {
+        // isLoadScroll = true
         $xetable.triggerScrollXEvent(evnt)
       }
       if (scrollYLoad && isRollY) {
+        // isLoadScroll = true
         $xetable.triggerScrollYEvent(evnt)
       }
+
+      if (scrollLoadingTime !== null) {
+        clearTimeout(scrollLoadingTime)
+      }
+      // if (isLoadScroll) {
+      //   tableReactData.scrollVMLoading = true
+      //   scrollLoadingTime = setTimeout(() => {
+      //     scrollLoadingTime = null
+      //     tableReactData.scrollVMLoading = false
+      //   }, 20)
+      // } else {
+      //   tableReactData.scrollVMLoading = false
+      // }
+
       if (isRollX && validTip && validTip.reactData.visible) {
         validTip.updatePlacement()
       }
@@ -690,16 +735,20 @@ export default defineComponent({
         elemStore[`${prefix}xSpace`] = refBodyXSpace
         elemStore[`${prefix}ySpace`] = refBodyYSpace
         elemStore[`${prefix}emptyBlock`] = refBodyEmptyBlock
-        el.onscroll = scrollEvent
-        el._onscroll = scrollEvent
+        if (el) {
+          el.onscroll = scrollEvent
+          el._onscroll = scrollEvent
+        }
       })
     })
 
     onBeforeUnmount(() => {
       const el = refElem.value
       clearTimeout(wheelTime)
-      el._onscroll = null
-      el.onscroll = null
+      if (el) {
+        el._onscroll = null
+        el.onscroll = null
+      }
     })
 
     onUnmounted(() => {

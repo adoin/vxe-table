@@ -5,7 +5,7 @@ import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf } from './c
 
 /**
  * 组件 - 文本域
- * @example import {  VxeTextarea } from 'vxe-table'
+ * @example import {  VxeTextarea } from 'vxe-components'
  */
 export const VxeTextarea: VXEComponent<VxeTextareaProps, VxeTextareaEventProps, VxeTextareaSlots>
 /**

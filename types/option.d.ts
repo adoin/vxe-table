@@ -6,7 +6,7 @@ import { VxeSelectConstructor } from './select'
 
 /**
  * 组件 - 下拉框选项
- * @example import { VxeOption } from 'vxe-table'
+ * @example import { VxeOption } from 'vxe-components'
  */
 export const VxeOption: VXEComponent<VxeOptionProps>
 /**

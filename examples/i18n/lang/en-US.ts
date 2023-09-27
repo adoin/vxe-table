@@ -184,6 +184,8 @@ export default {
 
         module: 'Modules',
         button: 'Button',
+        card: 'Card',
+        tag: 'Tag',
         input: 'Input',
         textarea: 'Textarea',
         select: 'Select',
