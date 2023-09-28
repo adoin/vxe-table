@@ -4,9 +4,11 @@ import { ValueOf, VXEComponent, VxeComponentBase, VxeEvent } from './component'
 
 export namespace VxeTagsPropTypes {
   export type modelValue = Array<string | number | VxeTagProps>
+  export type formatContent = (v: string | number | VxeTagProps) => string | number
   export type color = VxeTagPropTypes.color
   export type size = VxeTagPropTypes.size
   export type closable = VxeTagPropTypes.closable
+  export type editable = VxeTagPropTypes.editable
   export type round = VxeTagPropTypes.round
   export type tagStyle = VxeTagPropTypes.tagStyle
   export type icon = VxeTagPropTypes.icon
@@ -16,9 +18,11 @@ export namespace VxeTagsPropTypes {
 }
 export type VxeTagsProps = {
   modelValue?: VxeTagsPropTypes.modelValue
+  formatContent?: VxeTagsPropTypes.formatContent
   color?: VxeTagsPropTypes.color
   size?: VxeTagsPropTypes.size
   closable?: VxeTagsPropTypes.closable
+  editable?: VxeTagsPropTypes.editable
   round?: VxeTagsPropTypes.round
   tagStyle?: VxeTagsPropTypes.tagStyle
   icon?: VxeTagsPropTypes.icon

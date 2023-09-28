@@ -81,8 +81,7 @@ VXETable.setup({
     clearable: true
   },
   select: {
-    clearable: true,
-    filterable: true
+    clearable: true
   },
   modal: {
     duration: 2000

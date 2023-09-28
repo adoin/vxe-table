@@ -155,8 +155,7 @@ export default defineComponent({
         props.closable ? h('div',
           {
             class: 'vxe-tag-close-icon',
-            onClick: (event: Event) => {
-              // closeTag(event)
+            onMousedown: (event: Event) => {
               tagMethods.dispatchEvent('close', {}, event)
             }
           },

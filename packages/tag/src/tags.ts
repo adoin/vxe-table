@@ -6,7 +6,7 @@ import {
   PropType,
   reactive, Ref,
   ref,
-  resolveComponent, unref
+  resolveComponent, unref, watchEffect
 } from 'vue'
 import {
   TagsReactData,
@@ -14,7 +14,7 @@ import {
   VxeTagsPrivateRef,
   VxeTagsPropTypes
 } from '../../../types/tags'
-import { isFunction, isObject, isString, pick, uniqueId } from 'xe-utils'
+import { clone, isFunction, isObject, isString, pick, uniqueId } from 'xe-utils'
 import { VxeTagConstructor, VxeTagInstance, VxeTagProps } from '../../../types'
 
 export default defineComponent({
@@ -23,6 +23,10 @@ export default defineComponent({
     modelValue: {
       type: Array as PropType<VxeTagsPropTypes.modelValue>,
       default: () => []
+    },
+    formatContent: {
+      type: Function as PropType<VxeTagsPropTypes.formatContent>,
+      default: (v: string | number | VxeTagProps) => v
     },
     color: {
       type: String as PropType<VxeTagsPropTypes.color>,
@@ -34,6 +38,10 @@ export default defineComponent({
     },
     closable: {
       type: Boolean as PropType<VxeTagsPropTypes.closable>,
+      default: false
+    },
+    editable: {
+      type: Boolean as PropType<VxeTagsPropTypes.editable>,
       default: false
     },
     round: {
@@ -71,7 +79,10 @@ export default defineComponent({
     const xID = uniqueId()
     const reactData = reactive<TagsReactData>({
       inited: false,
-      innerTags: props.modelValue
+      innerTags: props.modelValue === null ? [] : props.modelValue
+    })
+    watchEffect(() => {
+      reactData.innerTags = props.modelValue === null ? [] : props.modelValue
     })
     const refElem = ref() as Ref<HTMLSpanElement>
     const refTags = ref<VxeTagInstance[]>([])
@@ -109,10 +120,15 @@ export default defineComponent({
     const isSimple = computed(() => props.modelValue.every((item) => !isObject(item)))
     const closeTag = (index: number) => {
       const { innerTags } = reactData
-      innerTags.splice(index, 1)
-      emit('update:modelValue', innerTags)
+      const tags = clone(innerTags)
+      tags.splice(index, 1)
+      emit('close', index)
+      emit('update:modelValue', tags)
     }
     const interleave = (arr: Array<any>, x: any) => arr.flatMap((e: any) => [e, x]).slice(0, -1)
+    const formatContent = (content: string | number) => {
+      return !props.editable ? props.formatContent(content) : content
+    }
     const renderTags = () => {
       const { innerTags } = reactData
       const tags = innerTags.map((item, index) => h(resolveComponent('vxe-tag') as ComponentOptions, {
@@ -120,15 +136,16 @@ export default defineComponent({
         ref: refTags.value[index],
         onClose: () => closeTag(index),
         onEdit: (value: string) => {
-          if (isString(innerTags[index])) {
-            innerTags[index] = value
+          const tags = clone(innerTags)
+          if (isString(tags[index])) {
+            tags[index] = value
           } else {
-            (innerTags[index] as VxeTagProps).content = value
+            (tags[index] as VxeTagProps).content = value
           }
-          emit('update:modelValue', innerTags)
+          emit('update:modelValue', tags)
           emit('edit', { $event: { index, tag: item } })
         },
-        content: isSimple.value ? item : (item as VxeTagProps).content,
+        content: isSimple.value ? formatContent(item as string | number) : formatContent((item as VxeTagProps).content ?? ''),
         ...(isSimple.value ? parentProps.value : { ...parentProps.value, ...(item as VxeTagProps) })
       }))
       const separator = renderSeparator()
@@ -150,8 +167,7 @@ export default defineComponent({
                     content: ''
                   }
                 : created
-            reactData.innerTags.push(tag)
-            emit('update:modelValue', reactData.innerTags)
+            emit('update:modelValue', [...reactData.innerTags, tag])
             emit('tag-created', { $event: { tag } })
             activeTag.value = refTags.value[refTags.value.length - 1]
             /* activeTag 进入编辑状态 */

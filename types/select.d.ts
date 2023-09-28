@@ -3,6 +3,7 @@ import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf, VNodeStyle
 import { VxeGlobalRendererHandles } from './v-x-e-table'
 import { VxeOptgroupProps } from './optgroup'
 import { VxeOptionProps, VxeOptionPropTypes } from './option'
+import { VxeTagsProps } from './tags'
 
 declare type Recordable<T = any> = Record<string, T>;
 /* eslint-disable no-use-before-define */
@@ -61,6 +62,8 @@ export type VxeSelectProps = {
   size?: VxeSelectPropTypes.Size
   modelValue?: VxeSelectPropTypes.ModelValue
   clearable?: VxeSelectPropTypes.Clearable
+  multipleMode?: VxeSelectPropTypes.MultipleMode
+  tagsProps?: VxeSelectPropTypes.TagsProps
   placeholder?: VxeSelectPropTypes.Placeholder
   loading?: VxeSelectPropTypes.Loading
   disabled?: VxeSelectPropTypes.Disabled
@@ -98,6 +101,8 @@ export namespace VxeSelectPropTypes {
   export type Size = SizeType
   export type ModelValue = any
   export type Clearable = boolean
+  export type MultipleMode = 'tag' | 'text'
+  export type TagsProps = VxeTagsProps
   export type Placeholder = string
   export type Loading = boolean
   export type Disabled = boolean

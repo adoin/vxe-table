@@ -1,44 +1,48 @@
 import {
+  computed,
   defineComponent,
   h,
-  Teleport,
+  inject,
+  nextTick,
+  onMounted,
+  onUnmounted,
   PropType,
+  provide,
+  reactive,
   ref,
   Ref,
-  inject,
+  Teleport,
   VNode,
-  computed,
-  provide,
-  onUnmounted,
-  reactive,
-  nextTick,
   watch,
-  onMounted,
   watchEffect
 } from 'vue'
-import XEUtils, { isFunction } from 'xe-utils'
+import XEUtils, { isFunction, isObject } from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
-import { getEventTargetNode, getAbsolutePos } from '../../tools/dom'
-import { getLastZIndex, nextZIndex, getFuncText, formatText } from '../../tools/utils'
-import { GlobalEvent, hasEventKey, EVENT_KEYS } from '../../tools/event'
+import { getAbsolutePos, getEventTargetNode } from '../../tools/dom'
+import { formatText, getFuncText, getLastZIndex, nextZIndex } from '../../tools/utils'
+import { EVENT_KEYS, GlobalEvent, hasEventKey } from '../../tools/event'
 import VxeInputComponent from '../../input/src/input'
+import VxeIconComponent from '../../icon/src/icon'
+import VxeTagsComponent from '../../tag/src/tags'
 import { getSlotVNs } from '../../tools/vn'
 
 import {
-  VxeSelectPropTypes,
-  VxeSelectConstructor,
-  SelectReactData,
-  VxeSelectEmits,
-  VxeInputConstructor,
   SelectMethods,
   SelectPrivateRef,
-  VxeSelectMethods,
+  SelectReactData,
+  VxeFormConstructor,
+  VxeFormDefines,
+  VxeFormPrivateMethods,
+  VxeInputConstructor,
   VxeOptgroupProps,
   VxeOptionProps,
-  VxeFormDefines,
-  VxeFormConstructor,
-  VxeFormPrivateMethods
+  VxeSelectConstructor,
+  VxeSelectEmits,
+  VxeSelectMethods,
+  VxeSelectPropTypes,
+  VxeTagProps,
+  VxeTagsPropTypes
 } from '../../../types/all'
 
 function isOptionVisible (option: any) {
@@ -59,6 +63,11 @@ export default defineComponent({
       type: String as PropType<VxeSelectPropTypes.Placeholder>
     },
     loading: Boolean as PropType<VxeSelectPropTypes.Loading>,
+    multipleMode: {
+      type: String as PropType<VxeSelectPropTypes.MultipleMode>,
+      default: 'text'
+    },
+    tagsProps: Object as PropType<VxeSelectPropTypes.TagsProps>,
     disabled: Boolean as PropType<VxeSelectPropTypes.Disabled>,
     multiple: Boolean as PropType<VxeSelectPropTypes.Multiple>,
     multiCharOverflow: {
@@ -238,29 +247,8 @@ export default defineComponent({
       const item = findOption(value)
       return XEUtils.toValueString(item ? item[labelField as 'label'] : value)
     }
-
-    /* const computeSelectLabel = computed(() => {
-      const { modelValue, multiple, remote } = props
-      const multiMaxCharNum = computeMultiMaxCharNum.value
-      if (modelValue && multiple) {
-        const vals = XEUtils.isArray(modelValue) ? modelValue : [modelValue]
-        if (remote) {
-          return vals.map(val => getRemoteSelectLabel(val)).join(', ')
-        }
-        return vals.map((val) => {
-          const label = getSelectLabel(val)
-          if (multiMaxCharNum > 0 && label.length > multiMaxCharNum) {
-            return `${label.substring(0, multiMaxCharNum)}...`
-          }
-          return label
-        }).join(', ')
-      }
-      if (remote) {
-        return getRemoteSelectLabel(modelValue)
-      }
-      return getSelectLabel(modelValue)
-    }) */
     const displaySelectLabel = ref('')
+    const latestPick = ref<number | string>('')
     const calculateLabel = () => {
       const { modelValue, multiple, remote } = props
       const multiMaxCharNum = computeMultiMaxCharNum.value
@@ -988,12 +976,16 @@ export default defineComponent({
       GlobalEvent.off($xeselect, 'keydown')
       GlobalEvent.off($xeselect, 'blur')
     })
-
+    const handleCloseTag = (index: number) => {
+      emit('update:modelValue', (props.modelValue as any[]).filter((_val, i) => i !== index))
+    }
     const renderVN = () => {
       const { className, popupClassName, transfer, disabled, loading, filterable } = props
       const { inited, isActivated, visiblePanel } = reactData
       const vSize = computeSize.value
       const prefixSlot = slots.prefix
+      const labelField = computeLabelField.value as 'label'
+      const defaultFormatter: VxeTagsPropTypes.formatContent = (v: string | number | VxeTagProps) => findOption(v)?.[labelField] ?? (isObject(v) ? ((v as VxeTagProps).content ?? '') : v)
       return h('div', {
         ref: refElem,
         class: ['vxe-select', className ? (XEUtils.isFunction(className) ? className({ $select: $xeselect }) : className) : '', {
@@ -1009,26 +1001,61 @@ export default defineComponent({
           class: 'vxe-select-slots',
           ref: 'hideOption'
         }, slots.default ? slots.default({}) : []),
-        h(VxeInputComponent, {
-          ref: refInput,
-          clearable: props.clearable,
-          placeholder: props.placeholder,
-          readonly: !filterable,
-          disabled,
-          type: 'text',
-          prefixIcon: props.prefixIcon,
-          suffixIcon: loading ? GlobalConfig.icon.SELECT_LOADED : (visiblePanel ? GlobalConfig.icon.SELECT_OPEN : GlobalConfig.icon.SELECT_CLOSE),
-          modelValue: displaySelectLabel.value,
-          onInput: ({ $event: { target } }) => { displaySelectLabel.value = target.value },
-          onClear: clearEvent,
-          onMouseUp: togglePanelEvent,
-          onFocus: focusEvent,
-          onBlur: blurEvent,
-          onChange: debounceChangeFilterEvent,
-          onSuffixClick: togglePanelEvent
-        }, prefixSlot ? {
-          prefix: () => prefixSlot({})
-        } : {}),
+        props.multipleMode === 'tag' && filterable && props.multiple
+          ? h('div', {
+            class: 'vxe-select--type-tags'
+          }, [
+            prefixSlot ? prefixSlot({}) : props.prefixIcon ? h(VxeIconComponent, {
+              name: props.prefixIcon
+            }) : null,
+            h(VxeTagsComponent, {
+              size: 'mini',
+              tagStyle: 'flag',
+              formatContent: defaultFormatter,
+              ...(props.tagsProps ?? {}),
+              editable: false,
+              creator: false,
+              closable: true,
+              modelValue: props.modelValue,
+              onClose: handleCloseTag
+            }),
+            filterable ? h(VxeInputComponent, {
+              ref: refInput,
+              disabled,
+              size: props.size,
+              type: 'text',
+              clearable: props.clearable,
+              modelValue: latestPick.value,
+              suffixIcon: loading ? GlobalConfig.icon.SELECT_LOADED : (visiblePanel ? GlobalConfig.icon.SELECT_OPEN : GlobalConfig.icon.SELECT_CLOSE),
+              onInput: ({ $event: { target } }) => { latestPick.value = target.value },
+              onClear: clearEvent,
+              onMouseUp: togglePanelEvent,
+              onFocus: focusEvent,
+              onBlur: blurEvent,
+              onChange: debounceChangeFilterEvent,
+              onSuffixClick: togglePanelEvent
+            }) : null
+          ])
+          : h(VxeInputComponent, {
+            ref: refInput,
+            clearable: props.clearable,
+            placeholder: props.placeholder,
+            readonly: !filterable,
+            disabled,
+            type: 'text',
+            prefixIcon: props.prefixIcon,
+            suffixIcon: loading ? GlobalConfig.icon.SELECT_LOADED : (visiblePanel ? GlobalConfig.icon.SELECT_OPEN : GlobalConfig.icon.SELECT_CLOSE),
+            modelValue: displaySelectLabel.value,
+            onInput: ({ $event: { target } }) => { displaySelectLabel.value = target.value },
+            onClear: clearEvent,
+            onMouseUp: togglePanelEvent,
+            onFocus: focusEvent,
+            onBlur: blurEvent,
+            onChange: debounceChangeFilterEvent,
+            onSuffixClick: togglePanelEvent
+          }, prefixSlot ? {
+            prefix: () => prefixSlot({})
+          } : {}),
         h(Teleport, {
           to: 'body',
           disabled: transfer ? !inited : true

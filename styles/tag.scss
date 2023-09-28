@@ -114,6 +114,7 @@
       filter: brightness(1.1);
       
       & > .vxe-tag-close-icon {
+        cursor: pointer;
         display: inline-block;
         position: absolute;
         bottom: calc(50% - 0.5em);

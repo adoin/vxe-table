@@ -110,6 +110,8 @@
           <vxe-option value="5-4" label="选项5-4"></vxe-option>
         </vxe-optgroup>
       </vxe-select>
+    </p>
+    <p>
       <vxe-select v-model="demo1.value33" placeholder="多选" multiple>
         <vxe-option value="1" label="选项1"></vxe-option>
         <vxe-option value="2" label="选项2"></vxe-option>
@@ -118,6 +120,13 @@
         <vxe-option value="5" label="选项5"></vxe-option>
       </vxe-select>
       <vxe-select v-model="demo1.value33" placeholder="多选可搜索" multiple filterable clearable>
+        <vxe-option value="1" label="选项1"></vxe-option>
+        <vxe-option value="2" label="选项2"></vxe-option>
+        <vxe-option value="3" label="选项3"></vxe-option>
+        <vxe-option value="4" label="选项4"></vxe-option>
+        <vxe-option value="5" label="选项5"></vxe-option>
+      </vxe-select>
+      <vxe-select v-model="demo1.value33" placeholder="多选标签展示可搜索" multiple filterable clearable multiple-mode="tag">
         <vxe-option value="1" label="选项1"></vxe-option>
         <vxe-option value="2" label="选项2"></vxe-option>
         <vxe-option value="3" label="选项3"></vxe-option>
@@ -156,6 +165,39 @@
         <vxe-option value="13" label="选项13"></vxe-option>
         <vxe-option value="14" label="选项14"></vxe-option>
       </vxe-select>
+      <vxe-select v-model="demo1.value46" placeholder="自定义模板" :options="demo1.list46" multiple clearable transfer>
+        <template #opt3="{ option }">
+          <span style="color: red">
+            <i class="fa fa-plane"></i>
+            <span>{{ option.label }}</span>
+          </span>
+        </template>
+
+        <template #opt4="{ option }">
+          <span style="color: green">
+            <i class="fa fa-area-chart"></i>
+            <span>{{ option.label }}</span>
+          </span>
+        </template>
+
+        <template #opt5="{ option }">
+          <span>
+            <span>{{ option.label }}</span>
+            <i class="fa fa-angellist"></i>
+          </span>
+        </template>
+      </vxe-select>
+
+    </p>
+
+    <p>
+      <vxe-select v-model="demo1.value45" placeholder="加载中" :options="demo1.list45" loading></vxe-select>
+      <vxe-select v-model="demo1.value40" placeholder="空数据" :options="demo1.list40"></vxe-select>
+      <vxe-select v-model="demo1.value41" placeholder="分组配置式" :option-groups="demo1.list41"></vxe-select>
+      <vxe-select v-model="demo1.value42" placeholder="禁用选项" :options="demo1.list42"></vxe-select>
+      <vxe-select v-model="demo1.value43" placeholder="禁用分组" :option-groups="demo1.list43" transfer></vxe-select>
+      <vxe-select v-model="demo1.value44" placeholder="多选" :options="demo1.list44" multiple clearable
+                  transfer></vxe-select>
       <vxe-select v-model="demo1.value35" placeholder="自定义模板" clearable>
         <vxe-option value="1" label="选项1"></vxe-option>
         <vxe-option value="2" label="选项2"></vxe-option>
@@ -184,38 +226,6 @@
           </template>
         </vxe-option>
         <vxe-option value="6" label="选项6"></vxe-option>
-      </vxe-select>
-    </p>
-
-    <p>
-      <vxe-select v-model="demo1.value45" placeholder="加载中" :options="demo1.list45" loading></vxe-select>
-      <vxe-select v-model="demo1.value40" placeholder="空数据" :options="demo1.list40"></vxe-select>
-      <vxe-select v-model="demo1.value41" placeholder="分组配置式" :option-groups="demo1.list41"></vxe-select>
-      <vxe-select v-model="demo1.value42" placeholder="禁用选项" :options="demo1.list42"></vxe-select>
-      <vxe-select v-model="demo1.value43" placeholder="禁用分组" :option-groups="demo1.list43" transfer></vxe-select>
-      <vxe-select v-model="demo1.value44" placeholder="多选" :options="demo1.list44" multiple clearable
-                  transfer></vxe-select>
-      <vxe-select v-model="demo1.value46" placeholder="自定义模板" :options="demo1.list46" multiple clearable transfer>
-        <template #opt3="{ option }">
-          <span style="color: red">
-            <i class="fa fa-plane"></i>
-            <span>{{ option.label }}</span>
-          </span>
-        </template>
-
-        <template #opt4="{ option }">
-          <span style="color: green">
-            <i class="fa fa-area-chart"></i>
-            <span>{{ option.label }}</span>
-          </span>
-        </template>
-
-        <template #opt5="{ option }">
-          <span>
-            <span>{{ option.label }}</span>
-            <i class="fa fa-angellist"></i>
-          </span>
-        </template>
       </vxe-select>
     </p>
 
