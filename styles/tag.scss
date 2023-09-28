@@ -83,6 +83,10 @@
     &.is--round {
       border-radius: 1em;
     }
+    .tag-close-position--corner{
+      right: 0;
+      top: -0.5em;
+    }
   }
   
   &.size--mini {
@@ -107,25 +111,33 @@
   
   &.vxe-tag--closable {
     & > .vxe-tag-close-icon {
-      display: none;
+      cursor: pointer;
+      width: 1em;
+      height: 1em;
+      line-height: 1;
+      text-align: center;
+      border-radius: 50%;
+      background-color: #fff;
+      color: var(--tag-color);
+      
+      &.tag-close-position--center {
+        display: none;
+      }
+      
+      &.tag-close-position--corner {
+        display: inline-block;
+        position: absolute;
+      }
     }
     
     &:hover {
       filter: brightness(1.1);
       
-      & > .vxe-tag-close-icon {
-        cursor: pointer;
+      & > .vxe-tag-close-icon.tag-close-position--center {
         display: inline-block;
         position: absolute;
         bottom: calc(50% - 0.5em);
         left: calc(50% - 0.5em);
-        width: 1em;
-        height: 1em;
-        line-height: 1;
-        text-align: center;
-        border-radius: 50%;
-        background-color: #fff;
-        color: var(--tag-color);
       }
     }
   }
@@ -172,7 +184,7 @@
 }
 
 .vxe-tag + .vxe-tag {
-  margin-left: 0.4em;
+  margin-left: 0.2em;
 }
 
 .vxe-tag-align--top {

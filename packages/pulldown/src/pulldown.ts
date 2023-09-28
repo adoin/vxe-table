@@ -285,7 +285,7 @@ export default defineComponent({
         ref: refElem,
         class: ['vxe-pulldown', className ? (XEUtils.isFunction(className) ? className({ $pulldown: $xepulldown }) : className) : '', {
           [`size--${vSize}`]: vSize,
-          'is--visivle': visiblePanel,
+          'is--visible': visiblePanel,
           'is--disabled': disabled,
           'is--active': isActivated
         }]

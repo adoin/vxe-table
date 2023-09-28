@@ -6,6 +6,7 @@ export namespace VxeTagPropTypes {
   export type content = string
   export type color = 'info' | 'primary' | 'success' | 'warning' | 'danger' | 'error' | 'perfect' | string
   export type closable = boolean
+  export type closePosition = 'corner' | 'center'
   export type editable = boolean
   export type round = boolean
   export type tagStyle = 'default' | 'outline' | 'flag' | 'dashed' | 'mark' | 'arrow'
@@ -31,6 +32,10 @@ export type VxeTagProps = {
    * 是否可关闭
    */
   closable?: VxeTagPropTypes.closable
+  /**
+   * 关闭按钮的位置
+   */
+  closePosition?: VxeTagPropTypes.closePosition
   /**
    * 是否可编辑
    */

@@ -990,7 +990,7 @@ export default defineComponent({
         ref: refElem,
         class: ['vxe-select', className ? (XEUtils.isFunction(className) ? className({ $select: $xeselect }) : className) : '', {
           [`size--${vSize}`]: vSize,
-          'is--visivle': visiblePanel,
+          'is--visible': visiblePanel,
           'is--disabled': disabled,
           'is--filter': filterable,
           'is--loading': loading,
@@ -1011,6 +1011,7 @@ export default defineComponent({
             h(VxeTagsComponent, {
               size: 'mini',
               tagStyle: 'flag',
+              round: true,
               formatContent: defaultFormatter,
               ...(props.tagsProps ?? {}),
               editable: false,

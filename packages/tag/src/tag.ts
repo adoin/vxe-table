@@ -1,4 +1,4 @@
-import { defineComponent, h, nextTick, PropType, reactive, ref, Ref } from 'vue'
+import { computed, defineComponent, h, nextTick, PropType, reactive, ref, Ref } from 'vue'
 import {
   TagReactData,
   VxeTagConstructor,
@@ -24,6 +24,10 @@ export default defineComponent({
     closable: {
       type: Boolean as PropType<VxeTagPropTypes.closable>,
       default: false
+    },
+    closePosition: {
+      type: String as PropType<VxeTagPropTypes.closePosition>,
+      default: 'corner'
     },
     editable: {
       type: Boolean as PropType<VxeTagPropTypes.editable>,
@@ -69,6 +73,7 @@ export default defineComponent({
       event.stopPropagation()
       emit('close', { $event: { tag: $vxtag } })
     })
+    const closePosition = computed(() => ['center', 'corner'].includes(props.closePosition) ? props.closePosition : 'corner')
     const startEditing = () => new Promise(resolve => {
       if (props.editable && !reactData.editing) {
         reactData.editing = true
@@ -154,7 +159,10 @@ export default defineComponent({
       [
         props.closable ? h('div',
           {
-            class: 'vxe-tag-close-icon',
+            class: [
+              'vxe-tag-close-icon',
+              `tag-close-position--${closePosition.value}`
+            ],
             onMousedown: (event: Event) => {
               tagMethods.dispatchEvent('close', {}, event)
             }
