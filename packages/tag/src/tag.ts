@@ -1,4 +1,4 @@
-import { computed, defineComponent, h, nextTick, PropType, reactive, ref, Ref } from 'vue'
+import { computed, defineComponent, h, nextTick, onMounted, PropType, reactive, ref, Ref } from 'vue'
 import {
   TagReactData,
   VxeTagConstructor,
@@ -60,6 +60,10 @@ export default defineComponent({
     const tagStyleList = [
       'default', 'outline', 'flag', 'dashed', 'mark', 'arrow'
     ]
+    const dynamicIconIndex = ref(1)
+    onMounted(() => {
+      dynamicIconIndex.value = Number(window.getComputedStyle(document.querySelector('.vxe-tag-wrapper') as Element).zIndex || 0) + 1
+    })
     const reactData = reactive<TagReactData>({
       inited: false,
       editing: false
@@ -134,43 +138,52 @@ export default defineComponent({
         'default', 'info', 'primary', 'success', 'warning', 'danger', 'error', 'perfect'
       ]
       return h('span', {
+        class: [
+          'vxe-tag-wrapper',
+          `vxe-tag-type--${tagStyleList.includes(props.tagStyle) ? props.tagStyle : 'default'}`,
+          props.closable ? 'vxe-tag--closable' : '',
+          {
+            closable: props.closable
+          },
+          props.color
+            ? presetColors.includes(props.color)
+              ? `vxe-tag-color--${props.color}`
+              : ''
+            : 'vxe-tag-color--default'
+        ],
+        style: {
+          '--tag-color': presetColors.includes(props.color) ? undefined : props.color,
+          '--tag-icon-color': ['outline', 'dashed'].includes(props.tagStyle) ? 'var(--tag-color)' : '#fff',
+          '--tag-icon-bg-color': ['outline', 'dashed'].includes(props.tagStyle) ? '#fff' : 'var(--tag-color)'
+        }
+      }, [props.closable ? h('div',
+        {
+          class: [
+            'vxe-tag-close-icon',
+            `tag-close-position--${closePosition.value}`
+          ],
+          style: {
+            zIndex: dynamicIconIndex.value
+          },
+          onMousedown: (event: Event) => {
+            tagMethods.dispatchEvent('close', {}, event)
+          }
+        },
+        [
+          'X'
+        ]
+      ) : null,
+      h('span', {
         ref: refElem,
         class: [
           'vxe-tag',
           props.editable && reactData.editing ? 'is--editing' : '',
-          props.closable ? 'vxe-tag--closable' : '',
-            `size--${props.size}`,
-            `vxe-tag-type--${tagStyleList.includes(props.tagStyle) ? props.tagStyle : 'default'}`,
-            props.round ? 'is--round' : '',
-            `vxe-tag-align--${props.align}`,
-            props.color
-              ? presetColors.includes(props.color)
-                ? `vxe-tag-color--${props.color}`
-                : ''
-              : 'vxe-tag-color--default',
-            {
-              closable: props.closable
-            }
-        ],
-        style: presetColors.includes(props.color) ? null : {
-          '--tag-color': props.color
-        }
+              `size--${props.size}`,
+              props.round ? 'is--round' : '',
+              `vxe-tag-align--${props.align}`
+        ]
       },
       [
-        props.closable ? h('div',
-          {
-            class: [
-              'vxe-tag-close-icon',
-              `tag-close-position--${closePosition.value}`
-            ],
-            onMousedown: (event: Event) => {
-              tagMethods.dispatchEvent('close', {}, event)
-            }
-          },
-          [
-            'x'
-          ]
-        ) : null,
         slots?.avatar?.() ?? null,
         h('span', {
           class: ['vxe-tag-content', { 'tag-select-none': props.editable }],
@@ -190,7 +203,7 @@ export default defineComponent({
         }, renderContent()),
         renderIcon()
       ]
-      )
+      )])
     }
     $vxtag.renderVN = renderVN
     return $vxtag

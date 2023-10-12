@@ -18,146 +18,171 @@
   }
 }
 
-.vxe-tag {
-  padding: var(--vxe-tag-padding);
-  position: relative;
-  width: auto;
+@keyframes close-rising {
+  from {
+    opacity: 0.5;
+    --vxe-tag-rising-top: calc(50% - 0.5em)
+  }
+}
+
+.vxe-tag-wrapper {
   display: inline-block;
-  
-  &.vxe-tag-type--default {
-    color: #fff;
-    background-color: var(--tag-color);
-    border-radius: var(--vxe-tag-border-radius);
-    
-    &.is--round {
-      border-radius: 1em;
-    }
-  }
-  
-  &.vxe-tag-type--outline {
-    color: var(--tag-color);
-    background-color: transparent;
-    border: 1px solid var(--tag-color);
-    border-radius: var(--vxe-tag-border-radius);
-    
-    &.is--round {
-      border-radius: 1em;
-    }
-  }
-  
-  &.vxe-tag-type--dashed {
-    color: var(--tag-color);
-    background-color: transparent;
-    border: 1px dashed var(--tag-color);
-    border-radius: var(--vxe-tag-border-radius);
-    
-    &.is--round {
-      border-radius: 1em;
-    }
-  }
-  
-  &.vxe-tag-type--mark {
-    @include TagToRight;
-    clip-path: polygon(100% 0%, 100% 100%, 0.5em 100%, 0% 50%, 0.5em 0%);
-    
-    &.is--round {
-      border-radius: 1em;
-    }
-  }
-  
-  &.vxe-tag-type--arrow {
-    @include TagToRight;
-    padding-right: 0.85em;
-    clip-path: polygon(0% 0%, calc(100% - 0.5em) 0%, 100% 50%, calc(100% - 0.5em) 100%, 0% 100%);
-    
-    &.is--round {
-      border-radius: 1em;
-    }
-  }
-  
-  &.vxe-tag-type--flag {
-    @include TagToRight;
-    padding-right: 1em;
-    clip-path: polygon(100% 0%, calc(100% - 0.5em) 50%, 100% 100%, 0.5em 100%, 0% 50%, 0.5em 0%);
-    
-    &.is--round {
-      border-radius: 1em;
-    }
-    .tag-close-position--corner{
-      right: 0;
-      top: -0.5em;
-    }
-  }
-  
-  &.size--mini {
-    font-size: var(--vxe-tag-font-size-mini);
-    line-height: var(--vxe-tag-line-height--mini);
-  }
-  
-  &.size--small {
-    font-size: var(--vxe-tag-font-size-small);
-    line-height: var(--vxe-tag-line-height--small);
-  }
-  
-  &.size--medium {
-    font-size: var(--vxe-tag-font-size-medium);
-    line-height: var(--vxe-tag-line-height--medium);
-  }
-  
-  &.size--large {
-    font-size: var(--vxe-tag-font-size-large);
-    line-height: var(--vxe-tag-line-height--large);
-  }
+  position: relative;
   
   &.vxe-tag--closable {
+    
+    --vxe-tag-rising-top: calc(50% - 0.5em);
+    
     & > .vxe-tag-close-icon {
+      font-weight: bold;
       cursor: pointer;
       width: 1em;
       height: 1em;
       line-height: 1;
       text-align: center;
       border-radius: 50%;
-      background-color: #fff;
-      color: var(--tag-color);
+      background-color: var(--tag-icon-bg-color);
+      color: var(--tag-icon-color);
       
       &.tag-close-position--center {
         display: none;
+        position: absolute;
+        top: var(--vxe-tag-rising-top);
+        left: calc(50% - 0.5em);
+        width: 1em;
+        height: 1em;
+        border-radius: 50%;
+        line-height: 1;
+        border: 1px solid var(--tag-color);
+        background: var(--tag-icon-bg-color);
+        animation: close-rising ease-out 0.3s;
       }
       
       &.tag-close-position--corner {
         display: inline-block;
+        border-top: 1px solid var(--tag-color);
+        border-right: 1px solid var(--tag-color);
         position: absolute;
+        font-size: 12px;
+        right: -0.5em;
+        top: -0.4em;
       }
     }
     
     &:hover {
       filter: brightness(1.1);
+      --vxe-tag-rising-top: -0.5em;
       
       & > .vxe-tag-close-icon.tag-close-position--center {
         display: inline-block;
-        position: absolute;
-        bottom: calc(50% - 0.5em);
-        left: calc(50% - 0.5em);
       }
     }
   }
   
-  .vxe-tag--icon {
-    margin-left: 4px;
-    font-size: 11px;
+  &.vxe-tag-type--default {
+    & > .vxe-tag {
+      color: #fff;
+      background-color: var(--tag-color);
+      border-radius: var(--vxe-tag-border-radius);
+      
+    }
   }
   
-  & > .vxe-tag-content {
-    outline: unset;
-    min-width: 1em;
-    min-height: 1em;
+  &.vxe-tag-type--outline {
+    & > .vxe-tag {
+      color: var(--tag-color);
+      background-color: transparent;
+      border: 1px solid var(--tag-color);
+      border-radius: var(--vxe-tag-border-radius);
+    }
+  }
+  
+  &.vxe-tag-type--dashed {
+    & > .vxe-tag {
+      color: var(--tag-color);
+      background-color: transparent;
+      border: 1px dashed var(--tag-color);
+      border-radius: var(--vxe-tag-border-radius);
+    }
+  }
+  
+  &.vxe-tag-type--mark {
+    & > .vxe-tag {
+      @include TagToRight;
+      clip-path: polygon(100% 0%, 100% 100%, 0.5em 100%, 0% 50%, 0.5em 0%);
+    }
+  }
+  
+  &.vxe-tag-type--arrow {
+    > .vxe-tag {
+      @include TagToRight;
+      padding-right: 0.85em;
+      clip-path: polygon(0% 0%, calc(100% - 0.5em) 0%, 100% 50%, calc(100% - 0.5em) 100%, 0% 100%);
+    }
+  }
+  
+  &.vxe-tag-type--flag {
+    & > .vxe-tag {
+      @include TagToRight;
+      padding-right: 1em;
+      clip-path: polygon(100% 0%, calc(100% - 0.5em) 50%, 100% 100%, 0.5em 100%, 0% 50%, 0.5em 0%);
+    }
+    
+    .tag-close-position--corner {
+      right: 0;
+      top: -0.5em;
+    }
+  }
+  
+  & > .vxe-tag {
+    padding: var(--vxe-tag-padding);
+    position: relative;
+    width: auto;
     display: inline-block;
     
-    &.tag-select-none {
-      user-select: none;
+    &.is--round {
+      border-radius: 1em;
+    }
+    
+    &.size--mini {
+      font-size: var(--vxe-tag-font-size-mini);
+      line-height: var(--vxe-tag-line-height--mini);
+    }
+    
+    &.size--small {
+      font-size: var(--vxe-tag-font-size-small);
+      line-height: var(--vxe-tag-line-height--small);
+    }
+    
+    &.size--medium {
+      font-size: var(--vxe-tag-font-size-medium);
+      line-height: var(--vxe-tag-line-height--medium);
+    }
+    
+    &.size--large {
+      font-size: var(--vxe-tag-font-size-large);
+      line-height: var(--vxe-tag-line-height--large);
+    }
+    
+    
+    .vxe-tag--icon {
+      margin-left: 4px;
+      font-size: 11px;
+    }
+    
+    & > .vxe-tag-content {
+      outline: unset;
+      min-width: 1em;
+      min-height: 1em;
+      display: inline-block;
+      
+      &.tag-select-none {
+        user-select: none;
+      }
     }
   }
 }
+
 
 .vxe-tag-color--default, .vxe-tag-color--info {
   --tag-color: var(--vxe-tag-default-color)
@@ -183,7 +208,7 @@
   --tag-color: var(--vxe-perfect-color)
 }
 
-.vxe-tag + .vxe-tag {
+.vxe-tag-wrapper + .vxe-tag-wrapper {
   margin-left: 0.2em;
 }
 

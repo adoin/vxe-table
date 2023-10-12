@@ -21,15 +21,6 @@
       <vxe-tag tag-style="outline" round>round</vxe-tag>
       <vxe-tag tag-style="outline" closable>closable</vxe-tag>
     </div>
-    <div style="width: 100%;">胶囊风格：
-      <vxe-tag tag-style="caplet">常用写法</vxe-tag>
-      <vxe-tag tag-style="caplet" content="老王绿" color="#45adbe"/>
-      <vxe-tag tag-style="caplet" content="萝莉蓝" color="primary" size="mini"/>
-      <vxe-tag tag-style="caplet" content="土黄" color="warning" size="small" icon="vxe-icon-warning-circle"/>
-      <vxe-tag tag-style="caplet" content="大妈红" color="error" size="large"/>
-      <vxe-tag tag-style="caplet" round>round</vxe-tag>
-      <vxe-tag tag-style="caplet" closable>closable</vxe-tag>
-    </div>
     <div style="width: 100%;">虚线风格：
       <vxe-tag tag-style="dashed" content="老王绿" color="#45adbe"/>
       <vxe-tag tag-style="dashed" content="萝莉蓝" color="primary" size="mini"/>
@@ -37,6 +28,7 @@
       <vxe-tag tag-style="dashed" content="大妈红" color="error" size="large"/>
       <vxe-tag tag-style="dashed" round>round</vxe-tag>
       <vxe-tag tag-style="dashed" closable>closable</vxe-tag>
+      <vxe-tag tag-style="dashed" closable close-position="center">closable-center</vxe-tag>
     </div>
     <div style="width: 100%;">标记风格：
       <vxe-tag tag-style="mark">常用写法</vxe-tag>
@@ -46,6 +38,7 @@
       <vxe-tag tag-style="mark" content="大妈红" color="error" size="large"/>
       <vxe-tag tag-style="mark" round>round</vxe-tag>
       <vxe-tag tag-style="mark" closable>closable</vxe-tag>
+      <vxe-tag tag-style="mark" closable close-position="center">closable-center</vxe-tag>
     </div>
     <div style="width: 100%;">箭头风格：
       <vxe-tag tag-style="arrow">常用写法</vxe-tag>
@@ -55,6 +48,7 @@
       <vxe-tag tag-style="arrow" content="大妈红" color="error" size="large"/>
       <vxe-tag tag-style="arrow" round>round</vxe-tag>
       <vxe-tag tag-style="arrow" closable>closable</vxe-tag>
+      <vxe-tag tag-style="arrow" closable close-position="center">closable-center</vxe-tag>
     </div>
     <div style="width: 100%;">旗帜风格：
       <vxe-tag tag-style="flag">常用写法</vxe-tag>
@@ -64,6 +58,7 @@
       <vxe-tag tag-style="flag" content="大妈红" color="error" size="large"/>
       <vxe-tag tag-style="flag" round>round</vxe-tag>
       <vxe-tag tag-style="flag" closable>closable</vxe-tag>
+      <vxe-tag tag-style="flag" closable close-position="center">closable-center</vxe-tag>
     </div>
     <div style="width: 100%;">
       <span> 简单标签组：</span>
