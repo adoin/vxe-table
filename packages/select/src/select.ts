@@ -16,7 +16,7 @@ import {
   watch,
   watchEffect
 } from 'vue'
-import XEUtils, { isFunction, isObject } from 'xe-utils'
+import XEUtils, { isFunction, isNumber, isObject } from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
 import { getAbsolutePos, getEventTargetNode } from '../../tools/dom'
@@ -41,7 +41,7 @@ import {
   VxeSelectEmits,
   VxeSelectMethods,
   VxeSelectPropTypes,
-  VxeTagProps,
+  VxeTagProps, VxeTagsConstructor,
   VxeTagsPropTypes
 } from '../../../types/all'
 
@@ -111,11 +111,12 @@ export default defineComponent({
     const { slots, emit } = context
     const $xeform = inject<VxeFormConstructor & VxeFormPrivateMethods | null>('$xeform', null)
     const $xeformiteminfo = inject<VxeFormDefines.ProvideItemInfo | null>('$xeformiteminfo', null)
-
+    const showAnimation = ref(false)
     const xID = XEUtils.uniqueId()
-
+    const tagsZIndex = ref(1)
+    const runningWidth = ref<string | number>('100%')
+    const runningOutWidth = ref<string | number>('-100%')
     const computeSize = useSize(props)
-
     const reactData = reactive<SelectReactData>({
       inited: false,
       staticOptions: [],
@@ -136,10 +137,25 @@ export default defineComponent({
     })
 
     const refElem = ref() as Ref<HTMLDivElement>
+    const refTags = ref() as Ref<VxeTagsConstructor & { $el: HTMLElement }>
     const refInput = ref() as Ref<VxeInputConstructor & { $el: HTMLElement }>
     const refOptionWrapper = ref() as Ref<HTMLDivElement>
     const refOptionPanel = ref() as Ref<HTMLDivElement>
-
+    watchEffect(() => {
+      if (props.multiple && props.multipleMode === 'tag' && props.modelValue && props.modelValue.length > 0) {
+        setTimeout(() => {
+          // 判断是否出现滚动条
+          if (refTags.value) {
+            const el = refTags.value.$el
+            showAnimation.value = el.scrollWidth > el.clientWidth
+            runningWidth.value = el.clientWidth + 'px'
+            runningOutWidth.value = (-el.clientWidth) + 'px'
+          }
+        }, 100)
+      } else {
+        showAnimation.value = false
+      }
+    })
     const refMaps: SelectPrivateRef = {
       refElem
     }
@@ -202,7 +218,7 @@ export default defineComponent({
       return XEUtils.toNumber(props.multiCharOverflow)
     })
 
-    const callSlot = <T> (slotFunc: ((params: T) => JSX.Element[] | VNode[] | string[]) | string | null, params: T) => {
+    const callSlot = <T>(slotFunc: ((params: T) => JSX.Element[] | VNode[] | string[]) | string | null, params: T) => {
       if (slotFunc) {
         if (XEUtils.isString(slotFunc)) {
           slotFunc = slots[slotFunc] || null
@@ -285,8 +301,8 @@ export default defineComponent({
     }
 
     /**
-     * 刷新选项，当选项被动态显示/隐藏时可能会用到
-     */
+         * 刷新选项，当选项被动态显示/隐藏时可能会用到
+         */
     const refreshOption = (showAll?: boolean) => {
       const { filterable, filterMethod, multiple } = props
       const { fullOptionList, fullGroupList } = reactData
@@ -299,12 +315,12 @@ export default defineComponent({
           const queryArr = searchValue ? searchValue.split(',') : []
           return queryArr.length > 0 ? queryArr.some(label =>
             (group && group[groupLabelField].indexOf(label) > -1) ||
-              (option && option[labelField].indexOf(label) > -1)
+                            (option && option[labelField].indexOf(label) > -1)
           ) : true
         }
           : ({ group, option, searchValue }) =>
               (group && group[groupLabelField].indexOf(searchValue) > -1) ||
-            (option && option[labelField].indexOf(searchValue) > -1)
+                        (option && option[labelField].indexOf(searchValue) > -1)
       if (isGroup) {
         // todo 没有filter methods的逻辑
         if (filterable) {
@@ -963,6 +979,12 @@ export default defineComponent({
           reactData.fullOptionList = options
         }
         cacheItemMap(true)
+        const tagZ = window.getComputedStyle(refElem.value).zIndex
+        if (tagZ && isNumber(tagZ)) {
+          tagsZIndex.value = Number(tagZ) + 1
+        } else {
+          tagsZIndex.value = nextZIndex()
+        }
       })
       GlobalEvent.on($xeselect, 'mousewheel', handleGlobalMousewheelEvent)
       GlobalEvent.on($xeselect, 'mousedown', handleGlobalMousedownEvent)
@@ -985,6 +1007,7 @@ export default defineComponent({
       const vSize = computeSize.value
       const prefixSlot = slots.prefix
       const labelField = computeLabelField.value as 'label'
+
       const defaultFormatter: VxeTagsPropTypes.formatContent = (v: string | number | VxeTagProps) => findOption(v)?.[labelField] ?? (isObject(v) ? ((v as VxeTagProps).content ?? '') : v)
       return h('div', {
         ref: refElem,
@@ -995,7 +1018,12 @@ export default defineComponent({
           'is--filter': filterable,
           'is--loading': loading,
           'is--active': isActivated
-        }]
+        }],
+        style: {
+          '--tags-z-index': tagsZIndex.value,
+          '--running-width': runningWidth.value,
+          '--running-out-width': runningOutWidth.value
+        }
       }, [
         h('div', {
           class: 'vxe-select-slots',
@@ -1003,7 +1031,10 @@ export default defineComponent({
         }, slots.default ? slots.default({}) : []),
         props.multipleMode === 'tag' && filterable && props.multiple
           ? h('div', {
-            class: 'vxe-select--type-tags'
+            class: [
+              'vxe-select--type-tags',
+              { 'vxe-select--tags-animate': showAnimation.value }
+            ]
           }, [
             prefixSlot ? prefixSlot({}) : props.prefixIcon ? h(VxeIconComponent, {
               name: props.prefixIcon
@@ -1011,6 +1042,7 @@ export default defineComponent({
             h(VxeTagsComponent, {
               size: 'mini',
               tagStyle: 'flag',
+              ref: refTags,
               round: true,
               formatContent: defaultFormatter,
               ...(props.tagsProps ?? {}),
@@ -1028,7 +1060,9 @@ export default defineComponent({
               clearable: props.clearable,
               modelValue: latestPick.value,
               suffixIcon: loading ? GlobalConfig.icon.SELECT_LOADED : (visiblePanel ? GlobalConfig.icon.SELECT_OPEN : GlobalConfig.icon.SELECT_CLOSE),
-              onInput: ({ $event: { target } }) => { latestPick.value = target.value },
+              onInput: ({ $event: { target } }) => {
+                latestPick.value = target.value
+              },
               onClear: clearEvent,
               onMouseUp: togglePanelEvent,
               onFocus: focusEvent,
@@ -1047,7 +1081,9 @@ export default defineComponent({
             prefixIcon: props.prefixIcon,
             suffixIcon: loading ? GlobalConfig.icon.SELECT_LOADED : (visiblePanel ? GlobalConfig.icon.SELECT_OPEN : GlobalConfig.icon.SELECT_CLOSE),
             modelValue: displaySelectLabel.value,
-            onInput: ({ $event: { target } }) => { displaySelectLabel.value = target.value },
+            onInput: ({ $event: { target } }) => {
+              displaySelectLabel.value = target.value
+            },
             onClear: clearEvent,
             onMouseUp: togglePanelEvent,
             onFocus: focusEvent,

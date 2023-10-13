@@ -25,9 +25,14 @@
   }
 }
 
+.vxe-tags-wrapper {
+  display: inline-block;
+}
+
 .vxe-tag-wrapper {
   display: inline-block;
   position: relative;
+  flex-shrink: 0;
   
   &.vxe-tag--closable {
     
@@ -208,7 +213,7 @@
   --tag-color: var(--vxe-perfect-color)
 }
 
-.vxe-tag-wrapper + .vxe-tag-wrapper {
+.vxe-tag-wrapper, .vxe-tags-wrapper + .vxe-tag-wrapper, .vxe-tags-wrapper {
   margin-left: 0.2em;
 }
 
