@@ -6049,7 +6049,7 @@ export default defineComponent({
             sortTime: column.sortTime
           }
           if (mouseConfig && mouseOpts.area && $xetable.handleSortEvent) {
-            return $xetable.handleSortEvent(evnt, params)
+            $xetable.handleSortEvent(evnt, params)
           }
           tableMethods.dispatchEvent('sort-change', params, evnt)
         }
