@@ -182,3 +182,9 @@ export function isInside (childNode: Element, parentNode: Element) {
     return false
   }
 }
+
+export const ignoreWheelList:string[] = [
+  'vxe-select',
+  'vxe-cascader',
+  'vxe-slider'
+]
