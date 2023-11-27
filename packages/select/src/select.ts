@@ -524,6 +524,8 @@ export default defineComponent({
       calculateLabel()
       reactData.searchLoading = false
       reactData.visiblePanel = false
+      reactData.isActivated = false
+      refInput.value?.blur()
       hidePanelTimeout = window.setTimeout(() => {
         reactData.animatVisible = false
       }, 350)
