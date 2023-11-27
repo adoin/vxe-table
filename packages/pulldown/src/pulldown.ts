@@ -185,12 +185,24 @@ export default defineComponent({
     }
 
     /**
+     * 递归使得元素和所有后代元素失去焦点（如果可以的话）
+     */
+    const blurRecursive = (elem: HTMLElement) => {
+      if (elem) {
+        elem?.blur()
+        const children = elem.children
+        for (let i = 0; i < children.length; i++) {
+          blurRecursive(children[i] as HTMLElement)
+        }
+      }
+    }
+    /**
      * 隐藏下拉面板
      */
     const hidePanel = (): Promise<void> => {
       reactData.visiblePanel = false
       reactData.isActivated = false
-      refPulldowContent.value?.blur()
+      blurRecursive(refPulldowContent.value)
       emit('update:modelValue', false)
       return new Promise(resolve => {
         if (reactData.animatVisible) {
@@ -334,7 +346,8 @@ export default defineComponent({
 
     return $xepulldown
   },
-  render () {
+  render
+  () {
     return this.renderVN()
   }
 })
