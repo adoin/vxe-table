@@ -189,6 +189,8 @@ export default defineComponent({
      */
     const hidePanel = (): Promise<void> => {
       reactData.visiblePanel = false
+      reactData.isActivated = false
+      refPulldowContent.value?.blur()
       emit('update:modelValue', false)
       return new Promise(resolve => {
         if (reactData.animatVisible) {
