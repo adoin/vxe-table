@@ -2,7 +2,7 @@ import { defineComponent, h, Teleport, ref, Ref, onUnmounted, reactive, nextTick
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
-import { getAbsolutePos, getEventTargetNode, ignoreWheelList, isInside } from '../../tools/dom'
+import { blurRecursive, getAbsolutePos, getEventTargetNode, ignoreWheelList, isInside } from '../../tools/dom'
 import { getLastZIndex, nextZIndex } from '../../tools/utils'
 import { GlobalEvent } from '../../tools/event'
 
@@ -184,18 +184,6 @@ export default defineComponent({
       })
     }
 
-    /**
-     * 递归使得元素和所有后代元素失去焦点（如果可以的话）
-     */
-    const blurRecursive = (elem: HTMLElement) => {
-      if (elem) {
-        elem?.blur()
-        const children = elem.children
-        for (let i = 0; i < children.length; i++) {
-          blurRecursive(children[i] as HTMLElement)
-        }
-      }
-    }
     /**
      * 隐藏下拉面板
      */
