@@ -171,7 +171,7 @@ export function isNodeElement (elem: any): elem is HTMLElement {
   return elem && elem.nodeType === 1
 }
 
-export function isInside (childNode: Element, parentNode: Element) {
+export function isInside (childNode: Element, parentNode: Element): boolean {
   if (childNode.parentElement) {
     if (childNode.parentElement === parentNode) {
       return true

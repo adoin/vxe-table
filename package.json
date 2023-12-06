@@ -1,6 +1,6 @@
 {
   "name": "vxe-table-demonic",
-  "version": "4.5.9",
+  "version": "4.5.10",
   "description": "一个基于 vue 的 PC 端表单/表格组件，支持增删改查、虚拟列表、虚拟树、懒加载、快捷菜单、数据校验、树形结构、打印导出、表单渲染、数据分页、弹窗、自定义模板、渲染器、JSON 配置式...",
   "scripts": {
     "update": "npm install --legacy-peer-deps",
@@ -32,6 +32,7 @@
     "xe-utils": "^3.5.14"
   },
   "devDependencies": {
+    "@types/node": "^20.10.3",
     "@types/resize-observer-browser": "^0.1.7",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
@@ -41,14 +42,14 @@
     "@vue/cli-plugin-typescript": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
-    "@vue/eslint-config-standard": "^6.1.0",
+    "@vue/eslint-config-standard": "^7.0.0",
     "@vue/eslint-config-typescript": "^9.1.0",
     "core-js": "^3.8.3",
     "del": "^6.1.1",
-    "eslint": "^7.32.0",
+    "eslint": "^8.55.0",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-vue": "^8.0.3",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
