@@ -812,7 +812,7 @@ export default defineComponent({
             }
           },
           onClick: (evnt: MouseEvent) => {
-            if (!isDisabled) {
+            if (!isDisabled && reactData.visiblePanel) {
               changeOptionEvent(evnt, optionValue, option)
             }
           },
