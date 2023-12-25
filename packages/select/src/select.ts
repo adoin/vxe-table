@@ -14,7 +14,7 @@ import {
   nextTick,
   watch,
   onMounted,
-  watchEffect
+  watchEffect, createCommentVNode
 } from 'vue'
 import XEUtils, { isFunction } from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
@@ -239,7 +239,7 @@ export default defineComponent({
       return XEUtils.toValueString(item ? item[labelField as 'label'] : value)
     }
 
-    /* const computeSelectLabel = computed(() => {
+    /*const computeSelectLabel = computed(() => {
       const { modelValue, multiple, remote } = props
       const multiMaxCharNum = computeMultiMaxCharNum.value
       if (modelValue && multiple) {
@@ -259,7 +259,7 @@ export default defineComponent({
         return getRemoteSelectLabel(modelValue)
       }
       return getSelectLabel(modelValue)
-    }) */
+    })*/
     const displaySelectLabel = ref('')
     const calculateLabel = () => {
       const { modelValue, multiple, remote } = props
@@ -784,6 +784,7 @@ export default defineComponent({
       const valueField = computeValueField.value
       const isGroup = computeIsGroup.value
       const { useKey } = optionOpts
+      const optionSlot = slots.option
       return list.map((option, cIndex) => {
         const { slots, className } = option
         const optionValue = option[valueField as 'value']
@@ -792,12 +793,10 @@ export default defineComponent({
         const isDisabled = checkOptionDisabled(isSelected, option, group)
         const optid = getOptid(option)
         const defaultSlot = slots ? slots.default : null
+        const optParams = { option, group: null, $select: $xeselect }
         return isVisible ? h('div', {
           key: useKey || optionKey ? optid : cIndex,
-          class: ['vxe-select-option', className ? (XEUtils.isFunction(className) ? className({
-            option,
-            $select: $xeselect
-          }) : className) : '', {
+          class: ['vxe-select-option', className ? (XEUtils.isFunction(className) ? className(optParams) : className) : '', {
             'is--disabled': isDisabled,
             'is--selected': isSelected,
             'is--hover': currentValue === optionValue
@@ -821,10 +820,7 @@ export default defineComponent({
               setCurrentOption(option)
             }
           }
-        }, defaultSlot ? callSlot(defaultSlot, {
-          option,
-          $select: $xeselect
-        }) : formatText(getFuncText(option[labelField as 'label']))) : null
+        }, optionSlot ? callSlot(optionSlot, optParams) : (defaultSlot ? callSlot(defaultSlot, optParams) : formatText(getFuncText(option[labelField as 'label'])))) : null
       })
     }
 
@@ -835,17 +831,16 @@ export default defineComponent({
       const groupLabelField = computeGroupLabelField.value
       const groupOptionsField = computeGroupOptionsField.value
       const { useKey } = optionOpts
+      const optionSlot = slots.option
       return visibleGroupList.map((group, gIndex) => {
         const { slots, className } = group
         const optid = getOptid(group)
         const isGroupDisabled = group.disabled
         const defaultSlot = slots ? slots.default : null
+        const optParams = { option: group, group, $select: $xeselect }
         return h('div', {
           key: useKey || optionKey ? optid : gIndex,
-          class: ['vxe-optgroup', className ? (XEUtils.isFunction(className) ? className({
-            option: group,
-            $select: $xeselect
-          }) : className) : '', {
+          class: ['vxe-optgroup', className ? (XEUtils.isFunction(className) ? className(optParams) : className) : '', {
             'is--disabled': isGroupDisabled
           }],
           // attrs
@@ -853,10 +848,7 @@ export default defineComponent({
         }, [
           h('div', {
             class: 'vxe-optgroup--title'
-          }, defaultSlot ? callSlot(defaultSlot, {
-            option: group,
-            $select: $xeselect
-          }) : getFuncText(group[groupLabelField as 'label'])),
+          }, optionSlot ? callSlot(optionSlot, optParams) : (defaultSlot ? callSlot(defaultSlot, optParams) : getFuncText(group[groupLabelField as 'label']))),
           h('div', {
             class: 'vxe-optgroup--wrapper'
           }, renderOption(group[groupOptionsField as 'options'] || [], group))
@@ -991,6 +983,10 @@ export default defineComponent({
       const { className, popupClassName, transfer, disabled, loading, filterable } = props
       const { inited, isActivated, visiblePanel } = reactData
       const vSize = computeSize.value
+      // const selectLabel = computeSelectLabel.value
+      const defaultSlot = slots.default
+      const headerSlot = slots.header
+      const footerSlot = slots.footer
       const prefixSlot = slots.prefix
       return h('div', {
         ref: refElem,
@@ -1006,7 +1002,7 @@ export default defineComponent({
         h('div', {
           class: 'vxe-select-slots',
           ref: 'hideOption'
-        }, slots.default ? slots.default({}) : []),
+        }, defaultSlot ? defaultSlot({}) : []),
         h(VxeInputComponent, {
           ref: refInput,
           clearable: props.clearable,
@@ -1043,12 +1039,23 @@ export default defineComponent({
             style: reactData.panelStyle
           }, inited ? [
             h('div', {
-              ref: refOptionWrapper,
-              class: 'vxe-select-option--wrapper'
-            }, renderOpts()),
-            slots.footer ? h('div', {
-              class: 'vxe-select-footer--wrapper'
-            }, slots.footer(props)) : null
+              class: 'vxe-select--panel-wrapper'
+            }, [
+              headerSlot ? h('div', {
+                class: 'vxe-select--panel-header'
+              }, headerSlot(props)) : createCommentVNode(),
+              h('div', {
+                class: 'vxe-select--panel-body'
+              }, [
+                h('div', {
+                  ref: refOptionWrapper,
+                  class: 'vxe-select-option--wrapper'
+                }, renderOpts())
+              ]),
+              footerSlot ? h('div', {
+                class: 'vxe-select--panel-footer'
+              }, footerSlot(props)) : createCommentVNode()
+            ])
           ] : [])
         ])
       ])
