@@ -39,7 +39,7 @@
       <vxe-select v-model="demo1.value13" placeholder="超小尺寸" size="mini">
         <vxe-option v-for="num in 10" :key="num" :value="num" :label="`选项${num}`"></vxe-option>
       </vxe-select>
-      <vxe-select v-model="demo1.value44" placeholder="自定义底部插槽" :options="demo1.list44">
+      <vxe-select v-model="demo1.value44" multiple placeholder="自定义底部插槽" :options="demo1.list44">
         <template #footer="{options}">
           <vxe-button type="text" status="primary" :content="'添加第'+options.length+'条'"
                       @click="demo1.list44=[...options,{ label: options.length+'xxxxx', value: options.length+'_'}]"/>

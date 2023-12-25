@@ -239,7 +239,7 @@ export default defineComponent({
       return XEUtils.toValueString(item ? item[labelField as 'label'] : value)
     }
 
-    /*const computeSelectLabel = computed(() => {
+    /* const computeSelectLabel = computed(() => {
       const { modelValue, multiple, remote } = props
       const multiMaxCharNum = computeMultiMaxCharNum.value
       if (modelValue && multiple) {
@@ -259,7 +259,7 @@ export default defineComponent({
         return getRemoteSelectLabel(modelValue)
       }
       return getSelectLabel(modelValue)
-    })*/
+    }) */
     const displaySelectLabel = ref('')
     const calculateLabel = () => {
       const { modelValue, multiple, remote } = props
@@ -947,13 +947,13 @@ export default defineComponent({
     watch(() => props.options, (value) => {
       reactData.fullGroupList = []
       reactData.fullOptionList = value || []
-      cacheItemMap()
+      cacheItemMap(true)
     })
 
     watch(() => props.optionGroups, (value) => {
       reactData.fullOptionList = []
       reactData.fullGroupList = value || []
-      cacheItemMap()
+      cacheItemMap(true)
     })
 
     onMounted(() => {
