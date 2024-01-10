@@ -4,7 +4,6 @@ import {
   h,
   inject,
   nextTick,
-  onMounted,
   onUnmounted,
   PropType,
   provide,
@@ -1028,7 +1027,7 @@ export default defineComponent({
         h('div', {
           class: 'vxe-select-slots',
           ref: 'hideOption'
-        }, slots.default ? slots.default({}) : []),
+        }, defaultSlot ? defaultSlot({}) : []),
         props.multipleMode === 'tag' && filterable && props.multiple
           ? h('div', {
             class: [
