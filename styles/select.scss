@@ -37,8 +37,15 @@
 
     &.vxe-select--tags-animate {
       &:hover,&:focus-within {
-        & > .vxe-tags-wrapper > .vxe-tag-wrapper {
-          animation: runningX 8s linear 0s infinite;
+        & > .vxe-tags-wrapper {
+          width: 100%;
+          & > .vxe-tag-wrapper {
+            animation: runningX 8s linear 0s infinite;
+            animation-play-state:running;
+          }
+          &:hover> .vxe-tag-wrapper{
+            animation-play-state: paused;
+          }
         }
       }
     }
@@ -120,10 +127,7 @@
   padding: 4px 0;
   color: var(--vxe-font-color);
   text-align: left;
-  background-color: var(--vxe-select-panel-background-color);
-  border-radius: var(--vxe-border-radius);
-  border: 1px solid var(--vxe-table-popup-border-color);
-  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.1);
+
   &:not(.is--transfer) {
     min-width: 100%;
   }
@@ -216,7 +220,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   user-select: none;
 
   &.is--selected {

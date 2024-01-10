@@ -152,6 +152,7 @@ export default defineComponent({
             runningWidth.value = el.clientWidth + 'px'
             runningOutWidth.value = (-el.clientWidth) + 'px'
           }
+          showAnimation.value = true
         }, 100)
       } else {
         showAnimation.value = false
@@ -219,7 +220,7 @@ export default defineComponent({
       return XEUtils.toNumber(props.multiCharOverflow)
     })
 
-    const callSlot = <T>(slotFunc: ((params: T) => JSX.Element[] | VNode[] | string[]) | string | null, params: T) => {
+    const callSlot = <T> (slotFunc: ((params: T) => JSX.Element[] | VNode[] | string[]) | string | null, params: T) => {
       if (slotFunc) {
         if (XEUtils.isString(slotFunc)) {
           slotFunc = slots[slotFunc] || null
@@ -265,7 +266,7 @@ export default defineComponent({
       return XEUtils.toValueString(item ? item[labelField as 'label'] : value)
     }
     const displaySelectLabel = ref('')
-    const latestPick = ref<number | string>('')
+    const latestPick = ref<string>('')
     const calculateLabel = () => {
       const { modelValue, multiple, remote } = props
       const multiMaxCharNum = computeMultiMaxCharNum.value
@@ -302,10 +303,10 @@ export default defineComponent({
     }
 
     /**
-         * 刷新选项，当选项被动态显示/隐藏时可能会用到
-         */
+     * 刷新选项，当选项被动态显示/隐藏时可能会用到
+     */
     const refreshOption = (showAll?: boolean) => {
-      const { filterable, filterMethod, multiple } = props
+      const { filterable, filterMethod, multiple, multipleMode } = props
       const { fullOptionList, fullGroupList } = reactData
       const isGroup = computeIsGroup.value
       const groupLabelField = computeGroupLabelField.value
@@ -316,12 +317,12 @@ export default defineComponent({
           const queryArr = searchValue ? searchValue.split(',') : []
           return queryArr.length > 0 ? queryArr.some(label =>
             (group && group[groupLabelField].indexOf(label) > -1) ||
-                            (option && option[labelField].indexOf(label) > -1)
+              (option && option[labelField].indexOf(label) > -1)
           ) : true
         }
           : ({ group, option, searchValue }) =>
               (group && group[groupLabelField].indexOf(searchValue) > -1) ||
-                        (option && option[labelField].indexOf(searchValue) > -1)
+            (option && option[labelField].indexOf(searchValue) > -1)
       if (isGroup) {
         // todo 没有filter methods的逻辑
         if (filterable) {
@@ -332,13 +333,13 @@ export default defineComponent({
           })) : fullGroupList.map(group => isOptionVisible(group) && (!displaySelectLabel.value || _filterMethod({
             group,
             option: null,
-            searchValue: displaySelectLabel.value
+            searchValue: multipleMode === 'tag' ? latestPick.value : displaySelectLabel.value
           })) ? group : ({
               ...group,
               options: group.options ? (group.options as Recordable[]).filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
                 group: null,
                 option,
-                searchValue: displaySelectLabel.value
+                searchValue: multipleMode === 'tag' ? latestPick.value : displaySelectLabel.value
               }))) : []
             }))
         } else {
@@ -352,7 +353,7 @@ export default defineComponent({
           reactData.visibleOptionList = showAll ? fullOptionList.filter(option => isOptionVisible(option)) : fullOptionList.filter(option => isOptionVisible(option) && _filterMethod({
             group: null,
             option,
-            searchValue: displaySelectLabel.value
+            searchValue: multipleMode === 'tag' ? latestPick.value : displaySelectLabel.value
           }))
         } else {
           reactData.visibleOptionList = fullOptionList.filter(isOptionVisible)
