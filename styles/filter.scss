@@ -101,7 +101,7 @@
         color: var(--vxe-primary-color);
       }
       &.is--disabled {
-        color: var(--vxe-font-disabled-color);
+        color: var(--vxe-filter-button-disabled-color);
         cursor: not-allowed;
       }
     }

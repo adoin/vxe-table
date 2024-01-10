@@ -171,7 +171,7 @@ export function isNodeElement (elem: any): elem is HTMLElement {
   return elem && elem.nodeType === 1
 }
 
-export function isInside (childNode: Element, parentNode: Element) {
+export function isInside (childNode: Element, parentNode: Element): boolean {
   if (childNode.parentElement) {
     if (childNode.parentElement === parentNode) {
       return true
@@ -182,7 +182,18 @@ export function isInside (childNode: Element, parentNode: Element) {
     return false
   }
 }
-
+/**
+ * 递归使得元素和所有后代元素失去焦点（如果可以的话）
+ */
+export const blurRecursive = (elem: HTMLElement) => {
+  if (elem) {
+    elem?.blur()
+    const children = elem.children
+    for (let i = 0; i < children.length; i++) {
+      blurRecursive(children[i] as HTMLElement)
+    }
+  }
+}
 export const ignoreWheelList:string[] = [
   'vxe-select',
   'vxe-cascader',
