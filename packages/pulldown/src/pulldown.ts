@@ -1,8 +1,8 @@
-import { defineComponent, h, Teleport, ref, Ref, onUnmounted, reactive, nextTick, PropType, watch } from 'vue'
+import { defineComponent, h, Teleport, ref, Ref, onUnmounted, reactive, nextTick, PropType, watch, createCommentVNode } from 'vue'
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
-import { getAbsolutePos, getEventTargetNode, ignoreWheelList, isInside } from '../../tools/dom'
+import { blurRecursive, getAbsolutePos, getEventTargetNode, ignoreWheelList, isInside } from '../../tools/dom'
 import { getLastZIndex, nextZIndex } from '../../tools/utils'
 import { GlobalEvent } from '../../tools/event'
 
@@ -189,6 +189,8 @@ export default defineComponent({
      */
     const hidePanel = (): Promise<void> => {
       reactData.visiblePanel = false
+      reactData.isActivated = false
+      blurRecursive(refPulldowContent.value)
       emit('update:modelValue', false)
       return new Promise(resolve => {
         if (reactData.animatVisible) {
@@ -292,6 +294,10 @@ export default defineComponent({
       const { className, popupClassName, destroyOnClose, transfer, disabled } = props
       const { inited, isActivated, animatVisible, visiblePanel, panelStyle, panelPlacement } = reactData
       const vSize = computeSize.value
+      const defaultSlot = slots.default
+      const headerSlot = slots.header
+      const footerSlot = slots.footer
+      const dropdownSlot = slots.dropdown
       return h('div', {
         ref: refElem,
         class: ['vxe-pulldown', className ? (XEUtils.isFunction(className) ? className({ $pulldown: $xepulldown }) : className) : '', {
@@ -304,7 +310,7 @@ export default defineComponent({
         h('div', {
           ref: refPulldowContent,
           class: 'vxe-pulldown--content'
-        }, slots.default ? slots.default({ $pulldown: $xepulldown }) : []),
+        }, defaultSlot ? defaultSlot({ $pulldown: $xepulldown }) : []),
         h(Teleport, {
           to: 'body',
           disabled: transfer ? !inited : true
@@ -319,10 +325,20 @@ export default defineComponent({
             }],
             placement: panelPlacement,
             style: panelStyle
-          }, slots.dropdown ? [
+          }, dropdownSlot ? [
             h('div', {
-              class: 'vxe-pulldown--wrapper'
-            }, !inited || (destroyOnClose && !visiblePanel && !animatVisible) ? [] : slots.dropdown({ $pulldown: $xepulldown }))
+              class: 'vxe-pulldown--panel-wrapper'
+            }, !inited || (destroyOnClose && !visiblePanel && !animatVisible) ? [] : [
+              headerSlot ? h('div', {
+                class: 'vxe-pulldown--panel-header'
+              }, headerSlot({ $pulldown: $xepulldown })) : createCommentVNode(),
+              h('div', {
+                class: 'vxe-pulldown--panel-body'
+              }, dropdownSlot({ $pulldown: $xepulldown })),
+              footerSlot ? h('div', {
+                class: 'vxe-pulldown--panel-footer'
+              }, footerSlot({ $pulldown: $xepulldown })) : createCommentVNode()
+            ])
           ] : [])
         ])
       ])
@@ -332,7 +348,8 @@ export default defineComponent({
 
     return $xepulldown
   },
-  render () {
+  render
+  () {
     return this.renderVN()
   }
 })

@@ -159,7 +159,7 @@
     .vxe-default-select,
     .vxe-input,
     .vxe-textarea,
-    .vxe-select {
+    .vxe-select:not(.vxe-pager--sizes) {
       width: 100%;
     }
   }

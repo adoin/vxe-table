@@ -797,6 +797,8 @@ export default defineComponent({
     const hidePanel = (): Promise<void> => {
       return new Promise(resolve => {
         reactData.visiblePanel = false
+        reactData.isActivated = false
+        refInputTarget.value?.blur()
         hidePanelTimeout = window.setTimeout(() => {
           reactData.animatVisible = false
           resolve()
