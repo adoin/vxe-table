@@ -1688,14 +1688,23 @@ export default defineComponent({
             const emptyBlockRef = elemStore[`${name}-${layout}-emptyBlock`]
             const emptyBlockElem = emptyBlockRef ? emptyBlockRef.value : null
             if (isNodeElement(wrapperElem)) {
-              const bodyMinHeight = fixedType ? ((customMinHeight - headerHeight - footerHeight) - (showFooter ? 0 : scrollbarHeight)) : (customMinHeight - headerHeight - footerHeight)
               let bodyMaxHeight = 0
+              const bodyMinHeight = customMinHeight - headerHeight - footerHeight
               if (customMaxHeight) {
-                bodyMaxHeight = Math.max(bodyMinHeight, fixedType ? (customMaxHeight - headerHeight - (showFooter ? 0 : scrollbarHeight)) : (customMaxHeight - headerHeight - footerHeight))
+                bodyMaxHeight = customMaxHeight - headerHeight - footerHeight
+                // 如果是固定列
+                if (fixedType) {
+                  bodyMaxHeight -= (showFooter ? 0 : scrollbarHeight)
+                }
+                bodyMaxHeight = Math.max(bodyMinHeight, bodyMaxHeight)
                 wrapperElem.style.maxHeight = `${bodyMaxHeight}px`
               }
-              if (customHeight > 0) {
-                let bodyHeight = fixedType ? ((customHeight > 0 ? customHeight - headerHeight - footerHeight : tableHeight) - (showFooter ? 0 : scrollbarHeight)) : (customHeight - headerHeight - footerHeight)
+              if (customHeight) {
+                let bodyHeight = customHeight - headerHeight - footerHeight
+                // 如果是固定列
+                if (fixedType) {
+                  bodyHeight -= (showFooter ? 0 : scrollbarHeight)
+                }
                 if (bodyMaxHeight) {
                   bodyHeight = Math.min(bodyMaxHeight, bodyHeight)
                 }
@@ -2360,7 +2369,7 @@ export default defineComponent({
       const { transform } = treeOpts
       const childrenField = treeOpts.children || treeOpts.childrenField
       let treeData = []
-      let fullData = datas ? datas.slice(0) : []
+      let fullData = reactive(datas ? datas.slice(0) : []) // 转为响应式
       if (treeConfig) {
         if (transform) {
           // 树结构自动转换
@@ -2848,6 +2857,7 @@ export default defineComponent({
        * 对于某些特殊的场景，比如深层树节点元素发生变动时可能会用到
        */
       syncData () {
+        warnLog('vxe.error.delFunc', ['syncData', 'getData'])
         return nextTick().then(() => {
           reactData.tableData = []
           emit('update:data', internalData.tableFullData)
@@ -6410,11 +6420,11 @@ export default defineComponent({
           handleInitDefaults()
         }
         if (process.env.VUE_APP_VXE_TABLE_ENV === 'development') {
-          const checkboxOpts = computeCheckboxOpts.value
-          const checkboxColumn = internalData.tableFullColumn.find(column => column.type === 'checkbox')
-          if (checkboxColumn && internalData.tableFullData.length > 300 && !checkboxOpts.checkField) {
-            warnLog('vxe.error.checkProp', ['checkbox-config.checkField'])
-          }
+          // const checkboxOpts = computeCheckboxOpts.value
+          // const checkboxColumn = internalData.tableFullColumn.find(column => column.type === 'checkbox')
+          // if (checkboxColumn && internalData.tableFullData.length > 300 && !checkboxOpts.checkField) {
+          //   warnLog('vxe.error.checkProp', ['checkbox-config.checkField'])
+          // }
           if ((scrollXLoad || scrollYLoad) && expandColumn) {
             warnLog('vxe.error.scrollErrProp', ['column.type=expand'])
           }

@@ -2,11 +2,20 @@ import { defineComponent, h, Teleport, ref, Ref, onUnmounted, reactive, nextTick
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
-import { getAbsolutePos, getEventTargetNode } from '../../tools/dom'
+import { getAbsolutePos, getEventTargetNode, ignoreWheelList, isInside } from '../../tools/dom'
 import { getLastZIndex, nextZIndex } from '../../tools/utils'
 import { GlobalEvent } from '../../tools/event'
 
-import { VNodeStyle, VxePulldownConstructor, VxePulldownPropTypes, VxePulldownEmits, PulldownReactData, PulldownMethods, PulldownPrivateRef, VxePulldownMethods } from '../../../types/all'
+import {
+  VNodeStyle,
+  VxePulldownConstructor,
+  VxePulldownPropTypes,
+  VxePulldownEmits,
+  PulldownReactData,
+  PulldownMethods,
+  PulldownPrivateRef,
+  VxePulldownMethods
+} from '../../../types/all'
 
 export default defineComponent({
   name: 'VxePulldown',
@@ -215,7 +224,9 @@ export default defineComponent({
         if (visiblePanel) {
           if (getEventTargetNode(evnt, panelElem).flag) {
             updatePlacement()
-          } else {
+          } else if (!isInside(evnt.target as unknown as Element, refPulldowPnanel.value) &&
+            Array.from((evnt.target as HTMLElement).classList).every(e => ignoreWheelList.every(i => !e.startsWith(i)))
+          ) {
             hidePanel()
             pulldownMethods.dispatchEvent('hide-panel', {}, evnt)
           }

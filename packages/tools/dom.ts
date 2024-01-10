@@ -137,7 +137,15 @@ export function getAbsolutePos (elem: any) {
   const boundingLeft = bounding.left
   const boundingBottom = bounding.bottom
   const { scrollTop, scrollLeft, visibleHeight, visibleWidth } = getDomNode()
-  return { boundingTop, boundingBottom, top: scrollTop + boundingTop, boundingLeft, left: scrollLeft + boundingLeft, visibleHeight, visibleWidth }
+  return {
+    boundingTop,
+    boundingBottom,
+    top: scrollTop + boundingTop,
+    boundingLeft,
+    left: scrollLeft + boundingLeft,
+    visibleHeight,
+    visibleWidth
+  }
 }
 
 const scrollIntoViewIfNeeded = 'scrollIntoViewIfNeeded'
@@ -162,3 +170,21 @@ export function triggerEvent (targetElem: Element, type: string) {
 export function isNodeElement (elem: any): elem is HTMLElement {
   return elem && elem.nodeType === 1
 }
+
+export function isInside (childNode: Element, parentNode: Element) {
+  if (childNode.parentElement) {
+    if (childNode.parentElement === parentNode) {
+      return true
+    } else {
+      return isInside(childNode.parentElement, parentNode)
+    }
+  } else {
+    return false
+  }
+}
+
+export const ignoreWheelList:string[] = [
+  'vxe-select',
+  'vxe-cascader',
+  'vxe-slider'
+]
