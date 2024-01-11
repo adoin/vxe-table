@@ -531,6 +531,9 @@ export default defineComponent({
       reactData.searchLoading = false
       reactData.visiblePanel = false
       reactData.isActivated = false
+      if (latestPick.value) {
+        latestPick.value = ''
+      }
       refInput.value?.blur()
       hidePanelTimeout = window.setTimeout(() => {
         reactData.animatVisible = false
