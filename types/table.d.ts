@@ -1536,6 +1536,8 @@ export namespace VxeTablePropTypes {
     showIcon?: boolean
     iconNone?: string
     iconMatch?: string
+    confirmButtonText?: string
+    resetButtonText?: string
   }
   export interface FilterOpts<D = VxeTableDataRow> extends FilterConfig<D> { }
 
