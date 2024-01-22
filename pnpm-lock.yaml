@@ -9,8 +9,8 @@ dependencies:
     specifier: ^1.0.1
     version: 1.0.1
   xe-utils:
-    specifier: ^3.5.14
-    version: 3.5.14
+    specifier: ^3.5.18
+    version: 3.5.18
 
 devDependencies:
   '@types/node':
@@ -10839,8 +10839,8 @@ packages:
         optional: true
     dev: true
 
-  /xe-utils@3.5.14:
-    resolution: {integrity: sha512-Xq6mS8dWwHBQsQUEBXcZYSaBV0KnNLoVWd0vRRDI3nKpbNxfs/LSCK0W21g1edLFnXYfKqg7hh5dakr3RtYY0A==}
+  /xe-utils@3.5.18:
+    resolution: {integrity: sha512-+Be37a6yu4U/Q94ZSf30I57IM74tvK6wf9fHvjC/TLXNHFsf7PnhfWQ7TyjhUBOI/GAy5gr6tPK+iXIoLmyimw==}
     dev: false
 
   /xtend@4.0.2:

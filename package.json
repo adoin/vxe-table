@@ -29,7 +29,7 @@
   "typings": "types/index.d.ts",
   "dependencies": {
     "dom-zindex": "^1.0.1",
-    "xe-utils": "^3.5.14"
+    "xe-utils": "^3.5.18"
   },
   "devDependencies": {
     "@types/node": "^20.10.3",
