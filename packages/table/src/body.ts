@@ -155,7 +155,7 @@ export default defineComponent({
       const rowOpts = computeRowOpts.value
       const sYOpts = computeSYOpts.value
       const columnOpts = computeColumnOpts.value
-      const { type, cellRender, editRender, align, showOverflow, className, treeNode } = column
+      const { type, cellRender, editRender, align, showOverflow, className, treeNode, slots } = column
       const { actived } = editStore
       const { rHeight: scrollYRHeight } = sYOpts
       const { height: rowHeight } = rowOpts
@@ -294,13 +294,16 @@ export default defineComponent({
           }, column.renderCell(params))
         )
         if (showValidTip && errorValidItem) {
+          const errRule = errorValidItem.rule
+          const validSlot = slots ? slots.valid : null
+          const validParams = { ...params, ...errorValidItem }
           tdVNs.push(
             h('div', {
-              class: 'vxe-cell--valid-error-hint',
-              style: errorValidItem.rule && errorValidItem.rule.maxWidth ? {
-                width: `${errorValidItem.rule.maxWidth}px`
+              class: ['vxe-cell--valid-error-hint', getPropClass(validOpts.className, validParams)],
+              style: errRule && errRule.maxWidth ? {
+                width: `${errRule.maxWidth}px`
               } : null
-            }, [
+            }, validSlot ? $xetable.callSlot(validSlot, validParams) : [
               h('span', {
                 class: 'vxe-cell--valid-error-msg'
               }, errorValidItem.content)
@@ -799,8 +802,9 @@ export default defineComponent({
         }
       }
       let emptyContent: string | VxeGlobalRendererHandles.RenderResult
-      if (slots.empty) {
-        emptyContent = $xetable.callSlot(slots.empty, { $table: $xetable, $grid: $xetable.xegrid })
+      const emptySlot = slots ? slots.empty : null
+      if (emptySlot) {
+        emptyContent = $xetable.callSlot(emptySlot, { $table: $xetable, $grid: $xetable.xegrid })
       } else {
         const compConf = emptyOpts.name ? VXETable.renderer.get(emptyOpts.name) : null
         const renderEmpty = compConf ? compConf.renderEmpty : null

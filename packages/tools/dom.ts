@@ -132,10 +132,12 @@ export function getOffsetPos (elem: any, container: any) {
 }
 
 export function getAbsolutePos (elem: any) {
+  // 当主页面嵌套在iframe时，elem.getBoundingClientRect()计算在当前body内的边界距离，document.body.getBoundingClientRect计算body所在的边界距离
+  const bodyBounding = document.body.getBoundingClientRect()
   const bounding = elem.getBoundingClientRect()
-  const boundingTop = bounding.top
-  const boundingLeft = bounding.left
   const boundingBottom = bounding.bottom
+  const boundingTop = bounding.top - bodyBounding.top
+  const boundingLeft = bounding.left - bodyBounding.left
   const { scrollTop, scrollLeft, visibleHeight, visibleWidth } = getDomNode()
   return {
     boundingTop,

@@ -130,7 +130,7 @@ export namespace VxeColumnPropTypes {
     message?: string
   }
 
-  export interface TitleHelp extends TitlePrefix {}
+  export interface TitleHelp extends TitlePrefix { }
 
   export type CellType = 'auto' | 'number' | 'string'
 
@@ -210,6 +210,11 @@ export namespace VxeColumnPropTypes {
      * 只对 edit-render 启用时有效，自定义可编辑组件模板
      */
     edit?: string | ((params: VxeColumnSlotTypes.EditSlotParams<D>) => SlotVNodeType[] | SlotVNodeType) | null
+    /**
+     * 只对 edit-render 启用时有效，自定义可编辑组件模板
+     */
+    valid?: string | ((params: VxeColumnSlotTypes.ValidSlotParams<D>) => SlotVNodeType[] | SlotVNodeType) | null
+
     /**
      * 已废弃
      * @deprecated
@@ -405,7 +410,7 @@ export namespace VxeColumnSlotTypes {
     data: D[][]
   }
 
-  export interface HeaderSlotParams<D = VxeTableDataRow> extends VxeTableDefines.CellRenderHeaderParams<D> {}
+  export interface HeaderSlotParams<D = VxeTableDataRow> extends VxeTableDefines.CellRenderHeaderParams<D> { }
 
   export interface ContentSlotParams<D = VxeTableDataRow> {
     column: VxeTableDefines.ColumnInfo<D>
@@ -429,6 +434,11 @@ export namespace VxeColumnSlotTypes {
     checked: boolean
   }
   export interface IconSlotParams<D = VxeTableDataRow> extends DefaultSlotParams<D> { }
+
+  export interface ValidSlotParams<D = VxeTableDataRow> extends DefaultSlotParams<D> {
+    rule: VxeTableDefines.ValidatorRule<D>
+    content: string
+  }
 }
 
 export interface VxeColumnSlots<D = VxeTableDataRow> {
@@ -468,6 +478,11 @@ export interface VxeColumnSlots<D = VxeTableDataRow> {
    * 只对 edit-render 启用时有效，自定义可编辑组件模板
    */
   edit: (params: VxeColumnSlotTypes.EditSlotParams<D>) => any
+   /**
+   * 只对 edit-render 启用时有效，自定义展示错误校验模板
+   */
+  valid: (params: VxeColumnSlotTypes.ValidSlotParams<D>) => any
+
   /**
    * 已废弃
    * @deprecated

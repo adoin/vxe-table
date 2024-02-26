@@ -6,7 +6,6 @@ import {
   ref,
   Ref,
   inject,
-  VNode,
   computed,
   provide,
   onUnmounted,
@@ -14,9 +13,9 @@ import {
   nextTick,
   watch,
   onMounted,
-  watchEffect, createCommentVNode
+  createCommentVNode
 } from 'vue'
-import XEUtils, { isFunction } from 'xe-utils'
+import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
 import { getEventTargetNode, getAbsolutePos } from '../../tools/dom'
@@ -24,7 +23,6 @@ import { getLastZIndex, nextZIndex, getFuncText, formatText } from '../../tools/
 import { GlobalEvent, hasEventKey, EVENT_KEYS } from '../../tools/event'
 import VxeInputComponent from '../../input/src/input'
 import { getSlotVNs } from '../../tools/vn'
-
 import {
   VxeSelectPropTypes,
   VxeSelectConstructor,
@@ -38,7 +36,9 @@ import {
   VxeOptionProps,
   VxeFormDefines,
   VxeFormConstructor,
-  VxeFormPrivateMethods
+  VxeFormPrivateMethods,
+  VxeInputDefines,
+  SlotVNodeType
 } from '../../../types/all'
 
 function isOptionVisible (option: any) {
@@ -193,7 +193,7 @@ export default defineComponent({
       return XEUtils.toNumber(props.multiCharOverflow)
     })
 
-    const callSlot = <T> (slotFunc: ((params: T) => JSX.Element[] | VNode[] | string[]) | string | null, params: T) => {
+    const callSlot = <T> (slotFunc: ((params: T) => SlotVNodeType | SlotVNodeType[]) | string | null, params: T) => {
       if (slotFunc) {
         if (XEUtils.isString(slotFunc)) {
           slotFunc = slots[slotFunc] || null
@@ -308,14 +308,14 @@ export default defineComponent({
       // const valueField = computeValueField.value
       const _filterMethod: VxeSelectPropTypes.FilterMethod = filterMethod && isFunction(filterMethod) ? filterMethod
         : multiple ? ({ group, option, searchValue }) => {
-          const queryArr = searchValue ? searchValue.split(',') : []
-          return queryArr.length > 0 ? queryArr.some(label =>
-            (group && group[groupLabelField].indexOf(label) > -1) ||
+            const queryArr = searchValue ? searchValue.split(',') : []
+            return queryArr.length > 0 ? queryArr.some(label =>
+              (group && group[groupLabelField].indexOf(label) > -1) ||
               (option && option[labelField].indexOf(label) > -1)
-          ) : true
-        }
+            ) : true
+          }
           : ({ group, option, searchValue }) =>
-              (group && group[groupLabelField].indexOf(searchValue) > -1) ||
+            (group && group[groupLabelField].indexOf(searchValue) > -1) ||
             (option && option[labelField].indexOf(searchValue) > -1)
       if (isGroup) {
         // todo 没有filter methods的逻辑
@@ -329,13 +329,13 @@ export default defineComponent({
             option: null,
             searchValue: displaySelectLabel.value
           })) ? group : ({
-              ...group,
-              options: group.options ? (group.options as Recordable[]).filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
-                group: null,
-                option,
-                searchValue: displaySelectLabel.value
-              }))) : []
-            }))
+            ...group,
+            options: group.options ? (group.options as Recordable[]).filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
+              group: null,
+              option,
+              searchValue: displaySelectLabel.value
+            }))) : []
+          }))
         } else {
           reactData.visibleGroupList = fullGroupList.filter(isOptionVisible).map(group => ({
             ...group,

@@ -85,7 +85,7 @@ const editHook: VxeGlobalHooksHandles.HookOptions = {
           }
           parentChilds[funcName](item)
           mapChilds[funcName](item)
-          const rest = { row: item, rowid, seq: -1, index: -1, _index: -1, $index: -1, items: parentChilds, parent, level: parentLevel + 1 }
+          const rest = { row: item, rowid, seq: -1, index: -1, _index: -1, $index: -1, items: parentChilds, parent: parentRow, level: parentLevel + 1 }
           fullDataRowIdData[rowid] = rest
           fullAllDataRowIdData[rowid] = rest
         } else {
@@ -114,7 +114,7 @@ const editHook: VxeGlobalHooksHandles.HookOptions = {
         records = [records]
       }
       const newRecords: any[] = reactive($xetable.defineField(records.map((record: any) => Object.assign(treeConfig && transform ? { [mapChildrenField]: [], [childrenField]: [] } : {}, record))))
-      if (!row) {
+      if (XEUtils.eqNull(row)) {
         // 如果为虚拟树
         if (treeConfig && transform) {
           insertTreeRow(newRecords, false)
