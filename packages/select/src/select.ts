@@ -13,9 +13,9 @@ import {
   nextTick,
   watch,
   onMounted,
-  createCommentVNode
+  createCommentVNode, watchEffect
 } from 'vue'
-import XEUtils from 'xe-utils'
+import XEUtils, { isFunction } from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
 import { getEventTargetNode, getAbsolutePos } from '../../tools/dom'
@@ -308,14 +308,14 @@ export default defineComponent({
       // const valueField = computeValueField.value
       const _filterMethod: VxeSelectPropTypes.FilterMethod = filterMethod && isFunction(filterMethod) ? filterMethod
         : multiple ? ({ group, option, searchValue }) => {
-            const queryArr = searchValue ? searchValue.split(',') : []
-            return queryArr.length > 0 ? queryArr.some(label =>
-              (group && group[groupLabelField].indexOf(label) > -1) ||
+          const queryArr = searchValue ? searchValue.split(',') : []
+          return queryArr.length > 0 ? queryArr.some(label =>
+            (group && group[groupLabelField].indexOf(label) > -1) ||
               (option && option[labelField].indexOf(label) > -1)
-            ) : true
-          }
+          ) : true
+        }
           : ({ group, option, searchValue }) =>
-            (group && group[groupLabelField].indexOf(searchValue) > -1) ||
+              (group && group[groupLabelField].indexOf(searchValue) > -1) ||
             (option && option[labelField].indexOf(searchValue) > -1)
       if (isGroup) {
         // todo 没有filter methods的逻辑
@@ -329,13 +329,13 @@ export default defineComponent({
             option: null,
             searchValue: displaySelectLabel.value
           })) ? group : ({
-            ...group,
-            options: group.options ? (group.options as Recordable[]).filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
-              group: null,
-              option,
-              searchValue: displaySelectLabel.value
-            }))) : []
-          }))
+              ...group,
+              options: group.options ? (group.options as Recordable[]).filter(option => isOptionVisible(option) && (!displaySelectLabel.value || _filterMethod({
+                group: null,
+                option,
+                searchValue: displaySelectLabel.value
+              }))) : []
+            }))
         } else {
           reactData.visibleGroupList = fullGroupList.filter(isOptionVisible).map(group => ({
             ...group,
