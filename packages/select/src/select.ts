@@ -37,7 +37,6 @@ import {
   VxeFormDefines,
   VxeFormConstructor,
   VxeFormPrivateMethods,
-  VxeInputDefines,
   SlotVNodeType
 } from '../../../types/all'
 
