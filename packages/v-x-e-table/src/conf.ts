@@ -367,7 +367,8 @@ const GlobalConfig: VXETableConfigOptions = {
     showClose: true,
     draggable: true,
     // storage: false,
-    storageKey: 'VXE_MODAL_POSITION'
+    storageKey: 'VXE_MODAL_POSITION',
+    destroyOnClose: false
   },
   list: {
     // size: null,
