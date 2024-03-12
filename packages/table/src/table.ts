@@ -5740,15 +5740,14 @@ export default defineComponent({
         reactData.selectCheckboxMaps = selectRowMaps
         tablePrivateMethods.checkSelectionStatus()
       },
-      triggerHeaderHelpEvent (evnt, params) {
-        const { column } = params
-        const titlePrefix = column.titlePrefix || column.titleHelp
-        if (titlePrefix.content || titlePrefix.message) {
+      triggerHeaderTitleEvent (evnt, iconParams, params) {
+        const tipContent = iconParams.content || (iconParams as any).message
+        if (tipContent) {
           const { tooltipStore } = reactData
-          const content = getFuncText(titlePrefix.content || titlePrefix.message)
+          const content = getFuncText(tipContent)
           handleTargetEnterEvent(true)
           tooltipStore.visible = true
-          tooltipStore.currOpts = { ...titlePrefix, content: null }
+          tooltipStore.currOpts = { ...params, content: null }
           nextTick(() => {
             const $tooltip = refTooltip.value
             if ($tooltip) {

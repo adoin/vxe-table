@@ -767,7 +767,7 @@ export interface TablePrivateMethods<D = VxeTableDataRow> {
   handleRefreshColumnQueue(): void
   preventEvent(evnt: any, type: any, args?: any, next?: any, end?: any): any
   calcIndeterminateTem(treeData:VxeTableDataRow[]): void
-  triggerHeaderHelpEvent(evnt: MouseEvent, params: VxeTableDefines.CellRenderHeaderParams<any>): void
+  triggerHeaderTitleEvent(evnt: MouseEvent, iconParams: VxeColumnPropTypes.TitlePrefix | VxeColumnPropTypes.TitleSuffix, params: VxeTableDefines.CellRenderHeaderParams<any>): void
   triggerHeaderTooltipEvent(evnt: MouseEvent, params: VxeTableDefines.CellRenderHeaderParams<any>): void
   triggerBodyTooltipEvent(evnt: MouseEvent, params: VxeTableDefines.CellRenderBodyParams<any>): void
   triggerFooterTooltipEvent(evnt: MouseEvent, params: VxeTableDefines.CellRenderFooterParams<any>): void
@@ -1513,6 +1513,7 @@ export namespace VxeTablePropTypes {
     chronological?: boolean
     trigger?: 'default' | 'cell'
     showIcon?: boolean
+    iconLayout?: 'horizontal' | 'vertical'
     iconAsc?: string
     iconDesc?: string
   }
@@ -2871,6 +2872,7 @@ export namespace VxeTableDefines {
      */
     titleHelp: VxeColumnPropTypes.TitleHelp
     titlePrefix: VxeColumnPropTypes.TitlePrefix
+    titleSuffix: VxeColumnPropTypes.TitleSuffix
     cellType: VxeColumnPropTypes.CellType
     cellRender: VxeColumnPropTypes.CellRender<D>
     editRender: VxeColumnPropTypes.EditRender

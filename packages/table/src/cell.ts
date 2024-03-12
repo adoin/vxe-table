@@ -14,9 +14,25 @@ function renderTitlePrefixIcon (params: VxeTableDefines.CellRenderHeaderParams) 
   const titlePrefix = column.titlePrefix || column.titleHelp
   return titlePrefix ? [
     h('i', {
-      class: ['vxe-cell-help-icon', titlePrefix.icon || GlobalConfig.icon.TABLE_HELP],
+      class: ['vxe-cell-title-prefix-icon', titlePrefix.icon || GlobalConfig.icon.TABLE_TITLE_PREFIX],
       onMouseenter (evnt: MouseEvent) {
-        $table.triggerHeaderHelpEvent(evnt, params)
+        $table.triggerHeaderTitleEvent(evnt, titlePrefix, params)
+      },
+      onMouseleave (evnt: MouseEvent) {
+        $table.handleTargetLeaveEvent(evnt)
+      }
+    })
+  ] : []
+}
+
+function renderTitleSuffixIcon (params: VxeTableDefines.CellRenderHeaderParams) {
+  const { $table, column } = params
+  const titleSuffix = column.titleSuffix
+  return titleSuffix ? [
+    h('i', {
+      class: ['vxe-cell-title-suffix-icon', titleSuffix.icon || GlobalConfig.icon.TABLE_TITLE_SUFFIX],
+      onMouseenter (evnt: MouseEvent) {
+        $table.triggerHeaderTitleEvent(evnt, titleSuffix, params)
       },
       onMouseleave (evnt: MouseEvent) {
         $table.handleTargetLeaveEvent(evnt)
@@ -167,7 +183,7 @@ export const Cell = {
     return renderTitleContent(params, formatText(column.getTitle(), 1))
   },
   renderDefaultHeader (params: VxeTableDefines.CellRenderHeaderParams) {
-    return renderTitlePrefixIcon(params).concat(Cell.renderHeaderTitle(params))
+    return renderTitlePrefixIcon(params).concat(Cell.renderHeaderTitle(params)).concat(renderTitleSuffixIcon(params))
   },
   renderDefaultCell (params: VxeTableDefines.CellRenderBodyParams) {
     const { $table, row, column } = params
@@ -676,34 +692,37 @@ export const Cell = {
     const { $table, column } = params
     const { computeSortOpts } = $table.getComputeMaps()
     const sortOpts = computeSortOpts.value
-    const { showIcon, iconAsc, iconDesc } = sortOpts
+    const { showIcon, iconLayout, iconAsc, iconDesc } = sortOpts
     const { order } = column
-    return showIcon ? [
-      h('span', {
-        class: 'vxe-cell--sort'
-      }, [
-        h('i', {
-          class: ['vxe-sort--asc-btn', iconAsc || GlobalConfig.icon.TABLE_SORT_ASC, {
-            'sort--active': order === 'asc'
-          }],
-          title: GlobalConfig.i18n('vxe.table.sortAsc'),
-          onClick (evnt: Event) {
-            evnt.stopPropagation()
-            $table.triggerSortEvent(evnt, column, 'asc')
-          }
-        }),
-        h('i', {
-          class: ['vxe-sort--desc-btn', iconDesc || GlobalConfig.icon.TABLE_SORT_DESC, {
-            'sort--active': order === 'desc'
-          }],
-          title: GlobalConfig.i18n('vxe.table.sortDesc'),
-          onClick (evnt: Event) {
-            evnt.stopPropagation()
-            $table.triggerSortEvent(evnt, column, 'desc')
-          }
-        })
-      ])
-    ] : []
+    if (showIcon) {
+      return [
+        h('span', {
+          class: ['vxe-cell--sort', `vxe-cell--sort-${iconLayout}-layout`]
+        }, [
+          h('i', {
+            class: ['vxe-sort--asc-btn', iconAsc || GlobalConfig.icon.TABLE_SORT_ASC, {
+              'sort--active': order === 'asc'
+            }],
+            title: GlobalConfig.i18n('vxe.table.sortAsc'),
+            onClick (evnt: Event) {
+              evnt.stopPropagation()
+              $table.triggerSortEvent(evnt, column, 'asc')
+            }
+          }),
+          h('i', {
+            class: ['vxe-sort--desc-btn', iconDesc || GlobalConfig.icon.TABLE_SORT_DESC, {
+              'sort--active': order === 'desc'
+            }],
+            title: GlobalConfig.i18n('vxe.table.sortDesc'),
+            onClick (evnt: Event) {
+              evnt.stopPropagation()
+              $table.triggerSortEvent(evnt, column, 'desc')
+            }
+          })
+        ])
+      ]
+    }
+    return []
   },
 
   /**
