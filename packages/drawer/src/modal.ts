@@ -114,6 +114,7 @@ export default defineComponent({
     }
 
     const updatePosition = () => {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       return nextTick().then(() => {
       })
     }

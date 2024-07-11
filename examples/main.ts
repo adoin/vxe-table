@@ -25,7 +25,9 @@ import {
   VxeTableKeyboardModule,
   VxeTableValidatorModule,
   VxeTableCustomModule,
-
+  VxeCard,
+  VxeTag,
+  VxeTags,
   VxeIcon,
   VxeColumn,
   VxeColgroup,
@@ -102,7 +104,9 @@ app.use(VxeFormItem)
 app.use(VxeFormGather)
 app.use(VxeList)
 app.use(VxePulldown)
-
+app.use(VxeCard)
+app.use(VxeTag)
+app.use(VxeTags)
 app.use(store)
 app.use(router)
 app.use(i18n)

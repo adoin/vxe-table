@@ -22,6 +22,7 @@
   --vxe-info-color: #{$vxe-info-color};
   --vxe-warning-color: #{$vxe-warning-color};
   --vxe-danger-color: #{$vxe-danger-color};
+  --vxe-perfect-color: #{$vxe-perfect-color};
 
   --vxe-font-lighten-color: #{$vxe-font-lighten-color};
   --vxe-primary-lighten-color: #{$vxe-primary-lighten-color};
@@ -43,6 +44,7 @@
   --vxe-info-disabled-color: #{$vxe-info-disabled-color};
   --vxe-warning-disabled-color: #{$vxe-warning-disabled-color};
   --vxe-danger-disabled-color: #{$vxe-danger-disabled-color};
+  --vxe-filter-button-disabled-color: #{$vxe-filter-button-disabled-color};
 
   /*input/radio/checkbox*/
   --vxe-input-border-color: #{$vxe-input-border-color};
@@ -275,4 +277,42 @@
 
   /*pulldown*/
   --vxe-pulldown-panel-background-color: #{$vxe-pulldown-panel-background-color};
+  
+  /*card*/
+  --vxe-card-background-color: #{$vxe-card-background-color};
+  --vxe-card-line-height: #{$vxe-card-line-height};
+  --vxe-card-header-font-color: #{$vxe-card-header-font-color};
+  --vxe-card-body-font-color: #{$vxe-card-body-font-color};
+  --vxe-card-header-font-size: #{$vxe-card-header-font-size};
+  --vxe-card-header-font-weight: #{$vxe-card-header-font-weight};
+  --vxe-card-footer-font-color: #{$vxe-card-footer-font-color};
+  --vxe-card-footer-font-size: #{$vxe-card-footer-font-size};
+  --vxe-card-back-font-color: #{$vxe-card-back-font-color};
+  --vxe-card-cover-font-color: #{$vxe-card-cover-font-color};
+  --vxe-card-cover-padding: #{$vxe-card-cover-padding};
+  --vxe-card-cover-background-color: #{$vxe-card-background-color};
+  --vxe-card-border-color: #{$vxe-card-border-color};
+  --vxe-card-border-width: #{$vxe-card-border-width};
+  --vxe-card-animation-duration: #{$vxe-card-animation-duration};
+  --vxe-card-box-shadow: #{$vxe-card-box-shadow};
+  --vxe-card-box-shadow-sink: #{$vxe-card-box-shadow-sink};
+  --vxe-card-shaking-distance: #{$vxe-card-shaking-distance};
+  --vxe-card-body-padding: #{$vxe-card-body-padding};
+  --vxe-card-header-padding: #{$vxe-card-header-padding};
+  --vxe-card-footer-padding: #{$vxe-card-footer-padding};
+  --vxe-card-border-radius: #{$vxe-card-border-radius};
+  --vxe-card-header-border-color: #{$vxe-modal-border-color};
+  
+  /*tag*/
+  --vxe-tag-default-color: #{$vxe-tag-default-color};
+  --vxe-tag-padding: #{$vxe-tag-padding};
+  --vxe-tag-border-radius: #{$vxe-tag-border-radius};
+  --vxe-tag-line-height--mini: #{$vxe-tag-line-height--mini};
+  --vxe-tag-line-height--small: #{$vxe-tag-line-height--small};
+  --vxe-tag-line-height--medium: #{$vxe-tag-line-height--medium};
+  --vxe-tag-line-height--large: #{$vxe-tag-line-height--large};
+  --vxe-tag-font-size-mini: #{$vxe-tag-font-size-mini};
+  --vxe-tag-font-size-small: #{$vxe-tag-font-size-small};
+  --vxe-tag-font-size-medium: #{$vxe-tag-font-size-medium};
+  --vxe-tag-font-size-large: #{$vxe-tag-font-size-large};
 }

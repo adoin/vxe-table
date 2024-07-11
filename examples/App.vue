@@ -199,6 +199,13 @@ export default defineComponent({
               keywords: ['button']
             },
             {
+              label: 'app.aside.nav.tag',
+              locat: {
+                name: 'ModuleTag'
+              },
+              keywords: ['tag', 'tags']
+            },
+            {
               label: 'app.aside.nav.radio',
               locat: {
                 name: 'ModuleRadio'
