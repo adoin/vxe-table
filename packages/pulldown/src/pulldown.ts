@@ -2,20 +2,11 @@ import { defineComponent, h, Teleport, ref, Ref, onUnmounted, reactive, nextTick
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
-import { blurRecursive, getAbsolutePos, getEventTargetNode, ignoreWheelList, isInside } from '../../tools/dom'
+import { getAbsolutePos, getEventTargetNode } from '../../tools/dom'
 import { getLastZIndex, nextZIndex } from '../../tools/utils'
 import { GlobalEvent } from '../../tools/event'
 
-import {
-  VNodeStyle,
-  VxePulldownConstructor,
-  VxePulldownPropTypes,
-  VxePulldownEmits,
-  PulldownReactData,
-  PulldownMethods,
-  PulldownPrivateRef,
-  VxePulldownMethods
-} from '../../../types/all'
+import { VNodeStyle, VxePulldownConstructor, VxePulldownPropTypes, VxePulldownEmits, PulldownReactData, PulldownMethods, PulldownPrivateRef, VxePulldownMethods } from '../../../types/all'
 
 export default defineComponent({
   name: 'VxePulldown',
@@ -189,8 +180,6 @@ export default defineComponent({
      */
     const hidePanel = (): Promise<void> => {
       reactData.visiblePanel = false
-      reactData.isActivated = false
-      blurRecursive(refPulldowContent.value)
       emit('update:modelValue', false)
       return new Promise(resolve => {
         if (reactData.animatVisible) {
@@ -226,9 +215,7 @@ export default defineComponent({
         if (visiblePanel) {
           if (getEventTargetNode(evnt, panelElem).flag) {
             updatePlacement()
-          } else if (!isInside(evnt.target as unknown as Element, refPulldowPnanel.value) &&
-            Array.from((evnt.target as HTMLElement).classList).every(e => ignoreWheelList.every(i => !e.startsWith(i)))
-          ) {
+          } else {
             hidePanel()
             pulldownMethods.dispatchEvent('hide-panel', {}, evnt)
           }
@@ -302,7 +289,7 @@ export default defineComponent({
         ref: refElem,
         class: ['vxe-pulldown', className ? (XEUtils.isFunction(className) ? className({ $pulldown: $xepulldown }) : className) : '', {
           [`size--${vSize}`]: vSize,
-          'is--visible': visiblePanel,
+          'is--visivle': visiblePanel,
           'is--disabled': disabled,
           'is--active': isActivated
         }]
@@ -348,8 +335,7 @@ export default defineComponent({
 
     return $xepulldown
   },
-  render
-  () {
+  render () {
     return this.renderVN()
   }
 })
