@@ -34,6 +34,7 @@
   "devDependencies": {
     "@types/node": "^20.10.3",
     "@types/resize-observer-browser": "^0.1.11",
+    "@types/webpack-env": "^1.18.5",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "@vue/cli-plugin-babel": "~5.0.0",
@@ -69,8 +70,7 @@
     "vue": "3.4.27",
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.3.2",
-    "vuex": "^4.1.0",
-    "webpack-env": "^0.8.0"
+    "vuex": "^4.1.0"
   },
   "peerDependencies": {
     "vue": "^3.2.28"
