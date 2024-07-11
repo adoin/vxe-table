@@ -13,8 +13,14 @@ const prefixer = require('gulp-autoprefixer')
 const merge = require('merge-stream')
 const pack = require('./package.json')
 const ts = require('gulp-typescript')
+const tsconfig = require('./tsconfig.json')
 
 const sass = gulpSass(dartSass)
+
+const tsSettings = {
+  ...tsconfig.compilerOptions,
+  target: 'es2016'
+}
 
 const coreName = 'v-x-e-table'
 
@@ -24,7 +30,8 @@ const moduleList = [
   'edit',
   'export',
   'keyboard',
-  'validator'
+  'validator',
+  'custom'
 ]
 
 const componentList = [
@@ -43,7 +50,9 @@ const componentList = [
   'input',
   'textarea',
   'button',
+  'button-group',
   'modal',
+  'drawer',
   'tooltip',
   'form',
   'form-item',
@@ -80,9 +89,9 @@ gulp.task('build_modules', () => {
   moduleList.forEach(name => {
     const exportName = `VxeModule${toExportName(name)}`
     const esCode = `import ${exportName} from '../${name}'\nexport * from '../${name}'\nexport default ${exportName}`
-    fs.mkdirSync(`packages_temp/vxe-module-${name}`)
-    fs.writeFileSync(`packages_temp/vxe-module-${name}/index.ts`, esCode)
-    fs.writeFileSync(`packages_temp/vxe-module-${name}/index.d.ts`, fs.readFileSync(`packages_temp/${name}/index.d.ts`, 'utf-8'))
+    fs.mkdirSync(`packages_temp/vxe-table-${name}-module`)
+    fs.writeFileSync(`packages_temp/vxe-table-${name}-module/index.ts`, esCode)
+    fs.writeFileSync(`packages_temp/vxe-table-${name}-module/index.d.ts`, fs.readFileSync(`packages_temp/${name}/index.d.ts`, 'utf-8'))
   })
   componentList.forEach(name => {
     const exportName = `Vxe${toExportName(name)}`
@@ -95,14 +104,7 @@ gulp.task('build_modules', () => {
   return gulp.src('packages_temp/**/*.ts')
     .pipe(replace('process.env.VUE_APP_VXE_TABLE_VERSION', `"${pack.version}"`))
     .pipe(replace('process.env.VUE_APP_VXE_TABLE_ENV', 'process.env.NODE_ENV'))
-    .pipe(ts({
-      strict: true,
-      moduleResolution: 'node',
-      noImplicitAny: true,
-      target: 'es5',
-      module: 'esnext',
-      lib: ['dom', 'esnext']
-    }))
+    .pipe(ts(tsSettings))
     .pipe(gulp.dest('es'))
     .pipe(babel({
       presets: [
@@ -128,13 +130,7 @@ gulp.task('build_i18n', () => {
     const name = XEUtils.camelCase(code).replace(/^[a-z]/, firstChat => firstChat.toUpperCase())
     const isZHTC = ['zh-HK', 'zh-MO', 'zh-TW'].includes(code)
     return gulp.src(`packages_temp/locale/lang/${isZHTC ? 'zh-TC' : code}.ts`)
-      .pipe(ts({
-        strict: true,
-        moduleResolution: 'node',
-        noImplicitAny: true,
-        target: 'esnext',
-        lib: ['dom', 'esnext']
-      }))
+      .pipe(ts(tsSettings))
       .pipe(babel({
         moduleId: `vxe-table-lang.${code}`,
         presets: ['@babel/env'],
@@ -279,7 +275,7 @@ gulp.task('build_style', () => {
     return buildStyle(name, name)
   })
   moduleList.forEach(name => {
-    rest.push(buildStyle(name, `vxe-module-${name}`))
+    rest.push(buildStyle(name, `vxe-table-${name}-module`))
   })
   componentList.forEach(name => {
     rest.push(buildStyle(name, `vxe-${name}`))
@@ -297,9 +293,11 @@ gulp.task('build', gulp.series('build_clean', 'copy_pack', 'build_modules', 'bui
   })
   moduleList.forEach(name => {
     fs.writeFileSync(`lib/${name}/style/index.js`, styleCode)
+    fs.writeFileSync(`lib/vxe-table-${name}-module/style/index.js`, styleCode)
   })
   componentList.forEach(name => {
     fs.writeFileSync(`lib/${name}/style/index.js`, styleCode)
+    fs.writeFileSync(`lib/vxe-${name}/style/index.js`, styleCode)
   })
   return del([
     'lib_temp',

@@ -117,7 +117,7 @@ export function getEventTargetNode (evnt: any, container: any, queryCls?: string
     if (queryCls && hasClass(target, queryCls) && (!queryMethod || queryMethod(target))) {
       targetElem = target
     } else if (target === container) {
-      return { flag: queryCls ? !!targetElem : true, container, targetElem }
+      return { flag: queryCls ? !!targetElem : true, container, targetElem: targetElem }
     }
     target = target.parentNode
   }
@@ -132,22 +132,11 @@ export function getOffsetPos (elem: any, container: any) {
 }
 
 export function getAbsolutePos (elem: any) {
-  // 当主页面嵌套在iframe时，elem.getBoundingClientRect()计算在当前body内的边界距离，document.body.getBoundingClientRect计算body所在的边界距离
-  const bodyBounding = document.body.getBoundingClientRect()
   const bounding = elem.getBoundingClientRect()
-  const boundingBottom = bounding.bottom
-  const boundingTop = bounding.top - bodyBounding.top
-  const boundingLeft = bounding.left - bodyBounding.left
+  const boundingTop = bounding.top
+  const boundingLeft = bounding.left
   const { scrollTop, scrollLeft, visibleHeight, visibleWidth } = getDomNode()
-  return {
-    boundingTop,
-    boundingBottom,
-    top: scrollTop + boundingTop,
-    boundingLeft,
-    left: scrollLeft + boundingLeft,
-    visibleHeight,
-    visibleWidth
-  }
+  return { boundingTop, top: scrollTop + boundingTop, boundingLeft, left: scrollLeft + boundingLeft, visibleHeight, visibleWidth }
 }
 
 const scrollIntoViewIfNeeded = 'scrollIntoViewIfNeeded'
@@ -172,32 +161,3 @@ export function triggerEvent (targetElem: Element, type: string) {
 export function isNodeElement (elem: any): elem is HTMLElement {
   return elem && elem.nodeType === 1
 }
-
-export function isInside (childNode: Element, parentNode: Element): boolean {
-  if (childNode.parentElement) {
-    if (childNode.parentElement === parentNode) {
-      return true
-    } else {
-      return isInside(childNode.parentElement, parentNode)
-    }
-  } else {
-    return false
-  }
-}
-/**
- * 递归使得元素和所有后代元素失去焦点（如果可以的话）
- */
-export const blurRecursive = (elem: HTMLElement) => {
-  if (elem) {
-    elem?.blur()
-    const children = elem.children
-    for (let i = 0; i < children.length; i++) {
-      blurRecursive(children[i] as HTMLElement)
-    }
-  }
-}
-export const ignoreWheelList:string[] = [
-  'vxe-select',
-  'vxe-cascader',
-  'vxe-slider'
-]

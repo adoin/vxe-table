@@ -12,7 +12,7 @@
 [![pull requests closed](https://img.shields.io/github/issues-pr-closed/x-extends/vxe-table.svg)](https://github.com/x-extends/vxe-table/pulls?q=is%3Apr+is%3Aclosed)
 [![npm license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
-A [vue](https://www.npmjs.com/package/vue) based PC form component, support add, delete, change, virtual list, virtual tree, lazy load, shortcut menu, data validation, print export, form rendering, data paging, modal window, custom template, renderer, JSON configuration...
+A [vue](https://www.npmjs.com/package/vue) based PC form component, support add delete change check, virtual tree, column drag and drop, lazy loading, shortcut menu, data verification, print export, form rendering, custom template, renderer, JSON configuration...
 
 * Design concept
   * Efficient and concise API design for modern browsers.
@@ -24,6 +24,7 @@ A [vue](https://www.npmjs.com/package/vue) based PC form component, support add,
   * [x] ~~v2.0 Based on vue2.6, Support for all major browsers.~~
   * [x] v3.0 Based on vue2.6, supports modern browsers and retains compatibility with IE11.
   * [x] v4.0 Based on vue3.x, Only support modern browser, not IE.
+  * [x] v4.7 Based on vue3.x, refactor the components, split the excess components, and keep only the table.
 
 ## Browser Support
 
@@ -35,8 +36,6 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 
 * [x] Basic table
 * [x] Configuration grid
-* [x] Base form
-* [x] Configuration form
 * [x] Striped
 * [x] Table with border
 * [x] Cell style
@@ -50,8 +49,6 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 * [x] Table sequence
 * [x] Radio
 * [x] Checkbox
-* [x] Select
-* [x] Switch
 * [x] Sorting
 * [x] Multi field sorting
 * [x] Filter
@@ -59,35 +56,33 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 * [x] Merged footer items
 * [x] Import/Export/Print
 * [x] Show/Hide column
+* [x] Drag and drop/Customize column sorting
 * [x] Loading
 * [x] Formatted cell
 * [x] Slot - template
 * [x] Context menu
 * [x] Detail - Expandable row
-* [x] Pager
 * [x] Toolbar
-* [x] Pulldown
-* [x] Virtual list
 * [x] Virtual tree
 * [x] Editable CRUD
 * [x] Validate
 * [x] Data Proxy
 * [x] Keyboard navigation
-* [x] Modal
 * [x] VxeGlobalRenderer
-* [x] Virtual scroller
+* [x] Virtual scroll
 * [x] Virtual merger
 * [x] CSS Variable Theme
-* [x] (插件) Cell area selection
-* [x] (插件) Cell copy & paste
-* [x] (插件) Cell find and replace
+* [x] ([Enterprise](https://vxetable.cn/pluginDocs/)) Cell area selection
+* [x] ([Enterprise](https://vxetable.cn/pluginDocs/)) Cell copy & paste
+* [x] ([Enterprise](https://vxetable.cn/pluginDocs/)) Cell find and replace
+* [x] ([Enterprise](https://vxetable.cn/pluginDocs/)) Full keyboard operation
 
 ## Installing
 
 Version: [vue](https://www.npmjs.com/package/vue) 3.x
 
 ```shell
-npm install vxe-table@next
+npm install vxe-table
 ```
 
 Get on [unpkg](https://unpkg.com/vxe-table/) and [cdnjs](https://cdn.jsdelivr.net/npm/vxe-table/)
@@ -104,15 +99,15 @@ createApp(App).use(VXETable).mount('#app')
 
 ### CDN
 
-Remember to lock the version number in CDN mode to avoid being affected by incompatible updates  
-***It is not recommended to use the CDN address of a third party for production, as the connection may fail at any time***  
+Use a third-party CDN to remember to lock the version number to avoid being affected by incompatible updates.  
+***It is not recommended to use the CDN address of a third party in a formal environment because the connection can fail at any time***  
 
 ```HTML
 <!-- Style -->
-<link rel="stylesheet" href="https://unpkg.com/vxe-table@next/lib/style.css">
+<link rel="stylesheet" href="https://unpkg.com/vxe-table/lib/style.css">
 <!-- Script -->
 <script src="https://unpkg.com/xe-utils"></script>
-<script src="https://unpkg.com/vxe-table@next"></script>
+<script src="https://unpkg.com/vxe-table"></script>
 ```
 
 ## Example
@@ -147,10 +142,6 @@ const tableData = ref([
 
 👉 [Document](https://vxetable.cn)  
 
-Participate in document improvement and supplement detailed documents.  
-
-💡 [Document source code](https://github.com/x-extends/vxe-table-docs)
-
 ## Run the project
 
 Install dependencies
@@ -170,6 +161,12 @@ Compile packaging, generated compiled directory: es,lib
 ```shell
 npm run lib
 ```
+
+## Contributors
+
+Thank you to everyone who contributed to this project.
+
+[![vxe-table](https://contrib.rocks/image?repo=x-extends/vxe-table)](https://github.com/x-extends/vxe-table/graphs/contributors)
 
 ## License
 

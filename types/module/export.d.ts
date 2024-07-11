@@ -1,15 +1,15 @@
-import { VXEComponent } from './component'
-import { VxeTablePropTypes, VxeTableConstructor, VxeTableDataRow } from './table'
-import { VxeGridConstructor } from './grid'
+import { VXEComponent } from '../component'
+import { VxeTablePropTypes, VxeTableConstructor, VxeTableDataRow } from '../table'
+import { VxeGridConstructor } from '../grid'
 
 /* eslint-disable no-use-before-define */
 
 /**
- * 表格扩展 - 导出、导入、打印
+ * 表格模块 - 导出、导入、打印
  */
-export const VxeModuleExport: VXEComponent<{ [key: string]: any }>
+export const VxeTableExportModule: VXEComponent<{ [key: string]: any }>
 /**
- * 表格扩展 - 导出、导入、打印
+ * 表格模块 - 导出、导入、打印
  */
 export const Export: VXEComponent<{ [key: string]: any }>
 
@@ -64,11 +64,11 @@ export interface TableExportMethods<D = VxeTableDataRow> {
 
 export interface TableExportPrivateMethods<D = VxeTableDataRow> { }
 
-declare module './grid' {
+declare module '../grid' {
   export interface VxeGridMethods<D = VxeTableDataRow> extends TableExportMethods<D> { }
 }
 
-declare module './table' {
+declare module '../table' {
   export interface VxeTableMethods<D = VxeTableDataRow> extends TableExportMethods<D> { }
   export interface VxeTablePrivateMethods<D = VxeTableDataRow> extends TableExportPrivateMethods<D> { }
   export namespace VxeTableDefines {
@@ -86,6 +86,9 @@ declare module './table' {
      * 导入参数
      */
     export interface ImportConfig {
+      // 内置属性
+      _typeMaps?: Record<string, number>
+
       /**
        * 可选文件类型列表
        */
@@ -103,6 +106,7 @@ declare module './table' {
        * 是否服务端导出
        */
       remote?: boolean
+      encoding?: string
       /**
        * 只对 remote=true 有效，用于自定义导入逻辑
        */
@@ -141,6 +145,9 @@ declare module './table' {
      * 导出参数
      */
     export interface ExportConfig {
+      // 内置属性
+      _typeMaps?: Record<string, number>
+
       /**
        * 文件名
        */

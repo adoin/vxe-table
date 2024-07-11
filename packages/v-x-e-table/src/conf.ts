@@ -50,6 +50,7 @@ const GlobalConfig: VXETableConfigOptions = {
     validConfig: {
       showMessage: true,
       autoClear: true,
+      autoPos: true,
       message: 'inline',
       msgMode: 'single'
     },
@@ -59,10 +60,12 @@ const GlobalConfig: VXETableConfigOptions = {
     // menuConfig: {
     //   visibleMethod () {}
     // },
-    // customConfig: {
+    customConfig: {
+      allowFixed: true,
+      showFooter: true
     //  storage: false,
     //  checkMethod () {}
-    // },
+    },
     sortConfig: {
       // remote: false,
       // trigger: 'default',
@@ -95,9 +98,16 @@ const GlobalConfig: VXETableConfigOptions = {
       showAsterisk: true
     },
     importConfig: {
+      _typeMaps: {},
       modes: ['insert', 'covering']
     },
     exportConfig: {
+      _typeMaps: {
+        csv: 1,
+        html: 1,
+        xml: 1,
+        txt: 1
+      },
       modes: ['current', 'selected']
     },
     printConfig: {
@@ -110,6 +120,7 @@ const GlobalConfig: VXETableConfigOptions = {
       isEsc: true
     },
     areaConfig: {
+      autoClear: true,
       selectCellByHeader: true
     },
     clipConfig: {
@@ -135,6 +146,53 @@ const GlobalConfig: VXETableConfigOptions = {
   export: {
     types: {}
   },
+  grid: {
+    // size: null,
+    // zoomConfig: {
+    //   escRestore: true
+    // },
+    formConfig: {
+      enabled: true
+    },
+    pagerConfig: {
+      enabled: true
+      // perfect: false
+    },
+    toolbarConfig: {
+      enabled: true
+      // perfect: false
+    },
+    proxyConfig: {
+      enabled: true,
+      autoLoad: true,
+      message: true,
+      props: {
+        list: null,
+        result: 'result',
+        total: 'page.total',
+        message: 'message'
+      }
+      // beforeItem: null,
+      // beforeColumn: null,
+      // beforeQuery: null,
+      // afterQuery: null,
+      // beforeDelete: null,
+      // afterDelete: null,
+      // beforeSave: null,
+      // afterSave: null
+    }
+  },
+  toolbar: {
+    // size: null,
+    // import: {
+    //   mode: 'covering'
+    // },
+    // export: {
+    //   types: ['csv', 'html', 'xml', 'txt']
+    // },
+    // buttons: []
+  },
+
   icon: {
     // loading
     LOADING: iconPrefix + 'spinner roll vxe-loading--default-icon',
@@ -217,42 +275,6 @@ const GlobalConfig: VXETableConfigOptions = {
     FORM_FOLDING: iconPrefix + 'arrow-up rotate180',
     FORM_UNFOLDING: iconPrefix + 'arrow-up'
   },
-  grid: {
-    // size: null,
-    // zoomConfig: {
-    //   escRestore: true
-    // },
-    formConfig: {
-      enabled: true
-    },
-    pagerConfig: {
-      enabled: true
-      // perfect: false
-    },
-    toolbarConfig: {
-      enabled: true
-      // perfect: false
-    },
-    proxyConfig: {
-      enabled: true,
-      autoLoad: true,
-      message: true,
-      props: {
-        list: null,
-        result: 'result',
-        total: 'page.total',
-        message: 'message'
-      }
-      // beforeItem: null,
-      // beforeColumn: null,
-      // beforeQuery: null,
-      // afterQuery: null,
-      // beforeDelete: null,
-      // afterDelete: null,
-      // beforeSave: null,
-      // afterSave: null
-    }
-  },
   tooltip: {
     // size: null,
     trigger: 'hover',
@@ -316,23 +338,12 @@ const GlobalConfig: VXETableConfigOptions = {
     filterable: false,
     multiCharOverflow: 8
   },
-  toolbar: {
-    // size: null,
-    // import: {
-    //   mode: 'covering'
-    // },
-    // export: {
-    //   types: ['csv', 'html', 'xml', 'txt']
-    // },
-    custom: {
-      allowFixed: true,
-      showFooter: true
-    }
-    // buttons: []
-  },
   button: {
     // size: null,
     // transfer: false
+  },
+  buttonGroup: {
+    // size: null
   },
   radio: {
     // size: null,
@@ -347,6 +358,9 @@ const GlobalConfig: VXETableConfigOptions = {
     strict: true
   },
   checkbox: {
+    // size: null
+  },
+  checkboxGroup: {
     // size: null
   },
   switch: {
@@ -368,9 +382,18 @@ const GlobalConfig: VXETableConfigOptions = {
     animat: true,
     showClose: true,
     draggable: true,
+    showConfirmButton: null,
     // storage: false,
     storageKey: 'VXE_MODAL_POSITION',
     destroyOnClose: false
+  },
+  drawer: {
+    // size: null,
+    showHeader: true,
+    lockView: true,
+    mask: true,
+    showTitleOverflow: true,
+    showClose: true
   },
   list: {
     // size: null,

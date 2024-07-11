@@ -1,7 +1,7 @@
 import { VXEComponent, SlotVNodeType } from './component'
 import { VxeTableConstructor, VxeTableDataRow, VxeTableDefines, VxeTablePropTypes } from './table'
 import { VxeGlobalRendererHandles } from './v-x-e-table'
-import { VxeFilterPanel } from './filter'
+import { VxeFilterPanel } from './module/filter'
 import { VxeTooltipPropTypes } from './tooltip'
 
 /* eslint-disable no-use-before-define */
@@ -113,6 +113,7 @@ export namespace VxeColumnPropTypes {
   interface FooterExportParams<D = VxeTableDataRow> {
     $table: VxeTableConstructor<D>,
     items: any[]
+    row: any
     column: VxeTableDefines.ColumnInfo<D>
     _columnIndex: number
   }
@@ -413,6 +414,8 @@ export namespace VxeColumnSlotTypes {
   }
 
   export interface FooterSlotParams<D = VxeTableDataRow> {
+    row: D
+    rowIndex: number
     column: VxeTableDefines.ColumnInfo<D>
     columnIndex: number
     _columnIndex: number

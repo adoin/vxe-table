@@ -45,12 +45,14 @@ export interface ButtonInternalData {
 export namespace VxeButtonPropTypes {
   export type Size = SizeType
   export type Type = string
+  export type Mode = null | '' | 'button' | 'text'
   export type ClassName = string | ((params: { $button: VxeButtonConstructor }) => string)
   export type PopupClassName = string | ((params: { $button: VxeButtonConstructor }) => string)
   export type Name = string | number
-  export type Content = string
+  export type Content = string | number
   export type Placement = string
   export type Status = string
+  export type Title = string
   export type Icon = string
   export type Round = boolean
   export type Circle = boolean
@@ -67,12 +69,17 @@ export type VxeButtonProps = {
    * 按钮类型
    */
   type?: VxeButtonPropTypes.Type
+  /**
+   * 按钮的模式
+   */
+  mode?: VxeButtonPropTypes.Mode
   className?: VxeButtonPropTypes.ClassName
   popupClassName?: VxeButtonPropTypes.PopupClassName
   /**
    * 用来标识这一项
    */
   name?: VxeButtonPropTypes.Name
+  title?: VxeButtonPropTypes.Title
   /**
    * 按钮内容
    */
@@ -137,6 +144,8 @@ export interface VxeButtonPrivateMethods extends ButtonPrivateMethods { }
 
 export type VxeButtonEmits = [
   'click',
+  'mouseenter',
+  'mouseleave',
   'dropdown-click'
 ]
 
@@ -148,22 +157,34 @@ export namespace VxeButtonDefines {
   export interface ClickParams { }
   export interface ClickEventParams extends ButtonEventParams, ClickParams { }
 
+  export interface MouseenterParams { }
+  export interface MouseenterEventParams extends ButtonEventParams, MouseenterParams { }
+
+  export interface MouseleaveParams { }
+  export interface MouseleaveEventParams extends ButtonEventParams, MouseleaveParams { }
+
   export interface DropdownClickParams { }
-  export interface DropdownClickEventParams extends ButtonEventParams, ClickParams { }
+  export interface DropdownClickEventParams extends ButtonEventParams, DropdownClickParams { }
 }
 
 export type VxeButtonEventProps = {
   onClick?: VxeButtonEvents.Click
+  onMouseenter?: VxeButtonEvents.Mouseenter
+  onMouseleave?: VxeButtonEvents.Mouseleave
   onDropdownClick?: VxeButtonEvents.DropdownClick
 }
 
 export interface VxeButtonListeners {
   click?: VxeButtonEvents.Click
+  mouseenter?: VxeButtonEvents.Mouseenter
+  mouseleave?: VxeButtonEvents.Mouseleave
   dropdownClick?: VxeButtonEvents.DropdownClick
 }
 
 export namespace VxeButtonEvents {
   export type Click = (params: VxeButtonDefines.ClickEventParams) => void
+  export type Mouseenter = (params: VxeButtonDefines.MouseenterEventParams) => void
+  export type Mouseleave = (params: VxeButtonDefines.MouseleaveEventParams) => void
   export type DropdownClick = (params: VxeButtonDefines.DropdownClickParams) => void
 }
 

@@ -6,6 +6,7 @@ import i18n from './i18n'
 
 import './style/index.scss'
 import './plugins'
+
 import PreCode from './components/PreCode.vue'
 import GridAPILink from './components/GridAPILink.vue'
 import TableAPILink from './components/TableAPILink.vue'
@@ -17,16 +18,18 @@ import VirtualTreeAPILink from './components/VirtualTreeAPILink.vue'
 import {
   VXETable,
 
-  VxeModuleFilter,
-  VxeModuleMenu,
-  VxeModuleEdit,
-  VxeModuleExport,
-  VxeModuleKeyboard,
-  VxeModuleValidator,
+  VxeTableFilterModule,
+  VxeTableMenuModule,
+  VxeTableEditModule,
+  VxeTableExportModule,
+  VxeTableKeyboardModule,
+  VxeTableValidatorModule,
+  VxeTableCustomModule,
 
   VxeIcon,
   VxeColumn,
   VxeColgroup,
+  VxeTable,
   VxeGrid,
   VxeToolbar,
   VxePager,
@@ -38,7 +41,9 @@ import {
   VxeInput,
   VxeTextarea,
   VxeButton,
+  VxeButtonGroup,
   VxeModal,
+  VxeDrawer,
   VxeTooltip,
   VxeForm,
   VxeFormItem,
@@ -48,46 +53,11 @@ import {
   VxeOption,
   VxeSwitch,
   VxeList,
-  VxePulldown,
-  VxeCard,
-  VxeTag,
-  VxeTags,
-  VxeTable
+  VxePulldown
 } from '../packages/all'
 
 const app = createApp(App)
-VXETable.setup({
-  grid: {
-    size: 'mini',
-    align: 'center'
-  },
-  table: {
-    treeConfig: {
-      indent: 16
-    },
-    editConfig: {
-      showIcon: false
-    },
-    size: 'mini',
-    align: 'center',
-    border: 'full'
-  },
-  form: {
-    titleColon: true,
-    titleAlign: 'right',
-    titleWidth: 80
-  },
-  input: {
-    clearable: true
-  },
-  select: {
-    clearable: true,
-    filterable: true
-  },
-  modal: {
-    duration: 2000
-  }
-})
+
 app.component(PreCode.name, PreCode)
 app.component(GridAPILink.name, GridAPILink)
 app.component(TableAPILink.name, TableAPILink)
@@ -96,16 +66,18 @@ app.component(ToolbarAPILink.name, ToolbarAPILink)
 app.component(PagerAPILink.name, PagerAPILink)
 app.component(VirtualTreeAPILink.name, VirtualTreeAPILink)
 
-app.use(VxeModuleFilter)
-app.use(VxeModuleMenu)
-app.use(VxeModuleEdit)
-app.use(VxeModuleExport)
-app.use(VxeModuleKeyboard)
-app.use(VxeModuleValidator)
+app.use(VxeTableFilterModule)
+app.use(VxeTableMenuModule)
+app.use(VxeTableEditModule)
+app.use(VxeTableExportModule)
+app.use(VxeTableKeyboardModule)
+app.use(VxeTableValidatorModule)
+app.use(VxeTableCustomModule)
 
 app.use(VxeIcon)
 app.use(VxeColumn)
 app.use(VxeColgroup)
+app.use(VxeTable)
 app.use(VxeGrid)
 app.use(VxeToolbar)
 app.use(VxePager)
@@ -117,7 +89,9 @@ app.use(VxeRadioButton)
 app.use(VxeInput)
 app.use(VxeTextarea)
 app.use(VxeButton)
+app.use(VxeButtonGroup)
 app.use(VxeModal)
+app.use(VxeDrawer)
 app.use(VxeSelect)
 app.use(VxeOptgroup)
 app.use(VxeOption)
@@ -128,10 +102,6 @@ app.use(VxeFormItem)
 app.use(VxeFormGather)
 app.use(VxeList)
 app.use(VxePulldown)
-app.use(VxeCard)
-app.use(VxeTag)
-app.use(VxeTags)
-app.use(VxeTable)
 
 app.use(store)
 app.use(router)
@@ -146,22 +116,3 @@ app.config.globalProperties.$XSaveFile = VXETable.saveFile
 app.config.globalProperties.$XReadFile = VXETable.readFile
 
 app.mount('#app')
-
-const socket = new WebSocket('ws://43.128.2.227/queue/join')
-socket.addEventListener('open', () => {
-  console.log('WebSocket连接已打开')
-  setTimeout(() => {
-    socket.send(JSON.stringify(
-      { data: ['你能做什么？', [], 8192, 0.8, 0.6, [], null], event_data: null, fn_index: 0, session_hash: 'u8tfio3gce' }
-    ))
-  }, 100)
-})
-socket.addEventListener('message', (event) => {
-  console.log('收到消息：', event.data)
-})
-socket.addEventListener('error', () => {
-  console.error('WebSocket连接发生错误')
-})
-socket.addEventListener('close', () => {
-  console.log('WebSocket连接已关闭')
-})

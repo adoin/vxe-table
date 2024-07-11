@@ -66,7 +66,7 @@ $btnThemeList: (
   white-space: nowrap;
   user-select: none;
   appearance: none;
-  @include animatTransition(border, .2s);
+  @include createAnimationTransition(border, .2s);
   &:not(.is--disabled) {
     color: var(--vxe-font-color);
     cursor: pointer;
@@ -235,7 +235,9 @@ $btnThemeList: (
   }
 }
 .vxe-input,
-.vxe-button {
+.vxe-button,
+.vxe-button-wrapper {
+  &+.vxe-button-wrapper,
   &+.vxe-button.type--button,
   &+.vxe-button--dropdown {
     margin-left: 12px;
@@ -254,6 +256,7 @@ $btnThemeList: (
 }
 .vxe-button--dropdown {
   position: relative;
+  &+.vxe-button-wrapper,
   &+.vxe-button.type--button,
   &+.vxe-button--dropdown {
     margin-left: 12px;
@@ -303,7 +306,7 @@ $btnThemeList: (
   display: inline-block;
   font-size: 12px;
   margin-left: 4px;
-  @include animatTransition(transform, .2s);
+  @include createAnimationTransition(transform, .2s);
 }
 
 .vxe-button--dropdown-panel {

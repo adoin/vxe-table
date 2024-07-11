@@ -1,13 +1,15 @@
 import { App } from 'vue'
 import XEUtils from 'xe-utils'
-import { setup } from './v-x-e-table'
+import { setConfig } from './v-x-e-table'
+import { setTheme } from './v-x-e-table/src/theme'
 
-import { VxeModuleFilter } from './filter'
-import { VxeModuleMenu } from './menu'
-import { VxeModuleEdit } from './edit'
-import { VxeModuleExport } from './export'
-import { VxeModuleKeyboard } from './keyboard'
-import { VxeModuleValidator } from './validator'
+import { VxeTableFilterModule } from './filter'
+import { VxeTableMenuModule } from './menu'
+import { VxeTableEditModule } from './edit'
+import { VxeTableExportModule } from './export'
+import { VxeTableKeyboardModule } from './keyboard'
+import { VxeTableValidatorModule } from './validator'
+import { VxeTableCustomModule } from './custom'
 
 import { VxeIcon } from './icon'
 import { VxeColumn } from './column'
@@ -23,7 +25,9 @@ import { VxeRadioButton } from './radio-button'
 import { VxeInput } from './input'
 import { VxeTextarea } from './textarea'
 import { VxeButton } from './button'
+import { VxeButtonGroup } from './button-group'
 import { VxeModal } from './modal'
+import { VxeDrawer } from './drawer'
 import { VxeTooltip } from './tooltip'
 import { VxeForm } from './form'
 import { VxeFormItem } from './form-item'
@@ -43,12 +47,13 @@ import zhCN from './locale/lang/zh-CN'
 // 按需加载的组件
 const components = [
   // 功能模块
-  VxeModuleFilter,
-  VxeModuleMenu,
-  VxeModuleEdit,
-  VxeModuleExport,
-  VxeModuleKeyboard,
-  VxeModuleValidator,
+  VxeTableFilterModule,
+  VxeTableMenuModule,
+  VxeTableEditModule,
+  VxeTableExportModule,
+  VxeTableKeyboardModule,
+  VxeTableValidatorModule,
+  VxeTableCustomModule,
 
   // 可选组件
   VxeIcon,
@@ -65,7 +70,9 @@ const components = [
   VxeInput,
   VxeTextarea,
   VxeButton,
+  VxeButtonGroup,
   VxeModal,
+  VxeDrawer,
   VxeTooltip,
   VxeForm,
   VxeFormItem,
@@ -84,32 +91,38 @@ const components = [
 ]
 
 // 默认中文
-setup({
+setConfig({
   i18n: (key: string, args: any) => XEUtils.toFormatString(XEUtils.get(zhCN, key), args)
 })
 
 // 默认安装
 export function install (app: App, options: any) {
   if (XEUtils.isPlainObject(options)) {
-    setup(options)
+    setConfig(options)
+    if ((options as any).theme) {
+      setTheme((options as any).theme)
+    }
   }
   components.forEach(component => component.install(app))
 }
 
 export * from './v-x-e-table'
 
-export * from './icon'
+// Table module
 export * from './filter'
+export * from './menu'
 export * from './edit'
 export * from './export'
 export * from './keyboard'
 export * from './validator'
-export * from './header'
+export * from './custom'
 
+// Components
+export * from './icon'
+export * from './table'
 export * from './column'
 export * from './colgroup'
 export * from './grid'
-export * from './menu'
 export * from './toolbar'
 export * from './pager'
 export * from './checkbox'
@@ -122,7 +135,9 @@ export * from './textarea'
 export * from './button'
 export * from './card'
 export * from './tag'
+export * from './button-group'
 export * from './modal'
+export * from './drawer'
 export * from './tooltip'
 export * from './form'
 export * from './form-item'
@@ -133,5 +148,3 @@ export * from './option'
 export * from './switch'
 export * from './list'
 export * from './pulldown'
-
-export * from './table'

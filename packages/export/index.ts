@@ -17,14 +17,14 @@ export const print: PrintFunction = (options) => {
   handlePrint(null, opts, opts.content)
 }
 
-export const VxeModuleExport = {
+export const VxeTableExportModule = {
   ExportPanel: ExportPanelComponent,
   ImportPanel: ImportPanelComponent,
   install (app: App) {
     VXETable.saveFile = saveFile
     VXETable.readFile = readFile
     VXETable.print = print
-    VXETable.setup({
+    VXETable.setConfig({
       export: {
         types: {
           csv: 0,
@@ -40,9 +40,9 @@ export const VxeModuleExport = {
   }
 }
 
-export const Export = VxeModuleExport
+export const Export = VxeTableExportModule
 
 dynamicApp.component(ExportPanelComponent.name, ExportPanelComponent)
 dynamicApp.component(ImportPanelComponent.name, ImportPanelComponent)
 
-export default VxeModuleExport
+export default VxeTableExportModule

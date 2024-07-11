@@ -1,22 +1,22 @@
 import { RenderFunction, SetupContext, Ref, ComponentPublicInstance } from 'vue'
-import { VXEComponent, VxeComponentBase } from './component'
-import { VxeTableDataRow } from './table'
+import { VXEComponent, VxeComponentBase } from '../component'
+import { VxeTableDataRow } from '../table'
 
 /* eslint-disable no-use-before-define */
 
 /**
- * 表格扩展 - 快捷菜单
+ * 表格模块 - 快捷菜单
  */
-export const VxeModuleMenu: VXEComponent<{ [key: string]: any }>
+export const VxeTableMenuModule: VXEComponent<{ [key: string]: any }>
 /**
- * 表格扩展 - 快捷菜单
+ * 表格模块 - 快捷菜单
  */
 export const Menu: VXEComponent<{ [key: string]: any }>
 
-export type VxeMenuPanelInstance = ComponentPublicInstance<VxeMenuPanelProps, VxeMenuPanelConstructor>
+export type VxeTableMenuPanelInstance = ComponentPublicInstance<VxeTableMenuPanelProps, VxeTableMenuPanelConstructor>
 
-export interface VxeMenuPanelConstructor extends VxeComponentBase, VxeMenuPanelMethods {
-  props: VxeMenuPanelProps
+export interface VxeTableMenuPanelConstructor extends VxeComponentBase, VxeTableMenuPanelMethods {
+  props: VxeTableMenuPanelProps
   context: SetupContext
   getRefMaps(): MenuPanelPrivateRef
   renderVN: RenderFunction
@@ -25,11 +25,11 @@ export interface VxeMenuPanelConstructor extends VxeComponentBase, VxeMenuPanelM
 export interface MenuPanelPrivateRef {
   refElem: Ref<HTMLDivElement>
 }
-export interface VxeMenuPanelPrivateRef extends MenuPanelPrivateRef { }
+export interface VxeTableMenuPanelPrivateRef extends MenuPanelPrivateRef { }
 
-export interface VxeMenuPanelMethods { }
+export interface VxeTableMenuPanelMethods { }
 
-export type VxeMenuPanelProps = {
+export type VxeTableMenuPanelProps = {
   [key: string]: any
 }
 
@@ -42,17 +42,18 @@ export interface TableMenuMethods<D = VxeTableDataRow> {
 
 export interface TableMenuPrivateMethods<D = VxeTableDataRow> {
   moveCtxMenu(evnt: any, ctxMenuStore: any, property: any, hasOper: boolean, operRest: any, menuList: any): void
+  handleOpenMenuEvent(evnt: Event, type: 'header' | 'body' | 'footer', params: any): void
   handleGlobalContextmenuEvent(evnt: any): void
   ctxMenuMouseoverEvent(evnt: any, item: any, child?: any): void
   ctxMenuMouseoutEvent(evnt: any, item: any): void
   ctxMenuLinkEvent(evnt: any, menu: any): void
 }
 
-declare module './grid' {
+declare module '../grid' {
   export interface VxeGridMethods<D = VxeTableDataRow> extends TableMenuMethods<D> { }
 }
 
-declare module './table' {
+declare module '../table' {
   export interface VxeTableMethods<D = VxeTableDataRow> extends TableMenuMethods<D> { }
   export interface VxeTablePrivateMethods<D = VxeTableDataRow> extends TableMenuPrivateMethods<D> { }
   export namespace VxeTableDefines {

@@ -1,33 +1,13 @@
-import {
-  defineComponent,
-  h,
-  ref,
-  Ref,
-  computed,
-  Teleport,
-  VNode,
-  onUnmounted,
-  reactive,
-  nextTick,
-  PropType,
-  onMounted
-} from 'vue'
+import { defineComponent, h, ref, Ref, computed, Teleport, VNode, onUnmounted, reactive, nextTick, PropType, onMounted, inject } from 'vue'
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { useSize } from '../../hooks/size'
 import { getAbsolutePos, getEventTargetNode } from '../../tools/dom'
 import { getFuncText, getLastZIndex, nextZIndex } from '../../tools/utils'
 import { GlobalEvent } from '../../tools/event'
+// import { warnLog } from '../../tools/log'
 
-import {
-  VxeButtonConstructor,
-  VxeButtonPropTypes,
-  VxeButtonEmits,
-  ButtonReactData,
-  ButtonMethods,
-  ButtonPrivateRef,
-  ButtonInternalData
-} from '../../../types/all'
+import { VxeButtonConstructor, VxeButtonPropTypes, VxeButtonEmits, ButtonReactData, ButtonMethods, ButtonPrivateRef, ButtonInternalData, VxeButtonGroupConstructor, VxeButtonGroupPrivateMethods } from '../../../types/all'
 
 export default defineComponent({
   name: 'VxeButton',
@@ -36,15 +16,13 @@ export default defineComponent({
      * 按钮类型
      */
     type: String as PropType<VxeButtonPropTypes.Type>,
+    mode: String as PropType<VxeButtonPropTypes.Mode>,
     className: [String, Function] as PropType<VxeButtonPropTypes.ClassName>,
     popupClassName: [String, Function] as PropType<VxeButtonPropTypes.PopupClassName>,
     /**
      * 按钮尺寸
      */
-    size: {
-      type: String as PropType<VxeButtonPropTypes.Size>,
-      default: () => GlobalConfig.button.size || GlobalConfig.size
-    },
+    size: { type: String as PropType<VxeButtonPropTypes.Size>, default: () => GlobalConfig.button.size || GlobalConfig.size },
     /**
      * 用来标识这一项
      */
@@ -61,6 +39,10 @@ export default defineComponent({
      * 按钮状态
      */
     status: String as PropType<VxeButtonPropTypes.Status>,
+    /**
+     * 标题
+     */
+    title: String as PropType<VxeButtonPropTypes.Title>,
     /**
      * 按钮的图标
      */
@@ -88,14 +70,12 @@ export default defineComponent({
     /**
      * 是否将弹框容器插入于 body 内
      */
-    transfer: { type: Boolean as PropType<VxeButtonPropTypes.Transfer>, default: () => GlobalConfig.button.transfer },
-
-    layer: {
-      type: [HTMLElement, String, Function] as PropType<VxeButtonPropTypes.Layer>
-    }
+    transfer: { type: Boolean as PropType<VxeButtonPropTypes.Transfer>, default: () => GlobalConfig.button.transfer }
   },
   emits: [
     'click',
+    'mouseenter',
+    'mouseleave',
     'dropdown-click'
   ] as VxeButtonEmits,
   setup (props, context) {
@@ -135,6 +115,8 @@ export default defineComponent({
       getRefMaps: () => refMaps
     } as unknown as VxeButtonConstructor
 
+    const $xebuttonggroup = inject('$xebuttongroup', null as (VxeButtonGroupConstructor & VxeButtonGroupPrivateMethods) | null)
+
     let buttonMethods = {} as ButtonMethods
 
     const computeIsFormBtn = computed(() => {
@@ -145,9 +127,45 @@ export default defineComponent({
       return false
     })
 
-    const computeBtnType = computed(() => {
-      const { type } = props
-      return type && type === 'text' ? type : 'button'
+    const computeBtnMode = computed(() => {
+      const { type, mode } = props
+      if (mode === 'text' || type === 'text' || ($xebuttonggroup && $xebuttonggroup.props.mode === 'text')) {
+        return 'text'
+      }
+      return 'button'
+    })
+
+    const computeBtnStatus = computed(() => {
+      const { status } = props
+      if (status) {
+        return status
+      }
+      if ($xebuttonggroup) {
+        return $xebuttonggroup.props.status
+      }
+      return ''
+    })
+
+    const computeBtnRound = computed(() => {
+      const { round } = props
+      if (round) {
+        return round
+      }
+      if ($xebuttonggroup) {
+        return $xebuttonggroup.props.round
+      }
+      return false
+    })
+
+    const computeBtnCircle = computed(() => {
+      const { circle } = props
+      if (circle) {
+        return circle
+      }
+      if ($xebuttonggroup) {
+        return $xebuttonggroup.props.circle
+      }
+      return false
     })
 
     const updateZindex = () => {
@@ -158,7 +176,7 @@ export default defineComponent({
 
     const updatePlacement = () => {
       return nextTick().then(() => {
-        const { transfer, placement, layer } = props
+        const { transfer, placement } = props
         const { panelIndex } = reactData
         const targetElem = refButton.value
         const panelElem = refBtnPanel.value
@@ -171,10 +189,9 @@ export default defineComponent({
           const panelStyle: { [key: string]: string | number } = {
             zIndex: panelIndex
           }
-          const { top, left, boundingTop, boundingBottom, visibleHeight, visibleWidth } = getAbsolutePos(targetElem)
+          const { top, left, boundingTop, visibleHeight, visibleWidth } = getAbsolutePos(targetElem)
           let panelPlacement = 'bottom'
           if (transfer) {
-            // todo 会员管理页btnTop计算错误 超出视距
             let btnLeft = left + targetWidth - panelWidth
             let btnTop = top + targetHeight
             if (placement === 'top') {
@@ -207,35 +224,16 @@ export default defineComponent({
               minWidth: `${targetWidth}px`
             })
           } else {
-            const layerEle = layer
-              ? XEUtils.isFunction(layer)
-                ? layer(targetElem)
-                : XEUtils.isString(layer)
-                  ? document.querySelector(layer)
-                  : layer
-              : undefined
             if (placement === 'top') {
               panelPlacement = 'top'
               panelStyle.bottom = `${targetHeight}px`
             } else if (!placement) {
-              if (layerEle) {
-                const {
-                  bottom: layerBottom,
-                  top: layerTop
-                } = layerEle.getBoundingClientRect()
-                // 如果下面不够放，上面够放，则向上
-                if (boundingBottom + targetHeight + panelHeight > layerBottom && boundingTop - targetHeight - panelHeight > layerTop) {
+              // 如果下面不够放，则向上
+              if (boundingTop + targetHeight + panelHeight > visibleHeight) {
+                // 如果上面不够放，则向下（优先）
+                if (boundingTop - targetHeight - panelHeight > marginSize) {
                   panelPlacement = 'top'
                   panelStyle.bottom = `${targetHeight}px`
-                }
-              } else {
-                // 如果下面不够放，则向上
-                if (boundingTop + targetHeight + panelHeight > visibleHeight) {
-                  // 如果上面不够放，则向下（优先）
-                  if (boundingTop - targetHeight - panelHeight > marginSize) {
-                    panelPlacement = 'top'
-                    panelStyle.bottom = `${targetHeight}px`
-                  }
                 }
               }
             }
@@ -248,7 +246,11 @@ export default defineComponent({
     }
 
     const clickEvent = (evnt: Event) => {
-      buttonMethods.dispatchEvent('click', { $event: evnt }, evnt)
+      if ($xebuttonggroup) {
+        $xebuttonggroup.handleClick({ name: props.name as string }, evnt)
+      } else {
+        buttonMethods.dispatchEvent('click', { $event: evnt }, evnt)
+      }
     }
 
     const mousedownDropdownEvent = (evnt: MouseEvent) => {
@@ -276,7 +278,7 @@ export default defineComponent({
       }
     }
 
-    const mouseenterEvent = () => {
+    const mouseenterDropdownEvent = () => {
       const panelElem = refBtnPanel.value
       if (panelElem) {
         panelElem.dataset.active = 'Y'
@@ -296,7 +298,7 @@ export default defineComponent({
       }
     }
 
-    const mouseenterTargetEvent = () => {
+    const mouseenterTargetEvent = (evnt: MouseEvent) => {
       const panelElem = refBtnPanel.value
       if (panelElem) {
         panelElem.dataset.active = 'Y'
@@ -305,12 +307,26 @@ export default defineComponent({
         }
         internalData.showTime = setTimeout(() => {
           if (panelElem.dataset.active === 'Y') {
-            mouseenterEvent()
+            mouseenterDropdownEvent()
           } else {
             reactData.animatVisible = false
           }
         }, 250)
       }
+      mouseenterEvent(evnt)
+    }
+
+    const mouseleaveTargetEvent = (evnt: MouseEvent) => {
+      closePanel()
+      mouseleaveEvent(evnt)
+    }
+
+    const mouseenterEvent = (evnt: MouseEvent) => {
+      emit('mouseenter', { $event: evnt })
+    }
+
+    const mouseleaveEvent = (evnt: MouseEvent) => {
+      emit('mouseleave', { $event: evnt })
     }
 
     const closePanel = () => {
@@ -334,7 +350,7 @@ export default defineComponent({
       }
     }
 
-    const mouseleaveEvent = () => {
+    const mouseleaveDropdownEvent = () => {
       closePanel()
     }
 
@@ -395,6 +411,12 @@ export default defineComponent({
     Object.assign($xebutton, buttonMethods)
 
     onMounted(() => {
+      // if (process.env.VUE_APP_VXE_TABLE_ENV === 'development') {
+      //   if (props.type === 'text') {
+      //     warnLog('vxe.error.delProp', ['type=text', 'mode=text'])
+      //   }
+      // }
+
       GlobalEvent.on($xebutton, 'mousewheel', (evnt: Event) => {
         const panelElem = refBtnPanel.value
         if (reactData.showPanel && !getEventTargetNode(evnt, panelElem).flag) {
@@ -408,10 +430,13 @@ export default defineComponent({
     })
 
     const renderVN = () => {
-      const { className, popupClassName, transfer, type, round, circle, destroyOnClose, status, name, disabled, loading } = props
+      const { className, popupClassName, transfer, title, type, destroyOnClose, name, disabled, loading } = props
       const { inited, showPanel } = reactData
       const isFormBtn = computeIsFormBtn.value
-      const btnType = computeBtnType.value
+      const btnMode = computeBtnMode.value
+      const btnStatus = computeBtnStatus.value
+      const btnRound = computeBtnRound.value
+      const btnCircle = computeBtnCircle.value
       const vSize = computeSize.value
       if (slots.dropdowns) {
         return h('div', {
@@ -423,19 +448,20 @@ export default defineComponent({
         }, [
           h('button', {
             ref: refButton,
-            class: ['vxe-button', `type--${btnType}`, {
+            class: ['vxe-button', `type--${btnMode}`, {
               [`size--${vSize}`]: vSize,
-              [`theme--${status}`]: status,
-              'is--round': round,
-              'is--circle': circle,
+              [`theme--${btnStatus}`]: btnStatus,
+              'is--round': btnRound,
+              'is--circle': btnCircle,
               'is--disabled': disabled || loading,
               'is--loading': loading
             }],
+            title,
             name,
             type: isFormBtn ? type : 'button',
             disabled: disabled || loading,
             onMouseenter: mouseenterTargetEvent,
-            onMouseleave: mouseleaveEvent,
+            onMouseleave: mouseleaveTargetEvent,
             onClick: clickEvent
           }, renderContent().concat([
             h('i', {
@@ -460,8 +486,8 @@ export default defineComponent({
                 class: 'vxe-button--dropdown-wrapper',
                 onMousedown: mousedownDropdownEvent,
                 onClick: clickDropdownEvent,
-                onMouseenter: mouseenterEvent,
-                onMouseleave: mouseleaveEvent
+                onMouseenter: mouseenterDropdownEvent,
+                onMouseleave: mouseleaveDropdownEvent
               }, destroyOnClose && !showPanel ? [] : slots.dropdowns({}))
             ] : [])
           ])
@@ -469,18 +495,21 @@ export default defineComponent({
       }
       return h('button', {
         ref: refButton,
-        class: ['vxe-button', `type--${btnType}`, {
+        class: ['vxe-button', `type--${btnMode}`, className ? (XEUtils.isFunction(className) ? className({ $button: $xebutton }) : className) : '', {
           [`size--${vSize}`]: vSize,
-          [`theme--${status}`]: status,
-          'is--round': round,
-          'is--circle': circle,
+          [`theme--${btnStatus}`]: btnStatus,
+          'is--round': btnRound,
+          'is--circle': btnCircle,
           'is--disabled': disabled || loading,
           'is--loading': loading
         }],
+        title,
         name,
         type: isFormBtn ? type : 'button',
         disabled: disabled || loading,
-        onClick: clickEvent
+        onClick: clickEvent,
+        onMouseenter: mouseenterEvent,
+        onMouseleave: mouseleaveEvent
       }, renderContent())
     }
 

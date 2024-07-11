@@ -147,6 +147,10 @@
     "type": "boolean",
     "description": "是否显示表尾"
   },
+  "vxe-table/footer-data": {
+    "type": "any[]",
+    "description": "表尾数据"
+  },
   "vxe-table/footer-method": {
     "type": "({ columns, data }) => any[][]",
     "description": "表尾的数据获取方法，返回一个二维数组"
@@ -667,6 +671,10 @@
     "type": "boolean",
     "description": "是否显示表尾"
   },
+  "vxe-grid/footer-data": {
+    "type": "any[]",
+    "description": "表尾数据"
+  },
   "vxe-grid/footer-method": {
     "type": "({ columns, data }) => any[][]",
     "description": "表尾的数据获取方法，返回一个二维数组"
@@ -1015,6 +1023,10 @@
     "type": "any[]",
     "description": "v-model 绑定值"
   },
+  "vxe-radio-group/type": {
+    "type": "string",
+    "description": "按钮类型"
+  },
   "vxe-radio-group/size": {
     "type": "string",
     "description": "尺寸"
@@ -1026,6 +1038,14 @@
   "vxe-radio-group/strict": {
     "type": "boolean",
     "description": "严格模式，选中后不能取消"
+  },
+  "vxe-radio-group/options": {
+    "type": "{ value, label, disabled }[]",
+    "description": "选项列表"
+  },
+  "vxe-radio-group/option-props": {
+    "type": "any",
+    "description": "选项属性参数配置"
   },
   "vxe-radio-button/model-value": {
     "type": "any",
@@ -1098,6 +1118,14 @@
   "vxe-checkbox-group/disabled": {
     "type": "boolean",
     "description": "是否禁用"
+  },
+  "vxe-checkbox-group/options": {
+    "type": "{ value, label, disabled }[]",
+    "description": "选项列表"
+  },
+  "vxe-checkbox-group/option-props": {
+    "type": "any",
+    "description": "选项属性参数配置"
   },
   "vxe-switch/model-value": {
     "type": "string | number | boolean",
@@ -1407,9 +1435,17 @@
     "type": "string",
     "description": "内容（支持开启国际化）"
   },
+  "vxe-button/mode": {
+    "type": "string",
+    "description": "按钮模式,支持文本和按钮"
+  },
+  "vxe-button/title": {
+    "type": "string",
+    "description": "标题"
+  },
   "vxe-button/type": {
     "type": "string",
-    "description": "类型"
+    "description": "原生按钮类型"
   },
   "vxe-button/size": {
     "type": "string",
@@ -1462,6 +1498,38 @@
   "vxe-button/transfer": {
     "type": "boolean",
     "description": "是否将弹框容器插入于 body 内（对于嵌入到表格或者弹窗中被遮挡时需要设置为 true）"
+  },
+  "vxe-button-group/mode": {
+    "type": "string",
+    "description": "按钮模式,支持文本和按钮"
+  },
+  "vxe-button-group/size": {
+    "type": "string",
+    "description": "尺寸"
+  },
+  "vxe-button-group/status": {
+    "type": "string",
+    "description": "按钮的图标"
+  },
+  "vxe-button-group/round": {
+    "type": "boolean",
+    "description": "圆角边框"
+  },
+  "vxe-button-group/circle": {
+    "type": "boolean",
+    "description": "圆角按钮"
+  },
+  "vxe-button-group/disabled": {
+    "type": "boolean",
+    "description": "是否禁用"
+  },
+  "vxe-button-group/class-name": {
+    "type": "string | (({}) => string)",
+    "description": "给展示容器附加 className"
+  },
+  "vxe-button-group/options": {
+    "type": "array",
+    "description": "按钮列表"
   },
   "vxe-tooltip/model-value": {
     "type": "boolean",

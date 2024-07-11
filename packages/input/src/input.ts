@@ -1585,6 +1585,7 @@ export default defineComponent({
           }
           const { boundingTop, boundingLeft, visibleHeight, visibleWidth } = getAbsolutePos(targetElem)
           let panelPlacement: VxeInputPropTypes.Placement = 'bottom'
+          console.log(getAbsolutePos(targetElem))
           if (transfer) {
             let left = boundingLeft
             let top = boundingTop + targetHeight

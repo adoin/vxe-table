@@ -19,10 +19,12 @@ import { Button } from './button'
 import { Card } from './card'
 import { Tag } from './tag'
 import { Tags } from './tags'
+import { ButtonGroup } from './button-group'
 import { Select } from './select'
 import { Optgroup } from './optgroup'
 import { Option } from './option'
 import { Modal } from './modal'
+import { Drawer } from './drawer'
 import { Tooltip } from './tooltip'
 import { Form } from './form'
 import { FormGather } from './form-gather'
@@ -55,10 +57,12 @@ declare module '@vue/runtime-core' {
     VxeCard: typeof Card
     VxeTag: typeof Tag
     VxeTags: typeof Tags
+    VxeButtonGroup: typeof ButtonGroup
     VxeSelect: typeof Select
     VxeOptgroup: typeof Optgroup
     VxeOption: typeof Option
     VxeModal: typeof Modal
+    VxeDrawer: typeof Drawer
     VxeTooltip: typeof Tooltip
     VxeForm: typeof Form
     VxeFormGather: typeof FormGather
@@ -79,14 +83,6 @@ declare global {
 export * from './v-x-e-table'
 export * from './component'
 
-// Module
-export * from './filter'
-export * from './menu'
-export * from './edit'
-export * from './export'
-export * from './keyboard'
-export * from './validator'
-
 // Component
 export * from './icon'
 export * from './loading'
@@ -104,10 +100,12 @@ export * from './radio-button'
 export * from './input'
 export * from './textarea'
 export * from './button'
+export * from './button-group'
 export * from './select'
 export * from './optgroup'
 export * from './option'
 export * from './modal'
+export * from './drawer'
 export * from './tooltip'
 export * from './form'
 export * from './form-gather'
@@ -119,5 +117,8 @@ export * from './card'
 export * from './tag'
 export * from './tags'
 
-// Plugins
+// Table module
+export * from './module'
+
+// Table plugins
 export * from './plugins'

@@ -12,7 +12,7 @@
 [![pull requests closed](https://img.shields.io/github/issues-pr-closed/x-extends/vxe-table.svg)](https://github.com/x-extends/vxe-table/pulls?q=is%3Apr+is%3Aclosed)
 [![npm license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
 
-一個基於 [vue](https://www.npmjs.com/package/vue) 的PC端表格組件，支持增删改查、虛擬清單、虛擬樹、懶加載、快捷選單、數據校驗、列印匯出、表單渲染、數據分頁、彈窗、自定義範本、渲染器、JSON 配置式…
+一個基於 [vue](https://www.npmjs.com/package/vue) 的PC端表格組件，支持增刪改查、虛擬樹、列拖拽、懶加載、快捷菜單、數據校驗、打印導出、表單渲染、自定義模板、渲染器、JSON 配置式…
 
 * 設計理念
   * 面向現代瀏覽器，高效的簡潔 API 設計
@@ -23,7 +23,8 @@
   * [x] ~~v1.0 基於 vue2.6，支持所有主流的瀏覽器，實現表格的一切實用的功能~~
   * [x] ~~v2.0 基於 vue2.6，支持所有主流的瀏覽器，同時兼具功能與效能~~
   * [x] v3.0 基於 vue2.6，支持現代瀏覽器並保留相容IE11
-  * [x] v4.0 基于 vue3.x，只支持現代瀏覽器，不支持IE
+  * [x] v4.0 基於 vue3.x，只支持現代瀏覽器，不支持IE
+  * [x] v4.7 基於 vue3.x，重構組件，拆分多餘組件，只保留表格
 
 ## 瀏覽器支持
 
@@ -34,8 +35,6 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 ## 功能點
 
 * [x] 基礎表格
-* [x] 配置式表格
-* [x] 基礎表單
 * [x] 配置式表單
 * [x] 斑馬線條紋
 * [x] 多種邊框
@@ -50,8 +49,6 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 * [x] 序號
 * [x] 單選框
 * [x] 核取方塊
-* [x] 下拉選項
-* [x] 開關
 * [x] 排序
 * [x] 多欄位組合排序
 * [x] 篩選
@@ -59,34 +56,32 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ |
 * [x] 合併錶尾
 * [x] 導入/匯出/列印
 * [x] 顯示/隱藏列
+* [x] 拖拽/自定義列排序
 * [x] 加載中
 * [x] 格式化內容
 * [x] 自定義插槽 - 範本
 * [x] 快捷選單
 * [x] 展開行
-* [x] 分頁
 * [x] 工具列
-* [x] 下拉容器
-* [x] 虛擬清單
 * [x] 增删改查
 * [x] 數據校驗
 * [x] 數據代理
 * [x] 鍵盤導航
-* [x] 彈窗
 * [x] 渲染器
 * [x] 虛擬滾動
 * [x] 虛擬合併
 * [x] CSS 變量主題
-* [x] (Plugin) 儲存格區域選取
-* [x] (Plugin) 儲存格複製/粘貼
-* [x] (Plugin) 儲存格查找和替換
+* [x] (([企業版](https://vxetable.cn/pluginDocs/))) 儲存格區域選取
+* [x] (([企業版](https://vxetable.cn/pluginDocs/))) 儲存格複製/粘貼
+* [x] ([企業版](https://vxetable.cn/pluginDocs/)) 儲存格查找和替換
+* [x] ([企業版](https://vxetable.cn/pluginDocs/)) 全鍵盤操作
 
 ## 安裝
 
 版本：[vue](https://www.npmjs.com/package/vue) 3.x
 
 ```shell
-npm install vxe-table@next
+npm install vxe-table
 ```
 
 Get on [unpkg](https://unpkg.com/vxe-table/) and [cdnjs](https://cdn.jsdelivr.net/npm/vxe-table/)
@@ -103,15 +98,15 @@ createApp(App).use(VXETable).mount('#app')
 
 ### CDN
 
-使用 CDN 方式記得鎖定版本號，避免受到非兼容性更新的影響  
-***不建議將第三方的 CDN 地址用於生產，因爲該連接隨時都可能會失效***  
+使用第三方 CDN 方式記得鎖定版本號，避免受到非兼容性更新的影響  
+***不建議將第三方的 CDN 地址用於正式環境，因爲該連接隨時都可能會失效***  
 
 ```HTML
 <!-- 引入樣式 -->
-<link rel="stylesheet" href="https://unpkg.com/vxe-table@next/lib/style.css">
+<link rel="stylesheet" href="https://unpkg.com/vxe-table/lib/style.css">
 <!-- 引入腳本 -->
 <script src="https://unpkg.com/xe-utils"></script>
-<script src="https://unpkg.com/vxe-table@next"></script>
+<script src="https://unpkg.com/vxe-table"></script>
 ```
 
 ## 示例
@@ -146,10 +141,6 @@ const tableData = ref([
 
 👉 [官網檔案](https://vxetable.cn)  
 
-參與檔案完善、補充詳細檔案  
-
-💡 [官網檔案源碼](https://github.com/x-extends/vxe-table-docs)
-
 ## 運行項目
 
 安裝依賴
@@ -169,6 +160,12 @@ npm run serve
 ```shell
 npm run lib
 ```
+
+## Contributors
+
+Thank you to everyone who contributed to this project.
+
+[![vxe-table](https://contrib.rocks/image?repo=x-extends/vxe-table)](https://github.com/x-extends/vxe-table/graphs/contributors)
 
 ## License
 

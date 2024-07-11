@@ -43,6 +43,7 @@
       "header-row-style",
       "footer-row-style",
       "show-footer",
+      "footer-data",
       "footer-method",
       "merge-cells",
       "merge-footer-items",
@@ -195,6 +196,7 @@
       "header-row-style",
       "footer-row-style",
       "show-footer",
+      "footer-data",
       "footer-method",
       "merge-cells",
       "merge-footer-items",
@@ -302,9 +304,13 @@
   "vxe-radio-group": {
     "attributes": [
       "model-value",
+      "type",
       "size",
+      "type",
       "disabled",
-      "strict"
+      "strict",
+      "options",
+      "option-props"
     ],
     "subtags": [
       "vxe-radio",
@@ -341,7 +347,9 @@
       "model-value",
       "max",
       "size",
-      "disabled"
+      "disabled",
+      "options",
+      "option-props"
     ],
     "subtags": [
       "vxe-checkbox"
@@ -459,6 +467,8 @@
   "vxe-button": {
     "attributes": [
       "content",
+      "mode",
+      "title",
       "type",
       "size",
       "name",
@@ -475,6 +485,19 @@
       "transfer"
     ],
     "description": "按钮"
+  },
+  "vxe-button-group": {
+    "attributes": [
+      "mode",
+      "size",
+      "status",
+      "round",
+      "circle",
+      "disabled",
+      "class-name",
+      "options"
+    ],
+    "description": "按钮组"
   },
   "vxe-tooltip": {
     "attributes": [

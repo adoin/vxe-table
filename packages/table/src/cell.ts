@@ -88,7 +88,7 @@ function renderTitleContent (params: VxeTableDefines.CellRenderHeaderParams, con
 }
 
 function getFooterContent (params: VxeTableDefines.CellRenderFooterParams) {
-  const { $table, column, _columnIndex, items } = params
+  const { $table, column, _columnIndex, items, row } = params
   const { slots, editRender, cellRender } = column
   const renderOpts = editRender || cellRender
   const footerSlot = slots ? slots.footer : null
@@ -101,7 +101,11 @@ function getFooterContent (params: VxeTableDefines.CellRenderFooterParams) {
       return getSlotVNs(compConf.renderFooter(renderOpts, params))
     }
   }
-  return [formatText(items[_columnIndex], 1)]
+  // 兼容老模式
+  if (XEUtils.isArray(items)) {
+    return [formatText(items[_columnIndex], 1)]
+  }
+  return [formatText(XEUtils.get(row, column.field), 1)]
 }
 
 function getDefaultCellLabel (params: VxeTableDefines.CellRenderBodyParams) {
@@ -514,7 +518,8 @@ export const Cell = {
         class: ['vxe-cell--checkbox', {
           'is--checked': isChecked,
           'is--disabled': isDisabled,
-          'is--indeterminate': indeterminate
+          'is--indeterminate': indeterminate,
+          'is--hidden': !isVisible
         }],
         ...ons
       }, checkVNs)
@@ -582,7 +587,8 @@ export const Cell = {
         class: ['vxe-cell--checkbox', {
           'is--checked': isChecked,
           'is--disabled': isDisabled,
-          'is--indeterminate': indeterminateField && !isChecked ? row[indeterminateField] : isIndeterminate
+          'is--indeterminate': indeterminateField && !isChecked ? row[indeterminateField] : isIndeterminate,
+          'is--hidden': !isVisible
         }],
         ...ons
       }, checkVNs)

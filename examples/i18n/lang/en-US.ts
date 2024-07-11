@@ -190,6 +190,7 @@ export default {
         textarea: 'Textarea',
         select: 'Select',
         modal: 'Modal',
+        drawer: 'Drawer',
         tooltip: 'Tooltip',
         form: 'Form',
         switch: 'Switch',

@@ -1,12 +1,12 @@
 import { RenderFunction, SetupContext, Ref, ComputedRef, ComponentPublicInstance, ComponentInternalInstance, VNode } from 'vue'
 import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf, VNodeStyle, SlotVNodeType } from './component'
-import { VxeTableProEmits, VxeTableProDefines } from './plugins/pro'
+import { VxeTableProEmits, VxeTableProDefines } from './plugins/extend-cell-area'
 import { VxeColumnPropTypes, VxeColumnProps, VxeColumnSlotTypes } from './column'
 import { VXETableConfigOptions, VxeGlobalRendererHandles } from './v-x-e-table'
 import { VxeToolbarConstructor, VxeToolbarInstance } from './toolbar'
 import { VxeTooltipInstance } from './tooltip'
 import { VxeGridConstructor } from './grid'
-import { VxeMenuPanelInstance } from './menu'
+import { VxeTableMenuPanelInstance } from './module/menu'
 
 /* eslint-disable no-use-before-define */
 
@@ -42,7 +42,8 @@ export interface TablePrivateRef {
   refTooltip: Ref<VxeTooltipInstance>
   refValidTooltip: Ref<VxeTooltipInstance>
   refTableFilter: Ref<ComponentPublicInstance>
-  refTableMenu: Ref<VxeMenuPanelInstance>
+  refTableCustom: Ref<ComponentPublicInstance>
+  refTableMenu: Ref<VxeTableMenuPanelInstance>
   refTableHeader: Ref<ComponentPublicInstance>
   refTableBody: Ref<ComponentPublicInstance>
   refTableFooter: Ref<ComponentPublicInstance>
@@ -131,6 +132,12 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
    * @param data 数据
    */
   reloadData(data: any[]): Promise<void>
+  /**
+   * 修改行数据
+   * @param rows 行对象
+   * @param record 新数据
+   */
+  setRow(rows: any | any[], record?: any): Promise<void>
   /**
    * 局部加载行数据并恢复到初始状态
    * @param rows 行对象
@@ -239,7 +246,7 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
    * 用于 edit-config，判断行是否为新增的临时数据
    * @param row 指定行
    */
-  isInsertByRow(row: any): boolean
+  isInsertByRow(row: any | null): boolean
   /**
    * 删除所有新增的临时数据
    */
@@ -249,7 +256,7 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
    * @param row 指定行
    * @param field 指定字段
    */
-  isUpdateByRow(row: any, field?: string): boolean
+  isUpdateByRow(row: any, field?: string | null): boolean
   /**
    * 获取表格的可视列，也可以指定索引获取列
    * @param columnIndex 列索引
@@ -260,12 +267,12 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
    * 根据列的唯一主键获取列
    * @param colid 列主键
    */
-  getColumnById(colid: string): VxeTableDefines.ColumnInfo<DT> | null
+  getColumnById(colid: string | null): VxeTableDefines.ColumnInfo<DT> | null
   /**
    * 根据列的字段名获取列
    * @param field 字段名
    */
-  getColumnByField(field: string): VxeTableDefines.ColumnInfo<DT> | null
+  getColumnByField(field: string | null): VxeTableDefines.ColumnInfo<DT> | null
   /**
    * 获取当前表格的列
    * 收集到的全量列、全量表头列、处理条件之后的全量表头列、当前渲染中的表头列
@@ -293,12 +300,12 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
    * 根据行的唯一主键获取行
    * @param rowid 行主键
    */
-  getRowById(rowid: string | number): DT | null
+  getRowById(rowid: string | number | null): DT | null
   /**
    * 根据行获取行的唯一主键
    * @param row 行对象
    */
-  getRowid(row: any): string
+  getRowid(row: any | null): string
   /**
    * 获取当前表格的数据
    * 完整的全量表体数据、处理条件之后的全量表体数据、当前渲染中的表体数据、当前渲染中的表尾数据
@@ -354,8 +361,9 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
   /**
    * 刷新列配置
    * 对于动态修改属性、显示/隐藏列等场景下可能会用到
+   * 如果传 true 则会检查列顺序并排序
    */
-  refreshColumn(): Promise<void>
+  refreshColumn(resiveOrder?: boolean): Promise<void>
   /**
    * 刷新滚动操作，手动同步滚动相关位置
    * 对于某些特殊的操作，比如滚动条错位、固定列不同步
@@ -447,7 +455,7 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
    * 用于 type=radio，判断单选行数据是否勾选
    * @param row 指定行
    */
-  isCheckedByRadioRow(row: any): boolean
+  isCheckedByRadioRow(row: any | null): boolean
   /**
    * 用于 type=radio，设置某一行为选中状态
    * @param row 指定行
@@ -549,17 +557,17 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
    * 已废弃，请使用 isActiveFilterByColumn
    * @deprecated
    */
-  isFilter(fieldOrColumn: VxeColumnPropTypes.Field | VxeTableDefines.ColumnInfo<any>): boolean
+  isFilter(fieldOrColumn: VxeColumnPropTypes.Field | VxeTableDefines.ColumnInfo<any> | null): boolean
   /**
    * 判断指定列是否为筛选状态，如果为空则判断所有列
    * @param columnOrField 列对象或字段名
    */
-  isActiveFilterByColumn(fieldOrColumn: VxeColumnPropTypes.Field | VxeTableDefines.ColumnInfo<any>): boolean
+  isActiveFilterByColumn(fieldOrColumn: VxeColumnPropTypes.Field | VxeTableDefines.ColumnInfo<any> | null): boolean
   /**
    * 用于 expand-config.lazy，用于懒加载展开行，判断展开行是否懒加载完成
    * @param row 指定行
    */
-  isRowExpandLoaded(row: any): boolean
+  isRowExpandLoaded(row: any | null): boolean
   /**
    * 用于 expand-config.lazy，手动清空懒加载展开行的状态，数据会恢复成未展开的状态，当再次展开时会重新加载
    */
@@ -594,11 +602,11 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
    * 用于 expand-config，判断行是否为展开状态
    * @param row 指定行
    */
-  isRowExpandByRow(row: any): boolean
+  isRowExpandByRow(row: any | null): boolean
   /**
    * @deprecated 已废弃，请使用 isRowExpandByRow
    */
-  isExpandByRow(row: any): boolean
+  isExpandByRow(row: any | null): boolean
   /**
    * 用于 type=expand，手动清空展开行状态，数据会恢复成未展开的状态
    */
@@ -619,7 +627,7 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
   /**
    * 用于 tree-config.lazy，用于懒加载树表格，判断树节点是否懒加载完成
    */
-  isTreeExpandLoaded(row: any): boolean
+  isTreeExpandLoaded(row: any | null): boolean
   /**
    * 用于 tree-config.lazy，手动清空懒加载树节点的状态，数据会恢复成未展开的状态，当再次展开时会重新加载
    */
@@ -654,7 +662,7 @@ export interface TablePublicMethods<DT = VxeTableDataRow> {
    * 用于 tree-config，判断行是否为树形节点展开状态
    * @param row 指定行
    */
-  isTreeExpandByRow(row: any): boolean
+  isTreeExpandByRow(row: any | null): boolean
   /**
    * 用于 tree-config，手动清空树形节点的展开状态，数据会恢复成未展开的状态
    */
@@ -757,6 +765,7 @@ export interface TablePrivateMethods<D = VxeTableDataRow> {
   cacheRowMap(isSource?: boolean): void
   cacheSourceMap(fullData: any[]): void
   saveCustomResizable(isReset?: boolean): void
+  saveCustomSort(isReset?: boolean): void
   saveCustomVisible(): void
   saveCustomFixed(): void
   analyColumnWidth(): void
@@ -887,7 +896,11 @@ export interface TableReactData<D = VxeTableDataRow> {
     filter: boolean
     import: boolean
     export: boolean
+    custom: boolean
   },
+  // 自定义列相关的信息
+  customStore: VxeTableCustomStoreObj,
+  customColumnList: VxeTableDefines.ColumnInfo<D>[]
   // 当前选中的筛选列
   filterStore: {
     isAllSelected: boolean
@@ -949,6 +962,12 @@ export interface TableReactData<D = VxeTableDataRow> {
       column: any
       [key: string]: any
     },
+    // 当前被强制聚焦单元格，只会在鼠标点击后算聚焦
+    focused: {
+      row: D | null
+      column: any
+      [key: string]: any
+    },
     insertMaps: {
       [key: string]: any
     }
@@ -961,8 +980,7 @@ export interface TableReactData<D = VxeTableDataRow> {
     row: D | null
     column: any
     content: any
-    visible: boolean,
-    currOpts: any
+    visible: boolean
   }
   // 存放数据校验相关信息
   validStore: {
@@ -1021,6 +1039,23 @@ export interface TableReactData<D = VxeTableDataRow> {
   },
   scrollVMLoading: boolean
   _isResize: boolean
+}
+
+export interface VxeTableCustomStoreObj {
+  btnEl: HTMLDivElement | null
+  isAll: boolean
+  isIndeterminate: boolean
+  activeBtn: boolean
+  activeWrapper: boolean
+  visible: boolean
+  maxHeight: number
+}
+
+export interface VxeTableCustomStorageObj {
+  visible?: boolean
+  resizable?: boolean
+  fixed?: boolean
+  sort?: boolean
 }
 
 export interface TableInternalData<D = VxeTableDataRow> {
@@ -1181,13 +1216,14 @@ export namespace VxeTablePropTypes {
   export type HighlightHoverColumn = boolean
   export type HighlightCell = boolean
   export type ShowFooter = boolean
+  export type FooterData = Record<string, any>[]
 
   export type FooterMethod<D = VxeTableDataRow> = (params: {
     $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
     $grid: VxeGridConstructor<D> | null | undefined
     columns: VxeTableDefines.ColumnInfo<D>[]
     data: D[]
-  }) => Array<string | number | null>[]
+  }) => Array<string | number | null>[] | VxeTableDataRow[]
 
   export type RowClassName<D = VxeTableDataRow> = string | ((params: {
     $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
@@ -1226,6 +1262,7 @@ export namespace VxeTablePropTypes {
 
   export type FooterRowClassName<D = VxeTableDataRow> = string | ((params: {
     $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
+    row: D
     $rowIndex: number
     _rowIndex: number
     fixed: VxeColumnPropTypes.Fixed
@@ -1234,6 +1271,7 @@ export namespace VxeTablePropTypes {
 
   export type FooterCellClassName<D = VxeTableDataRow> = string | ((params: {
     $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
+    row: D
     $rowIndex: number
     _rowIndex: number
     column: VxeTableDefines.ColumnInfo<D>
@@ -1263,6 +1301,7 @@ export namespace VxeTablePropTypes {
 
   export type FooterCellStyle<D = VxeTableDataRow> = VNodeStyle | ((params: {
     $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
+    row: D
     $rowIndex: number
     column: VxeTableDefines.ColumnInfo<D>
     columnIndex: number
@@ -1287,6 +1326,7 @@ export namespace VxeTablePropTypes {
 
   export type FooterRowStyle<D = VxeTableDataRow> = VNodeStyle | ((params: {
     $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
+    row: D
     $rowIndex: number
     _rowIndex: number
     fixed: VxeColumnPropTypes.Fixed
@@ -1319,6 +1359,7 @@ export namespace VxeTablePropTypes {
     columnIndex: number
     _columnIndex: number
     $columnIndex: number
+    row: D
     $rowIndex: number
     _rowIndex: number
     items: any[]
@@ -1432,18 +1473,23 @@ export namespace VxeTablePropTypes {
     /**
      * 是否启用 localStorage 本地保存，会将列操作状态保留在本地（需要有 id）
      */
-    storage?: boolean | {
-      visible?: boolean
-      resizable?: boolean
-      fixed?: boolean
-      order?: boolean
-    }
+    storage?: boolean | VxeTableCustomStorageObj
+    mode?: 'simple' | 'popup' | '' | null
+    trigger?: string,
+    immediate?: boolean
     /**
      * 自定义列是否允许列选中的方法，该方法的返回值用来决定这一列的 checkbox 是否可以选中
      */
-    checkMethod?(params: {
-      column: VxeTableDefines.ColumnInfo<D>
-    }): boolean
+    checkMethod?(params: { column: VxeTableDefines.ColumnInfo }): boolean
+    /**
+     * 自定义列是否的方法，该方法的返回值用来决定这一列是否显示
+     */
+    visibleMethod?(params: { column: VxeTableDefines.ColumnInfo }): boolean
+    allowFixed?: boolean
+    showFooter?: boolean
+    icon?: string
+    resetButtonText?: string
+    confirmButtonText?: string
   }
   export interface CustomOpts<D = VxeTableDataRow> extends CustomConfig<D> { }
 
@@ -1581,7 +1627,7 @@ export namespace VxeTablePropTypes {
     visibleMethod?(params: {
       row: D
     }): boolean
-    trigger?: 'default' | 'cell' | 'row' | '' | null
+    trigger?: 'default' | 'cell' | 'row' | '' | 'manual' | null
     highlight?: boolean
     range?: boolean
 
@@ -1840,6 +1886,14 @@ export namespace VxeTablePropTypes {
      */
     multiple?: boolean
     /**
+     * 用于指定哪些列允许被选取
+     */
+    includeFields?: string[]
+    /**
+     * 用于排除指定列允许不允许被选取
+     */
+    excludeFields?: string[]
+    /**
      * 只对 mouse-config.area 启用后有效，点击列头是否选取当前列的所有单元格
      */
     selectCellByHeader?: boolean
@@ -1851,6 +1905,10 @@ export namespace VxeTablePropTypes {
      * 只对 mouse-config.extension 启用后有效，扩展区域时将自动识别数字规则进行计算
      */
     extendByCalc?: boolean
+    /**
+     * 当点击表格之外，是否自动清除单元格的选取状态
+     */
+    autoClear?: boolean
     /**
      * 只对 extendByCalc 启用后有效，重写单元格扩展区域计算值的方法
      * @param params
@@ -1929,6 +1987,12 @@ export namespace VxeTablePropTypes {
      */
     isChecked?: boolean
     /**
+     * 用于 mouse-config.area，方向键光标锁，开启后将支持两种状态
+     * 非聚焦式输入状态：默认情况下，可以按方向键移动单元格。
+     * 聚焦式输入状态：如果需要移动光标，可以按 F2 键或者鼠标左键点击输入框，切换为聚焦输入状态，就可以用方向键左右移动光标
+     */
+    arrowCursorLock?: boolean
+    /**
      * 用于 mouse-config.area，是否将回车键行为改成 Tab 键行为
      */
     enterToTab?: boolean
@@ -1994,6 +2058,14 @@ export namespace VxeTablePropTypes {
      * 是否启用列自增，当粘贴的列数超出表格时自动插入新列（需要注意自增的列自字段是否定义，否则将无法响应）
      */
     isColumnIncrement?: boolean
+    /**
+     * 用于指定哪些列允许被复制粘贴
+     */
+    includeFields?: string[]
+    /**
+     * 用于排除指定列允许不允许被复制粘贴
+     */
+    excludeFields?: string[]
     /**
      * 重写单元格复制取值的方法，将单元格复制到剪贴板
      */
@@ -2244,7 +2316,7 @@ export namespace VxeTablePropTypes {
      */
     autoClear?: boolean
     /**
-     * 该方法的返回值用来决定该单元格是否允许编辑
+     * 自定义编辑之前逻辑，该方法的返回值用来决定该单元格是否允许编辑
      */
     beforeEditMethod?(params: {
       row: DT
@@ -2254,6 +2326,17 @@ export namespace VxeTablePropTypes {
       $table: VxeTableConstructor<DT> & VxeTablePrivateMethods<DT>
       $grid: VxeGridConstructor<DT> | null | undefined
     }): boolean
+    /**
+     * 自定义编辑之后逻辑
+     */
+    afterEditMethod?(params: {
+      row: DT
+      rowIndex: number
+      column: VxeTableDefines.ColumnInfo<DT>
+      columnIndex: number
+      $table: VxeTableConstructor<DT> & VxeTablePrivateMethods<DT>
+      $grid: VxeGridConstructor<DT> | null | undefined
+    }): void
 
     /**
      * 请使用 beforeEditMethod
@@ -2462,6 +2545,10 @@ export type VxeTableProps<D = VxeTableDataRow> = {
    * 是否显示表尾
    */
   showFooter?: VxeTablePropTypes.ShowFooter
+  /**
+   * 表尾数据
+   */
+  footerData?: VxeTablePropTypes.FooterData
   /**
    * 表尾的数据获取方法，返回一个二维数组
    */
@@ -2763,6 +2850,7 @@ export type VxeTableEmits = [
   'cell-mouseenter',
   'cell-mouseleave',
   'cell-selected',
+  'cell-delete-value',
   'header-cell-click',
   'header-cell-dblclick',
   'header-cell-menu',
@@ -2895,9 +2983,15 @@ export namespace VxeTableDefines {
     checked: boolean
     halfChecked: boolean
     disabled: boolean
+
+    // 数据排序
     order: VxeTablePropTypes.SortOrder
     sortTime: number
-    customOrder: number
+
+    // 列排序
+    sortNumber: number
+    renderSortNumber: number
+
     renderWidth: number
     renderHeight: number
     resizeWidth: number
@@ -2962,17 +3056,21 @@ export namespace VxeTableDefines {
   export interface CellRenderFooterParams<D = VxeTableDataRow> {
     $table: VxeTableConstructor<D> & VxeTablePrivateMethods<D>
     $grid: VxeGridConstructor<D> | null
+    row: D
+    rowIndex: number
     _rowIndex: number
     $rowIndex: number
     column: ColumnInfo<D>
     columnIndex: number
     $columnIndex: number
     _columnIndex: number
-    itemIndex: number
-    items: any[]
     fixed: VxeColumnPropTypes.Fixed
     type: string
     data: any[][]
+
+    // 兼容旧
+    itemIndex: number
+    items: any[]
   }
 
   interface TableEventParams<D = VxeTableDataRow> extends VxeEvent {
@@ -3101,6 +3199,16 @@ export namespace VxeTableDefines {
   export interface CellMouseleaveParams<D = VxeTableDataRow> extends TableBaseCellParams<D> { }
   export interface CellMouseleaveEventParams<D = VxeTableDataRow> extends TableEventParams<D>, CellMouseleaveParams<D> { }
 
+  export interface CellDeleteValueParams<D = VxeTableDataRow> {
+    row: D
+    rowIndex: number
+    column: VxeTableDefines.ColumnInfo<D>
+    columnIndex: number
+    activeArea: VxeTableProDefines.MouseActiveCellArea<D>
+    cellAreas: VxeTableProDefines.MouseCellArea<D>[]
+   }
+  export interface CellDeleteValueEventParams<D = VxeTableDataRow> extends TableEventParams<D>, CellDeleteValueParams<D> { }
+
   export interface HeaderCellClickParams<D = VxeTableDataRow> extends TableBaseHeaderCellParams<D> {
     triggerResizable: boolean
     triggerSort: boolean
@@ -3228,6 +3336,7 @@ export interface VxeTableEventProps<D = VxeTableDataRow> {
   onCellMenu?: VxeTableEvents.CellMenu<D>
   onCellMouseenter?: VxeTableEvents.CellMouseenter<D>
   onCellMouseleave?: VxeTableEvents.CellMouseleave<D>
+  onCellDeleteValue?: VxeTableEvents.CellDeleteValue<D>
   onHeaderCellClick?: VxeTableEvents.HeaderCellClick<D>
   onHeaderCellDblclick?: VxeTableEvents.HeaderCellDblclick<D>
   onHeaderCellMenu?: VxeTableEvents.HeaderCellMenu<D>
@@ -3278,6 +3387,7 @@ export interface VxeTableListeners<D = VxeTableDataRow> {
   cellMenu?: VxeTableEvents.CellMenu<D>
   cellMouseenter?: VxeTableEvents.CellMouseenter<D>
   cellMouseleave?: VxeTableEvents.CellMouseleave<D>
+  cellDeleteValue?: VxeTableEvents.CellDeleteValue<D>
   headerCellClick?: VxeTableEvents.HeaderCellClick<D>
   headerCellDblclick?: VxeTableEvents.HeaderCellDblclick<D>
   headerCellMenu?: VxeTableEvents.HeaderCellMenu<D>
@@ -3327,6 +3437,7 @@ export namespace VxeTableEvents {
   export type CellMenu<D = any> = (params: VxeTableDefines.CellMenuEventParams<D>) => void
   export type CellMouseenter<D = any> = (params: VxeTableDefines.CellMouseenterEventParams<D>) => void
   export type CellMouseleave<D = any> = (params: VxeTableDefines.CellMouseleaveEventParams<D>) => void
+  export type CellDeleteValue<D = any> = (params: VxeTableDefines.CellDeleteValueEventParams<D>) => void
   export type HeaderCellClick<D = any> = (params: VxeTableDefines.HeaderCellClickEventParams<D>) => void
   export type HeaderCellDblclick<D = any> = (params: VxeTableDefines.HeaderCellDblclickEventParams<D>) => void
   export type HeaderCellMenu<D = any> = (params: VxeTableDefines.HeaderCellMenuEventParams<D>) => void

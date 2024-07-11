@@ -1,10 +1,14 @@
-import { defineComponent, h, PropType, ref, Ref, computed, provide, getCurrentInstance, resolveComponent, ComponentOptions, reactive, onUnmounted, watch, nextTick, VNode, ComponentPublicInstance, onMounted } from 'vue'
+import { defineComponent, h, PropType, ref, Ref, computed, provide, getCurrentInstance, reactive, onUnmounted, watch, nextTick, VNode, ComponentPublicInstance, onMounted } from 'vue'
 import XEUtils from 'xe-utils'
 import { getLastZIndex, nextZIndex, isEnableConf } from '../../tools/utils'
 import { getOffsetHeight, getPaddingTopBottomSize, getDomNode } from '../../tools/dom'
 import { errLog } from '../../tools/log'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { VXETable } from '../../v-x-e-table'
+import VxeTableComponent from '../../table'
+import VxePagerComponent from '../../pager'
+import VxeToolbarComponent from '../../toolbar'
+import VxeFormComponent from '../../form'
 import tableComponentProps from '../../table/src/props'
 import tableComponentEmits from '../../table/src/emits'
 import { useSize } from '../../hooks/size'
@@ -251,10 +255,11 @@ export default defineComponent({
 
     const getRespMsg = (rest: any, defaultMsg: string) => {
       const proxyOpts = computeProxyOpts.value
-      const { props: proxyProps = {} } = proxyOpts
+      const resConfigs = proxyOpts.response || proxyOpts.props || {}
+      const messageProp = resConfigs.message
       let msg
-      if (rest && proxyProps.message) {
-        msg = XEUtils.get(rest, proxyProps.message)
+      if (rest && messageProp) {
+        msg = XEUtils.isFunction(messageProp) ? messageProp({ data: rest, $grid: $xegrid }) : XEUtils.get(rest, messageProp)
       }
       return msg || GlobalConfig.i18n(defaultMsg)
     }
@@ -436,7 +441,7 @@ export default defineComponent({
               })
             })
             slotVNs.push(
-              h(resolveComponent('vxe-form') as ComponentOptions, {
+              h(VxeFormComponent, {
                 ref: refForm,
                 ...Object.assign({}, formOpts, {
                   data: proxyConfig && isEnableConf(proxyOpts) && proxyOpts.form ? formData : formOpts.data
@@ -487,7 +492,7 @@ export default defineComponent({
             }
           }
           slotVNs.push(
-            h(resolveComponent('vxe-toolbar') as ComponentOptions, {
+            h(VxeToolbarComponent, {
               ref: refToolbar,
               ...toolbarOpts
             }, toolbarSlots)
@@ -591,7 +596,7 @@ export default defineComponent({
         slotObj.loading = () => loadingSlot({})
       }
       return [
-        h(resolveComponent('vxe-table') as ComponentOptions, {
+        h(VxeTableComponent, {
           ref: refTable,
           key: 'table',
           ...tableProps,
@@ -644,7 +649,7 @@ export default defineComponent({
             }
           }
           slotVNs.push(
-            h(resolveComponent('vxe-pager') as ComponentOptions, {
+            h(VxePagerComponent, {
               ref: refPager,
               ...pagerOpts,
               ...(proxyConfig && isEnableConf(proxyOpts) ? reactData.tablePage : {}),
@@ -708,13 +713,14 @@ export default defineComponent({
        * @param {String/Object} code 字符串或对象
        */
       commitProxy (proxyTarget: string | VxeToolbarPropTypes.ButtonConfig, ...args: any[]) {
-        const { toolbarConfig, pagerConfig, editRules } = props
+        const { toolbarConfig, pagerConfig, editRules, validConfig } = props
         const { tablePage, formData } = reactData
         const isMsg = computeIsMsg.value
         const proxyOpts = computeProxyOpts.value
         const pagerOpts = computePagerOpts.value
         const toolbarOpts = computeToolbarOpts.value
-        const { beforeQuery, afterQuery, beforeDelete, afterDelete, beforeSave, afterSave, ajax = {}, props: proxyProps = {} } = proxyOpts
+        const { beforeQuery, afterQuery, beforeDelete, afterDelete, beforeSave, afterSave, ajax = {} } = proxyOpts
+        const resConfigs = proxyOpts.response || proxyOpts.props || {}
         const $xetable = refTable.value
         let button: VxeToolbarPropTypes.ButtonConfig | null = null
         let code: string | null = null
@@ -824,16 +830,19 @@ export default defineComponent({
                   reactData.tableLoading = false
                   if (rest) {
                     if (pagerConfig && isEnableConf(pagerOpts)) {
-                      const total = XEUtils.get(rest, proxyProps.total || 'page.total') || 0
+                      const totalProp = resConfigs.total
+                      const total = (XEUtils.isFunction(totalProp) ? totalProp({ data: rest, $grid: $xegrid }) : XEUtils.get(rest, totalProp || 'page.total')) || 0
                       tablePage.total = XEUtils.toNumber(total)
-                      reactData.tableData = XEUtils.get(rest, proxyProps.result || 'result') || []
+                      const resultProp = resConfigs.result
+                      reactData.tableData = (XEUtils.isFunction(resultProp) ? resultProp({ data: rest, $grid: $xegrid }) : XEUtils.get(rest, resultProp || 'result')) || []
                       // 检验当前页码，不能超出当前最大页数
                       const pageCount = Math.max(Math.ceil(total / tablePage.pageSize), 1)
                       if (tablePage.currentPage > pageCount) {
                         tablePage.currentPage = pageCount
                       }
                     } else {
-                      reactData.tableData = (proxyProps.list ? XEUtils.get(rest, proxyProps.list) : rest) || []
+                      const listProp = resConfigs.list
+                      reactData.tableData = (listProp ? (XEUtils.isFunction(listProp) ? listProp({ data: rest, $grid: $xegrid }) : XEUtils.get(rest, listProp)) : rest) || []
                     }
                   } else {
                     reactData.tableData = []
@@ -936,7 +945,7 @@ export default defineComponent({
               let restPromise: Promise<any> = Promise.resolve()
               if (editRules) {
                 // 只校验新增和修改的数据
-                restPromise = $xetable.validate(body.insertRecords.concat(updateRecords))
+                restPromise = $xetable[validConfig && validConfig.msgMode === 'full' ? 'fullValidate' : 'validate'](body.insertRecords.concat(updateRecords))
               }
               return restPromise.then((errMap) => {
                 if (errMap) {
@@ -1088,7 +1097,10 @@ export default defineComponent({
             })
           }
         })
-        return $xetable.loadColumn(columns)
+        if ($xetable) {
+          return $xetable.loadColumn(columns)
+        }
+        return nextTick()
       }
       (gridMethods as any).reloadColumn = (columns: any[]): Promise<any> => {
         gridExtendTableMethods.clearAll()
@@ -1206,6 +1218,13 @@ export default defineComponent({
         if (isEnableConf(proxyConfig) && (data || (proxyOpts.form && formOpts.data))) {
           errLog('vxe.error.errConflicts', ['grid.data', 'grid.proxy-config'])
         }
+
+        // if (process.env.VUE_APP_VXE_TABLE_ENV === 'development') {
+        //   if (proxyOpts.props) {
+        //     warnLog('vxe.error.delProp', ['proxy-config.props', 'proxy-config.response'])
+        //   }
+        // }
+
         if (columns && columns.length) {
           $xegrid.loadColumn(columns)
         }

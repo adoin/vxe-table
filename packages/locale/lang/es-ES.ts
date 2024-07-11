@@ -8,7 +8,7 @@ export default {
       text: 'Cargando...'
     },
     error: {
-      groupFixed: 'Si se utilizan encabezados de grupo, las columnas fijas deben ser establecidas por grupo.',
+      groupFixed: 'If you use group headers, the freeze columns must be set by group.',
       groupMouseRange: 'Los encabezados de agrupación y "{0}" no pueden ser utilizados al mismo tiempo, lo que puede causar errores.',
       groupTag: 'El encabezado de columna de agrupación debería utilizar "{0}" en lugar de "{1}", lo que puede causar errores.',
       scrollErrProp: 'El parámetro "{0}" no es compatible cuando el desplazamiento virtual está habilitado.',
@@ -31,7 +31,7 @@ export default {
       noTree: 'La estructura de árbol no soporta "{0}".',
       notProp: 'Parámetros no compatibles "{0}"',
       checkProp: 'La casilla de verificación puede detenerse cuando la cantidad de datos es demasiado grande, se recomienda establecer el parámetro "{0}" para aumentar la velocidad de representación',
-      coverProp: 'El parámetro "{1}" a "{0}" está sobrescrito. Esto puede causar un error',
+      coverProp: 'The parameter "{1}" to "{0}" is repeatedly defined. This may cause an error',
       delFunc: 'La función "{0}" está en desuso, por favor use "{1}".',
       delProp: 'La propiedad "{0}" está en desuso, por favor use "{1}".',
       delEvent: 'El evento "{0}" está en desuso, por favor use "{1}"',
@@ -42,6 +42,349 @@ export default {
       impFields: 'Error de importación, por favor revise que el nombre del campo y el formato de datos sean correctos.',
       treeNotImp: 'La tabla de árbol no soporta importación.'
     },
+    table: {
+      emptyText: 'No hay datos',
+      allTitle: 'Seleccionar todo / cancelar',
+      seqTitle: '#',
+      confirmFilter: 'Confirmar',
+      resetFilter: 'Restablecer',
+      allFilter: 'Todo',
+      sortAsc: 'Ascendente: de menor a mayor',
+      sortDesc: 'Descendente: de mayor a menor',
+      filter: 'Habilitar filtro en columnas seleccionadas',
+      impSuccess: 'Se importaron {0} registros con éxito',
+      expLoading: 'Exportando',
+      expSuccess: 'Éxito al exportar',
+      expFilename: 'Exportar_{0}',
+      expOriginFilename: 'Exportar_original_{0}',
+      customTitle: 'Configuraciones de columna',
+      customAll: 'Todo',
+      customConfirm: 'Confirmar',
+      customRestore: 'Restaurar',
+      maxFixedCol: 'The maximum number of Freeze columns cannot exceed {0}'
+    },
+    grid: {
+      selectOneRecord: '¡Seleccione al menos un registro!',
+      deleteSelectRecord: '¿Seguro que desea eliminar el registro seleccionado?',
+      removeSelectRecord: '¿Seguro que desea quitar el registro seleccionado?',
+      dataUnchanged: '¡Datos sin cambios!',
+      delSuccess: '¡Se eliminó con éxito el registro seleccionado!',
+      saveSuccess: '¡Guardado con éxito!',
+      operError: 'Se produjo un error, ¡operación fallida!'
+    },
+    select: {
+      search: 'Buscar',
+      loadingText: 'Cargando',
+      emptyText: 'No hay datos'
+    },
+    pager: {
+      goto: 'Ir a',
+      pagesize: '{0}/página',
+      total: 'Total {0} registro',
+      pageClassifier: '',
+      homePage: 'Home',
+      homePageTitle: 'Home page',
+      prevPage: 'Página anterior',
+      prevPageTitle: 'Previous page',
+      nextPage: 'Siguiente página',
+      nextPageTitle: 'next page',
+      prevJump: 'Saltar página anterior',
+      prevJumpTitle: 'Jump previous page',
+      nextJump: 'Saltar siguiente página',
+      nextJumpTitle: 'Jump next page',
+      endPage: 'End page',
+      endPageTitle: 'End'
+    },
+    alert: {
+      title: 'System messages'
+    },
+    button: {
+      confirm: 'Confirmar',
+      cancel: 'Cancelar'
+    },
+    filter: {
+      search: '搜索'
+    },
+    custom: {
+      cstmTitle: 'Column Settings',
+      cstmRestore: 'Restore default',
+      cstmCancel: 'Cancelar',
+      cstmConfirm: 'Confirm',
+      cstmConfirmRestore: 'Please confirm whether to restore the default column configuration?',
+      cstmDragTarget: 'Moving target: {0}',
+      setting: {
+        colSort: 'Sort',
+        sortHelpTip: 'Click and drag the icon to adjust the order of the columns.',
+        colTitle: 'Title',
+        colVisible: 'Visible',
+        colFixed: 'Freeze columns (Max {0})',
+        fixedLeft: 'Left',
+        fixedUnset: 'Unset',
+        fixedRight: 'Right'
+      }
+    },
+    import: {
+      modes: {
+        covering: 'Cubriendo',
+        insert: 'Insertar'
+      },
+      impTitle: 'Importar datos',
+      impFile: 'Nombre del archivo',
+      impSelect: 'Seleccionar archivo',
+      impType: 'Tipo de archivo',
+      impOpts: 'Configuración',
+      impConfirm: 'Importar',
+      impCancel: 'Cancelar'
+    },
+    export: {
+      types: {
+        csv: 'CSV (Separado por comas) (.csv)',
+        html: 'Página web (.html)',
+        xml: 'Datos XML (.xml)',
+        txt: 'Texto (Separado por tabulaciones) (.txt)',
+        xls: 'Libro de Excel 97-2003 (.xls)',
+        xlsx: 'Libro de Excel (.xlsx)',
+        pdf: 'PDF (*.pdf)'
+      },
+      modes: {
+        current: 'Datos actuales (datos de la página actual)',
+        selected: 'Datos seleccionados (datos seleccionados en la página actual)',
+        all: 'Todos los datos (incluidos todos los datos de paginación)'
+      },
+      printTitle: 'Imprimir datos',
+      expTitle: 'Exportar datos',
+      expName: 'Nombre del archivo',
+      expNamePlaceholder: 'Por favor, introduzca un nombre de archivo',
+      expSheetName: 'Título',
+      expSheetNamePlaceholder: 'Por favor, introduzca un título',
+      expType: 'Guardar el tipo',
+      expMode: 'Seleccionar datos',
+      expCurrentColumn: 'Todos los campos',
+      expColumn: 'Seleccionar campos',
+      expOpts: 'Configuración',
+      expOptHeader: 'Encabezado',
+      expHeaderTitle: '¿Necesita un encabezado?',
+      expOptFooter: 'Pie de página',
+      expFooterTitle: '¿Necesita el pie de página de la tabla?',
+      expOptColgroup: 'Encabezado de grupo',
+      expColgroupTitle: 'Si existe, se admiten encabezados con estructura de agrupación',
+      expOptMerge: 'Combinar',
+      expMergeTitle: 'Si existe, se admiten celdas con estructuras combinadas',
+      expOptAllExpand: 'Expandir nodos',
+      expAllExpandTitle: 'Si existe, se pueden expandir todos los datos con estructura de árbol',
+      expOptUseStyle: 'Estilos',
+      expUseStyleTitle: 'Si existe, se admiten celdas con estilos',
+      expOptOriginal: 'Datos de origen',
+      expOriginalTitle: 'Si son datos de origen, se admite la importación en la tabla',
+      expPrint: 'Imprimir',
+      expConfirm: 'Exportar',
+      expCancel: 'Cancelar'
+    },
+    modal: {
+      zoomIn: 'Maximizar',
+      zoomOut: 'Reducir',
+      close: 'Cerrar'
+    },
+    drawer: {
+      close: 'Cerrar'
+    },
+    form: {
+      folding: 'Plegar',
+      unfolding: 'Desplegar'
+    },
+    toolbar: {
+      importar: 'Importar',
+      exportar: 'Exportar',
+      imprimir: 'Imprimir',
+      actualizar: 'Actualizar',
+      zoomIn: 'Pantalla completa',
+      zoomOut: 'Reducción',
+      custom: 'Configuración de columna',
+      customAll: 'Todo',
+      customConfirm: 'Confirmar',
+      customRestore: 'Restaurar',
+      fixedLeft: 'Freeze on the left',
+      fixedRight: 'Freeze on the right',
+      cancelFixed: 'Unfreeze column'
+    },
+    input: {
+      date: {
+        m1: 'Enero',
+        m2: 'Febrero',
+        m3: 'Marzo',
+        m4: 'Abril',
+        m5: 'Mayo',
+        m6: 'Junio',
+        m7: 'Julio',
+        m8: 'Agosto',
+        m9: 'Septiembre',
+        m10: 'Octubre',
+        m11: 'Noviembre',
+        m12: 'Diciembre',
+        quarterLabel: '{0}',
+        monthLabel: '{0}',
+        dayLabel: '{1} {0}',
+        labelFormat: {
+          date: 'dd/MM/yyyy',
+          time: 'HH:mm:ss',
+          datetime: 'yyyy-MM-dd HH:mm:ss',
+          week: '[Semana] WW, yyyy',
+          month: 'MM/yyyy',
+          quarter: '[Trimestre] q, yyyy',
+          year: 'yyyy'
+        },
+        weeks: {
+          w: 'Semana',
+          w0: 'Dom',
+          w1: 'Lun',
+          w2: 'Mar',
+          w3: 'Mié',
+          w4: 'Jue',
+          w5: 'Vie',
+          w6: 'Sáb'
+        },
+        months: {
+          m0: 'Ene',
+          m1: 'Feb',
+          m2: 'Mar',
+          m3: 'Abr',
+          m4: 'May',
+          m5: 'Jun',
+          m6: 'Jul',
+          m7: 'Ago',
+          m8: 'Sep',
+          m9: 'Oct',
+          m10: 'Nov',
+          m11: 'Dic'
+        },
+        quarters: {
+          q1: 'Primer trimestre',
+          q2: 'Segundo trimestre',
+          q3: 'Tercer trimestre',
+          q4: 'Cuarto trimestre'
+        }
+      }
+    },
+    formDesign: {
+      widget: {
+        input: 'Input',
+        textarea: 'Textarea',
+        select: 'Select'
+      }
+    },
+
+    /**
+     * 扩展插件
+     */
+    plugins: {
+      extendCellArea: {
+        area: {
+          mergeErr: '无法对合并单元格进行该操作',
+          multiErr: '无法对多重选择区域进行该操作',
+          extendErr: '如果延伸的区域包含被合并的单元格，所有合并的单元格需大小相同',
+          pasteMultiErr: '无法粘贴，需要相同大小的复制的区域和粘贴的区域才能执行此操作',
+          cpInvalidErr: '该操作无法进行，您选择的区域中存在被禁止的列（{0}）'
+        },
+        fnr: {
+          title: '查找和替换',
+          findLabel: '查找',
+          replaceLabel: '替换',
+          findTitle: '查找内容：',
+          replaceTitle: '替换为：',
+          tabs: {
+            find: '查找',
+            replace: '替换'
+          },
+          filter: {
+            re: '正则表达式',
+            whole: '全词匹配',
+            sensitive: '区分大小写'
+          },
+          btns: {
+            findNext: '查找下一个',
+            findAll: '查找全部',
+            replace: '替换',
+            replaceAll: '替换全部',
+            cancel: '取消'
+          },
+          header: {
+            seq: '#',
+            cell: '单元格',
+            value: '值'
+          },
+          empty: '(空值)',
+          reError: '无效的正则表达式',
+          recordCount: '已找到 {0} 个单元格',
+          notCell: '找不到匹配的单元格',
+          replaceSuccess: '成功替换 {0} 个单元格'
+        }
+      },
+      filterComplexInput: {
+        menus: {
+          fixedColumn: '锁定列',
+          fixedGroup: '锁定组',
+          cancelFixed: '取消锁定',
+          fixedLeft: '锁定左侧',
+          fixedRight: '锁定右侧'
+        },
+        cases: {
+          equal: '等于',
+          gt: '大于',
+          lt: '小于',
+          begin: '开头是',
+          endin: '结尾是',
+          include: '包含',
+          isSensitive: '区分大小写'
+        }
+      },
+      filterCombination: {
+        menus: {
+          clearSort: '清除排序',
+          sortAsc: '升序',
+          sortDesc: '降序',
+          fixedColumn: '锁定列',
+          fixedGroup: '锁定组',
+          cancelFixed: '取消锁定',
+          fixedLeft: '锁定左侧',
+          fixedRight: '锁定右侧',
+          clearFilter: '清除筛选',
+          textOption: '文本筛选',
+          numberOption: '数值筛选'
+        },
+        popup: {
+          title: '自定义筛选的方式',
+          currColumnTitle: '当前列：',
+          and: '与',
+          or: '或',
+          describeHtml: '可用 ? 代表单个字符<br/>用 * 代表任意多个字符'
+        },
+        cases: {
+          equal: '等于',
+          unequal: '不等于',
+          gt: '大于',
+          ge: '大于或等于',
+          lt: '小于',
+          le: '小于或等于',
+          begin: '开头是',
+          notbegin: '开头不是',
+          endin: '结尾是',
+          notendin: '结尾不是',
+          include: '包含',
+          exclude: '不包含',
+          between: '介于',
+          custom: '自定义筛选',
+          insensitive: '不区分大小写',
+          isSensitive: '区分大小写'
+        },
+        empty: '(空白)',
+        notData: '无匹配项'
+      }
+    },
+
+    /**
+     * 以下废弃
+     * @deprecated
+     */
     renderer: {
       search: 'Buscar',
       cases: {
@@ -126,197 +469,6 @@ export default {
         recordCount: 'Se encontraron {0} celdas',
         notCell: 'No se encontraron celdas coincidentes',
         replaceSuccess: 'Se reemplazaron {0} celdas con éxito'
-      }
-    },
-    table: {
-      emptyText: 'No hay datos',
-      allTitle: 'Seleccionar todo / cancelar',
-      seqTitle: '#',
-      confirmFilter: 'Confirmar',
-      resetFilter: 'Restablecer',
-      allFilter: 'Todo',
-      sortAsc: 'Ascendente: de menor a mayor',
-      sortDesc: 'Descendente: de mayor a menor',
-      filter: 'Habilitar filtro en columnas seleccionadas',
-      impSuccess: 'Se importaron {0} registros con éxito',
-      expLoading: 'Exportando',
-      expSuccess: 'Éxito al exportar',
-      expFilename: 'Exportar_{0}',
-      expOriginFilename: 'Exportar_original_{0}',
-      customTitle: 'Configuraciones de columna',
-      customAll: 'Todo',
-      customConfirm: 'Confirmar',
-      customRestore: 'Restaurar',
-      maxFixedCol: '最大固定列的数量不能超过 {0} 个'
-    },
-    grid: {
-      selectOneRecord: '¡Seleccione al menos un registro!',
-      deleteSelectRecord: '¿Seguro que desea eliminar el registro seleccionado?',
-      removeSelectRecord: '¿Seguro que desea quitar el registro seleccionado?',
-      dataUnchanged: '¡Datos sin cambios!',
-      delSuccess: '¡Se eliminó con éxito el registro seleccionado!',
-      saveSuccess: '¡Guardado con éxito!',
-      operError: 'Se produjo un error, ¡operación fallida!'
-    },
-    select: {
-      search: 'Buscar',
-      loadingText: 'Cargando',
-      emptyText: 'No hay datos'
-    },
-    pager: {
-      goto: 'Ir a',
-      pagesize: '{0}/página',
-      total: 'Total {0} registro',
-      pageClassifier: '',
-      prevPage: 'Página anterior',
-      nextPage: 'Siguiente página',
-      prevJump: 'Saltar página anterior',
-      nextJump: 'Saltar siguiente página'
-    },
-    alert: {
-      title: 'Notificación de mensaje'
-    },
-    button: {
-      confirm: 'Confirmar',
-      cancel: 'Cancelar'
-    },
-    import: {
-      modes: {
-        covering: 'Cubriendo',
-        insert: 'Insertar'
-      },
-      impTitle: 'Importar datos',
-      impFile: 'Nombre del archivo',
-      impSelect: 'Seleccionar archivo',
-      impType: 'Tipo de archivo',
-      impOpts: 'Configuración',
-      impConfirm: 'Importar',
-      impCancel: 'Cancelar'
-    },
-    export: {
-      types: {
-        csv: 'CSV (Separado por comas) (.csv)',
-        html: 'Página web (.html)',
-        xml: 'Datos XML (.xml)',
-        txt: 'Texto (Separado por tabulaciones) (.txt)',
-        xls: 'Libro de Excel 97-2003 (.xls)',
-        xlsx: 'Libro de Excel (.xlsx)',
-        pdf: 'PDF (*.pdf)'
-      },
-      modes: {
-        current: 'Datos actuales (datos de la página actual)',
-        selected: 'Datos seleccionados (datos seleccionados en la página actual)',
-        all: 'Todos los datos (incluidos todos los datos de paginación)'
-      },
-      printTitle: 'Imprimir datos',
-      expTitle: 'Exportar datos',
-      expName: 'Nombre del archivo',
-      expNamePlaceholder: 'Por favor, introduzca un nombre de archivo',
-      expSheetName: 'Título',
-      expSheetNamePlaceholder: 'Por favor, introduzca un título',
-      expType: 'Guardar el tipo',
-      expMode: 'Seleccionar datos',
-      expCurrentColumn: 'Todos los campos',
-      expColumn: 'Seleccionar campos',
-      expOpts: 'Configuración',
-      expOptHeader: 'Encabezado',
-      expHeaderTitle: '¿Necesita un encabezado?',
-      expOptFooter: 'Pie de página',
-      expFooterTitle: '¿Necesita el pie de página de la tabla?',
-      expOptColgroup: 'Encabezado de grupo',
-      expColgroupTitle: 'Si existe, se admiten encabezados con estructura de agrupación',
-      expOptMerge: 'Combinar',
-      expMergeTitle: 'Si existe, se admiten celdas con estructuras combinadas',
-      expOptAllExpand: 'Expandir nodos',
-      expAllExpandTitle: 'Si existe, se pueden expandir todos los datos con estructura de árbol',
-      expOptUseStyle: 'Estilos',
-      expUseStyleTitle: 'Si existe, se admiten celdas con estilos',
-      expOptOriginal: 'Datos de origen',
-      expOriginalTitle: 'Si son datos de origen, se admite la importación en la tabla',
-      expPrint: 'Imprimir',
-      expConfirm: 'Exportar',
-      expCancel: 'Cancelar'
-    },
-    modal: {
-      zoomIn: 'Maximizar',
-      zoomOut: 'Reducir',
-      close: 'Cerrar'
-    },
-    form: {
-      folding: 'Plegar',
-      unfolding: 'Desplegar'
-    },
-    toolbar: {
-      importar: 'Importar',
-      exportar: 'Exportar',
-      imprimir: 'Imprimir',
-      actualizar: 'Actualizar',
-      zoomIn: 'Pantalla completa',
-      zoomOut: 'Reducción',
-      custom: 'Configuración de columna',
-      customAll: 'Todo',
-      customConfirm: 'Confirmar',
-      customRestore: 'Restaurar',
-      fixedLeft: '固定在左侧',
-      fixedRight: '固定在右侧',
-      cancelfixed: '取消固定'
-    },
-    entrada: {
-      fecha: {
-        m1: 'Enero',
-        m2: 'Febrero',
-        m3: 'Marzo',
-        m4: 'Abril',
-        m5: 'Mayo',
-        m6: 'Junio',
-        m7: 'Julio',
-        m8: 'Agosto',
-        m9: 'Septiembre',
-        m10: 'Octubre',
-        m11: 'Noviembre',
-        m12: 'Diciembre',
-        quarterLabel: '{0}',
-        monthLabel: '{0}',
-        dayLabel: '{1} {0}',
-        labelFormat: {
-          date: 'dd/MM/yyyy',
-          time: 'HH:mm:ss',
-          datetime: 'yyyy-MM-dd HH:mm:ss',
-          week: '[Semana] WW, yyyy',
-          month: 'MM/yyyy',
-          quarter: '[Trimestre] q, yyyy',
-          year: 'yyyy'
-        },
-        weeks: {
-          w: 'Semana',
-          w0: 'Dom',
-          w1: 'Lun',
-          w2: 'Mar',
-          w3: 'Mié',
-          w4: 'Jue',
-          w5: 'Vie',
-          w6: 'Sáb'
-        },
-        months: {
-          m0: 'Ene',
-          m1: 'Feb',
-          m2: 'Mar',
-          m3: 'Abr',
-          m4: 'May',
-          m5: 'Jun',
-          m6: 'Jul',
-          m7: 'Ago',
-          m8: 'Sep',
-          m9: 'Oct',
-          m10: 'Nov',
-          m11: 'Dic'
-        },
-        quarters: {
-          q1: 'Primer trimestre',
-          q2: 'Segundo trimestre',
-          q3: 'Tercer trimestre',
-          q4: 'Cuarto trimestre'
-        }
       }
     }
   }

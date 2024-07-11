@@ -1,4 +1,4 @@
-import { defineComponent, h, ref, Ref, resolveComponent, ComponentOptions, createCommentVNode, provide, computed, inject, reactive, watch, nextTick, PropType, onMounted } from 'vue'
+import { defineComponent, h, ref, Ref, createCommentVNode, provide, computed, inject, reactive, watch, nextTick, PropType } from 'vue'
 import XEUtils from 'xe-utils'
 import GlobalConfig from '../../v-x-e-table/src/conf'
 import { VXETable } from '../../v-x-e-table'
@@ -7,6 +7,7 @@ import { errLog, warnLog } from '../../tools/log'
 import { scrollToView } from '../../tools/dom'
 import { createItem, handleFieldOrItem, isHiddenItem, isActivetem } from './util'
 import { useSize } from '../../hooks/size'
+import VxeTooltipComponent from '../../tooltip'
 import VxeFormConfigItem from './form-config-item'
 import VxeLoading from '../../loading/index'
 import { getSlotVNs } from '../../tools/vn'
@@ -190,8 +191,8 @@ export default defineComponent({
             }
           })
         }
-        reactData.staticItems = XEUtils.mapTree(list, item => createItem($xeform, item), { children: 'children' })
       }
+      reactData.staticItems = XEUtils.mapTree(list, item => createItem($xeform, item), { children: 'children' })
       return nextTick()
     }
 
@@ -641,17 +642,6 @@ export default defineComponent({
       reactData.collapseAll = !!value
     })
 
-    onMounted(() => {
-      nextTick(() => {
-        if (process.env.VUE_APP_VXE_TABLE_ENV === 'development') {
-          if (props.customLayout && props.items) {
-            errLog('vxe.error.errConflicts', ['custom-layout', 'items'])
-          }
-        }
-        loadItem(props.items || [])
-      })
-    })
-
     const renderVN = () => {
       const { loading, className, data, customLayout } = props
       const { formItems } = reactData
@@ -669,7 +659,7 @@ export default defineComponent({
         onReset: resetEvent
       }, [
         h('div', {
-          class: 'vxe-form--wrapper vxe-row'
+          class: 'vxe-form--wrapper vxe-form--item-row'
         }, customLayout ? (defaultSlot ? defaultSlot({}) : []) : formItems.map((item, index) => {
           return h(VxeFormConfigItem, {
             key: index,
@@ -690,7 +680,7 @@ export default defineComponent({
         /**
          * 工具提示
          */
-        hasUseTooltip ? h(resolveComponent('vxe-tooltip') as ComponentOptions, {
+        hasUseTooltip ? h(VxeTooltipComponent, {
           ref: refTooltip,
           ...tooltipOpts
         }) : createCommentVNode()
@@ -698,6 +688,10 @@ export default defineComponent({
     }
 
     $xeform.renderVN = renderVN
+
+    if (props.items) {
+      loadItem(props.items)
+    }
 
     provide('$xeform', $xeform)
     provide('$xeformgather', null)

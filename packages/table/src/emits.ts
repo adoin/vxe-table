@@ -22,6 +22,7 @@ export default [
   'cell-mouseenter',
   'cell-mouseleave',
   'cell-selected',
+  'cell-delete-value',
   'header-cell-click',
   'header-cell-dblclick',
   'header-cell-menu',
@@ -51,6 +52,8 @@ export default [
   'change-fnr', // 废弃
 
   'open-fnr',
+  'show-fnr',
+  'hide-fnr',
   'fnr-change',
   'fnr-find',
   'fnr-find-all',
@@ -62,6 +65,7 @@ export default [
   'cell-area-merge',
   'clear-cell-area-merge',
   'header-cell-area-selection',
+  'cell-area-selection-invalid',
   'cell-area-selection-start',
   'cell-area-selection-drag',
   'cell-area-selection-end',

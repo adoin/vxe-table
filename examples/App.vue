@@ -1,5 +1,5 @@
 <template>
-  <div id="app" @click="clickEvent">
+  <div class="app-container" @click="clickEvent">
     <header class="page-header">
       <div class="left">
         <a href="/vxe-table/">
@@ -9,32 +9,28 @@
       </div>
       <div class="right">
         <div class="content">
-          <span v-if="appData.usedJSHeapSize && appData.usedJSHeapSize !== '0'"
-                class="performance">Memory used: {{ appData.usedJSHeapSize }} MB.</span>
-          <!-- <span>{{ $t('app.body.label.translations') }}:</span> -->
-          <!-- <vxe-select class="locale-switch" size="mini" v-model="$i18n.locale">
+          <span v-if="appData.usedJSHeapSize && appData.usedJSHeapSize !== '0'" class="performance">Memory used: {{ appData.usedJSHeapSize }} MB.</span>
+          <span>{{ $t('app.body.label.translations') }}:</span>
+          <vxe-select class="locale-switch" size="mini" v-model="$i18n.locale">
             <vxe-option value="zh_CN" label="中文"></vxe-option>
             <vxe-option value="zh_TC" label="繁體中文"></vxe-option>
             <vxe-option value="en_US" label="English"></vxe-option> -->
-          <!-- <vxe-option value="ja_JP" label="ジャパン"></vxe-option> -->
-          <!-- </vxe-select> -->
+            <!-- <vxe-option value="ja_JP" label="ジャパン"></vxe-option> -->
+          </vxe-select>
           <!-- <span>{{ $t('app.body.label.version') }}: </span> -->
           <!-- <vxe-select class="version-switch" size="mini" v-model="appData.version" @change="vChangeEvent"> -->
-          <!-- <vxe-option value="4.5" :label="$t('app.body.other.v4d5')" disabled></vxe-option> -->
-          <!-- <vxe-option value="4" :label="$t('app.body.other.v4')"></vxe-option> -->
-          <!-- <vxe-option value="3.5" :label="$t('app.body.other.v3d5')" disabled></vxe-option> -->
-          <!-- <vxe-option value="3" :label="$t('app.body.other.v3')"></vxe-option>
-          <vxe-option value="2" :label="$t('app.body.other.v2')" class-name="due-to-stop"></vxe-option>
-          <vxe-option value="1" :label="$t('app.body.other.v1')" class-name="end-of-life"></vxe-option>
-        </vxe-select> -->
-          <router-link class="link donation" :title="$t('app.footer.donationDesc')" :to="{name: 'Donation'}">
-            {{ $t('app.header.label.donation') }}
-          </router-link>
-          <template v-if="appData.apiLoading && appData.showPlugin">
+            <!-- <vxe-option value="4.5" :label="$t('app.body.other.v4d5')" disabled></vxe-option> -->
+            <!-- <vxe-option value="4" :label="$t('app.body.other.v4')"></vxe-option> -->
+            <!-- <vxe-option value="3.5" :label="$t('app.body.other.v3d5')" disabled></vxe-option> -->
+            <!-- <vxe-option value="3" :label="$t('app.body.other.v3')"></vxe-option>
+            <vxe-option value="2" :label="$t('app.body.other.v2')" class-name="due-to-stop"></vxe-option>
+            <vxe-option value="1" :label="$t('app.body.other.v1')" class-name="end-of-life"></vxe-option>
+          </vxe-select> -->
+          <router-link class="link donation" :title="$t('app.footer.donationDesc')" :to="{name: 'Donation'}">{{ $t('app.header.label.donation') }}</router-link>
+          <!-- <template v-if="appData.apiLoading && appData.showPlugin">
             <a v-if="appData.disabledPlugin" class="link support" href="/vxe-table/plugins" target="_blank">💡插件</a>
-            <a v-else title="维护中" class="link support" style="cursor: no-drop;color: #BFBFBF;background-color:#fff;"
-               @click="$XModal.alert('维护中...', '维护中')">插件</a>
-          </template>
+            <a v-else title="维护中" class="link support" style="cursor: no-drop;color: #BFBFBF;background-color:#fff;" @click="$XModal.alert('维护中...', '维护中')">插件</a>
+          </template> -->
         </div>
       </div>
     </header>
@@ -71,42 +67,32 @@
                   </router-link>
                 </li> -->
                 <li v-for="(item, index) in appData.apiList" :key="index" :class="{expand: item.expand}">
-                  <a class="nav-link" @click="linkEvent(item)"
-                     :title="item.disabled ? $t('app.body.other.newFunc') : item.label"
-                     :class="{disabled: item.disabled, active: pageKey === item.value}">
+                  <a class="nav-link" @click="linkEvent(item)" :title="item.disabled ? $t('app.body.other.newFunc') : item.label" :class="{disabled: item.disabled, active: pageKey === item.value}">
                     <i class="vxe-icon-arrow-right nav-link-icon"></i>
                     <span v-html="item.label"></span>
                   </a>
                   <ul v-if="item.children" v-show="item.expand" class="nav-child-menu">
-                    <li v-for="(child, cIndex) in item.children" :key="cIndex"
-                        :class="{'is-donation': ['Donation'].includes(child.locat.name)}">
-                      <a class="nav-link disabled" v-if="child.disabled" :title="$t('app.body.other.newFunc')"
-                         v-html="child.label"></a>
-                      <!--eslint-disable-next-line-->
-                      <router-link v-else class="nav-link" :to="child.locat" :title="child.label"
-                                   v-html="child.label"></router-link>
+                    <li v-for="(child, cIndex) in item.children" :key="cIndex" :class="{'is-donation': ['Donation'].includes(child.locat.name)}">
+                      <a class="nav-link disabled" v-if="child.disabled" :title="$t('app.body.other.newFunc')" v-html="child.label"></a>
+                      <router-link v-else class="nav-link" :to="child.locat" :title="child.label" v-html="child.label"></router-link>
                     </li>
                   </ul>
                 </li>
               </ul>
             </template>
             <template v-else>
-              <div class="search-nodata">{{ $t('app.body.search.noDataPrefix') }}<span
-                class="keyword-lighten">{{ appData.filterName }}</span>{{ $t('app.body.search.noDataSuffix') }}
-              </div>
+              <div class="search-nodata">{{ $t('app.body.search.noDataPrefix') }}<span class="keyword-lighten">{{ appData.filterName }}</span>{{ $t('app.body.search.noDataSuffix') }}</div>
             </template>
           </div>
         </div>
       </div>
       <div class="oper-wrapper" v-show="showOperBtn">
-        <vxe-button class="oper-btn" :icon="appData.showLeft ? 'vxe-icon-arrow-left' : 'vxe-icon-arrow-right'"
-                    @click="appData.showLeft = !appData.showLeft"></vxe-button>
+        <vxe-button class="oper-btn" :icon="appData.showLeft ? 'vxe-icon-arrow-left' : 'vxe-icon-arrow-right'" @click="appData.showLeft = !appData.showLeft"></vxe-button>
       </div>
       <div class="body">
-        <div class="content" :class="{full: ['VXEAPI', 'Donation', 'Run'].includes($route.name as string)}">
+        <div class="content" :class="{full: ['VXEAPI', 'Donation', 'Run'].includes($route.name)}">
           <template v-if="!/\/start|\/module|\/api/.test($route.path)">
-            <a v-if="demoLink" class="link todemo" :href="demoLink" target="_blank"><i
-              class="fa fa-bug"></i>{{ $t('app.body.button.runDemo') }}</a>
+            <a v-if="demoLink" class="link todemo" :href="demoLink" target="_blank"><i class="fa fa-bug"></i>{{ $t('app.body.button.runDemo') }}</a>
           </template>
           <router-view/>
         </div>
@@ -213,20 +199,6 @@ export default defineComponent({
               keywords: ['button']
             },
             {
-              label: 'app.aside.nav.card',
-              locat: {
-                name: 'ModuleCard'
-              },
-              keywords: ['card']
-            },
-            {
-              label: 'app.aside.nav.tag',
-              locat: {
-                name: 'ModuleTag'
-              },
-              keywords: ['tag', 'tags']
-            },
-            {
               label: 'app.aside.nav.radio',
               locat: {
                 name: 'ModuleRadio'
@@ -315,6 +287,13 @@ export default defineComponent({
                 name: 'ModuleModal'
               },
               keywords: ['modal', '$XModal']
+            },
+            {
+              label: 'app.aside.nav.drawer',
+              locat: {
+                name: 'ModuleDrawer'
+              },
+              keywords: ['drawer']
             },
             {
               label: 'app.aside.nav.file',
@@ -1659,13 +1638,13 @@ export default defineComponent({
               locat: {
                 name: 'TableScrollFullCols'
               }
-              // },
-              // {
-              //   label: 'app.aside.nav.infiniteScroll',
-              //   disabled: true,
-              //   locat: {
-              //     name: 'TableScroll'
-              //   }
+            // },
+            // {
+            //   label: 'app.aside.nav.infiniteScroll',
+            //   disabled: true,
+            //   locat: {
+            //     name: 'TableScroll'
+            //   }
             }
           ]
         }
@@ -1869,14 +1848,7 @@ export default defineComponent({
     })
 
     const getVersion = () => {
-      fetch('https://api.vxetable.cn/demo/api/npm/versions/vxe-table').then(response => response.json()).then(({
-        sp,
-        dp,
-        ss,
-        time,
-        tags,
-        versions
-      }) => {
+      fetch('https://api.vxetable.cn/demo/api/npm/versions/vxe-table').then(response => response.json()).then(({ sp, dp, ss, time, tags, versions }) => {
         appData.apiLoading = true
         appData.disabledPlugin = dp
         appData.showPlugin = sp

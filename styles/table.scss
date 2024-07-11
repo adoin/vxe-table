@@ -1,6 +1,5 @@
 /**Variable**/
 @import './helpers/mixin.scss';
-@import './base/checked.scss';
 @import './base/common.scss';
 @import './loading.scss';
 
@@ -33,7 +32,9 @@
   width: 0;
   border: 0;
 }
-
+.vxe-table--render-wrapper {
+  background-color: var(--vxe-table-body-background-color);
+}
 .vxe-table--body-wrapper {
   scroll-behavior: auto;
 }
@@ -209,7 +210,10 @@
 }
 
 .vxe-table--cell-active-area {
-  border: var(--vxe-table-cell-active-area-border-width) solid var(--vxe-table-cell-active-area-border-color);
+  border-color: var(--vxe-table-cell-active-area-border-color);
+  border-style: solid;
+  border-width: var(--vxe-table-cell-active-area-border-width);
+  background-color: var(--vxe-table-cell-active-area-background-color);
 }
 
 .vxe-table--cell-multi-area {
@@ -607,7 +611,12 @@
     }
   }
   &.cell--area {
-    .vxe-table--main-wrapper {
+    .vxe-body--row {
+      user-select: none;
+    }
+  }
+  &.drag--range {
+    .vxe-cell--checkbox {
       user-select: none;
     }
   }
@@ -657,11 +666,6 @@
           justify-content: flex-end;
         }
       }
-    }
-  }
-  .vxe-body--column {
-    &.col--checkbox {
-      user-select: none;
     }
   }
   
@@ -835,10 +839,10 @@
 
   // 单选框和复选框
   .vxe-cell--radio {
-    @extend %XERadioIcon;
+    @include createRadioIcon();
   }
   .vxe-cell--checkbox {
-    @extend %XECheckboxIcon;
+    @include createCheckboxIcon();
   }
 
   .fixed--hidden {
@@ -943,20 +947,20 @@
   }
 
   /*树形节点*/
-  &.is--tree-line {
-    .vxe-body--row {
-      &:first-child {
-        .vxe-tree--line {
-          border-width: 0 0 1px 0;
-        }
-      }
-    }
-    .vxe-body--row {
-      .vxe-body--column {
-        background-image: none;
-      }
-    }
-  }
+  // &.is--tree-line {
+  //   .vxe-body--row {
+  //     &:first-child {
+  //       .vxe-tree--line {
+  //         border-width: 0 0 1px 0;
+  //       }
+  //     }
+  //   }
+  //   .vxe-body--row {
+  //     .vxe-body--column {
+  //       background-image: none;
+  //     }
+  //   }
+  // }
   .vxe-tree--line-wrapper {
     position: relative;
     display: block;
@@ -1216,7 +1220,7 @@
 
     }
   }
-  &.vaild-msg--single {
+  &.valid-msg--single {
     .vxe-body--row {
       &:last-child {
         .vxe-cell--valid-error-hint {
@@ -1230,7 +1234,7 @@
       }
     }
   }
-  &.vaild-msg--full {
+  &.valid-msg--full {
     .vxe-body--row {
       &:last-child {
         .vxe-cell--valid-error-hint {

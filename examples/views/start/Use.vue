@@ -39,12 +39,12 @@
           VXETable,
 
           // 表格功能
-          // VxeModuleFilter,
-          // VxeModuleEdit,
-          // VxeModuleMenu,
-          // VxeModuleExport,
-          // VxeModuleKeyboard,
-          // VxeModuleValidator,
+          // VxeTableFilterModule,
+          // VxeTableEditModule,
+          // VxeTableMenuModule,
+          // VxeTableExportModule,
+          // VxeTableKeyboardModule,
+          // VxeTableValidatorModule,
 
           // 可选组件
           VxeIcon,
@@ -79,18 +79,18 @@
         import zhCN from 'vxe-table/es/locale/lang/zh-CN'
 
         // 按需加载的方式默认是不带国际化的，自定义国际化需要自行解析占位符 '{0}'，例如：
-        VXETable.setup({
+        VXETable.setConfig({
           i18n: (key, args) => XEUtils.toFormatString(XEUtils.get(zhCN, key), args)
         })
 
         function useTable (app: App) {
           // 表格功能
-          app.use(VxeModuleFilter)
-          // .use(VxeModuleEdit)
-          // .use(VxeModuleMenu)
-          // .use(VxeModuleExport)
-          // .use(VxeModuleKeyboard)
-          // .use(VxeModuleValidator)
+          app.use(VxeTableFilterModule)
+          // .use(VxeTableEditModule)
+          // .use(VxeTableMenuModule)
+          // .use(VxeTableExportModule)
+          // .use(VxeTableKeyboardModule)
+          // .use(VxeTableValidatorModule)
 
           // 可选组件
           .use(VxeIcon)
@@ -205,7 +205,7 @@
         import zhCN from 'vxe-table/lib/locale/lang/zh-CN'
 
         // 按需加载的方式默认是不带国际化的，自定义国际化需要自行解析占位符 '{0}'，例如：
-        VXETable.setup({
+        VXETable.setConfig({
           i18n: (key, args) => XEUtils.toFormatString(XEUtils.get(zhCN, key), args)
         })
 
