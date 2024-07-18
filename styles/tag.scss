@@ -57,8 +57,8 @@
   }
   
   &.vxe-tag-type--mark {
-    @include TagToRight;
     clip-path: polygon(100% 0%, 100% 100%, 0.5em 100%, 0% 50%, 0.5em 0%);
+    @include TagToRight;
     
     &.is--round {
       border-radius: 1em;
@@ -66,9 +66,9 @@
   }
   
   &.vxe-tag-type--arrow {
-    @include TagToRight;
     padding-right: 0.85em;
     clip-path: polygon(0% 0%, calc(100% - 0.5em) 0%, 100% 50%, calc(100% - 0.5em) 100%, 0% 100%);
+    @include TagToRight;
     
     &.is--round {
       border-radius: 1em;
@@ -76,9 +76,9 @@
   }
   
   &.vxe-tag-type--flag {
-    @include TagToRight;
     padding-right: 1em;
     clip-path: polygon(100% 0%, calc(100% - 0.5em) 50%, 100% 100%, 0.5em 100%, 0% 50%, 0.5em 0%);
+    @include TagToRight;
     
     &.is--round {
       border-radius: 1em;
