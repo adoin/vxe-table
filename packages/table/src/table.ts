@@ -1457,7 +1457,7 @@ export default defineComponent({
             }
           }
           if (!allRemoteSort && sortable && order) {
-            orderColumns.push({ column, field, property: field, order: order, sortTime: column.sortTime })
+            orderColumns.push({ column, field, property: field, order, sortTime: column.sortTime })
           }
         })
         if (sortMultiple && chronological && orderColumns.length > 1) {
@@ -4055,7 +4055,7 @@ export default defineComponent({
         tableFullColumn.forEach((column) => {
           const { field, order } = column
           if (column.sortable && order) {
-            sortList.push({ column, field, property: field, order: order, sortTime: column.sortTime })
+            sortList.push({ column, field, property: field, order, sortTime: column.sortTime })
           }
         })
         if (multiple && chronological && sortList.length > 1) {

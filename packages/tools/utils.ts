@@ -45,7 +45,7 @@ export function eqEmptyValue (cellValue: any) {
   return cellValue === '' || XEUtils.eqNull(cellValue)
 }
 
-export const multiDebounce = (functionArray: Array<(...args: any[]) => any>, duration: number) => {
+export const multiDebounce = (functionArray: Array<(..._args: any[]) => any>, duration: number) => {
   let timer: number
   return functionArray.reduce((acc, cur) => {
     acc[cur.name] = (...args: any[]) => {
@@ -55,9 +55,9 @@ export const multiDebounce = (functionArray: Array<(...args: any[]) => any>, dur
       }, duration)
     }
     return acc
-  }, {} as Record<string, (...args: any[]) => any>)
+  }, {} as Record<string, (..._args: any[]) => any>)
 }
-export const multiThrottle = (functionArray: Array<(...args: any[]) => any>, duration: number) => {
+export const multiThrottle = (functionArray: Array<(..._args: any[]) => any>, duration: number) => {
   let timer: number
   return functionArray.reduce((acc, cur) => {
     acc[cur.name] = (...args: any[]) => {
@@ -69,5 +69,5 @@ export const multiThrottle = (functionArray: Array<(...args: any[]) => any>, dur
       }
     }
     return acc
-  }, {} as Record<string, (...args: any[]) => any>)
+  }, {} as Record<string, (..._args: any[]) => any>)
 }
