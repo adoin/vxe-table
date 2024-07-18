@@ -609,6 +609,33 @@ const apis = [
         list: []
       },
       {
+        name: 'getProxyFormData',
+        desc: '获取代理表单数据',
+        version: '4.6.19',
+        type: 'Record<string,any>',
+        enum: '',
+        defVal: '',
+        list: []
+      },
+      {
+        name: 'setProxyFormData(data)',
+        desc: '设置代理表单数据',
+        version: '4.6.19',
+        type: 'Promise<any>',
+        enum: '',
+        defVal: 'data: Record<string,any>',
+        list: []
+      },
+      {
+        name: 'setProxyFormItemValue(field, value)',
+        desc: '设置代理表单项值',
+        version: '4.6.19',
+        type: 'Promise<any>',
+        enum: '',
+        defVal: 'field: string, value: any',
+        list: []
+      },
+      {
         name: 'getPendingRecords()',
         desc: '获取已标记删除的数据',
         version: '',

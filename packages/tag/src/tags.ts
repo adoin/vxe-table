@@ -162,7 +162,7 @@ export default defineComponent({
     }
     const renderSeparator = () => slots?.separator?.() ?? null
     const renderVN = () => {
-      return h('span', {
+      return h('div', {
         ref: refElem,
         class: ['vxe-tags-wrapper']
       }, [

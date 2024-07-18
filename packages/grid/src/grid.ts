@@ -1046,6 +1046,17 @@ export default defineComponent({
         }, { children: 'children' })
         return XEUtils.isUndefined(itemIndex) ? itemList : itemList[itemIndex]
       },
+      getProxyFormData () {
+        return XEUtils.clone(reactData.formData, true)
+      },
+      setProxyFormData (formData) {
+        reactData.formData = formData
+        return nextTick()
+      },
+      setProxyFormItemValue (path:string, value) {
+        XEUtils.set(reactData.formData, path, value)
+        return nextTick()
+      },
       getProxyInfo () {
         const $xetable = refTable.value
         if (props.proxyConfig) {

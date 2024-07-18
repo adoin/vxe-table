@@ -5,6 +5,7 @@ import { VxeToolbarInstance, VxeToolbarProps, VxeToolbarPropTypes } from './tool
 import { VxePagerInstance, VxePagerProps, VxePagerDefines } from './pager'
 import { VXEComponent, VxeComponentBase, VxeEvent, SizeType, ValueOf, SlotVNodeType } from './component'
 import { VxeTableDataRow, VxeTableDefines, VxeTableEmits, VxeTableConstructor, VxeTableProps, TablePublicMethods, VxeTableMethods, VxeTablePrivateMethods } from './table'
+import { Recordable } from './select'
 
 /* eslint-disable no-use-before-define */
 
@@ -97,6 +98,18 @@ export interface GridPublicMethods<D = VxeTableDataRow> {
    */
   getFormItems(): VxeFormItemProps[]
   getFormItems(itemIndex?: number): VxeFormItemProps
+  /**
+   * 获取表单值
+   */
+  getProxyFormData(): Recordable
+  /**
+   * 设置表单数据
+   */
+  setProxyFormData(data: Recordable): Promise<any>
+  /**
+   * 设置表单项的值
+   */
+  setProxyFormItemValue(field: string, value: any): Promise<any>
   /**
    * 切换表格最大化/还原
    */

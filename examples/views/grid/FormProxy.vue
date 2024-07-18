@@ -2,8 +2,9 @@
   <div>
     <p class="tip">表单数据代理，可以通过设置 <grid-api-link prop="form-config"/>={<grid-api-link prop="items"/>} 渲染表单</p>
 
-    <vxe-grid v-bind="gridOptions"></vxe-grid>
-
+    <vxe-grid v-bind="gridOptions" ref="gridEl"></vxe-grid>
+    <vxe-button @click="test">设置表单的名称为abc</vxe-button>
+    <vxe-button @click="test1">设置表单值为{name:'abc',sex:'1'}</vxe-button>
     <p class="demo-code">{{ $t('app.body.button.showCode') }}</p>
 
     <pre>
@@ -14,8 +15,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
-import { VxeGridProps } from '../../../types/index'
+import { defineComponent, reactive, ref } from 'vue'
+import { VxeGridInstance, VxeGridProps } from '../../../types/index'
 
 export default defineComponent({
   setup () {
@@ -80,7 +81,16 @@ export default defineComponent({
         { field: 'describe', title: 'Describe', showOverflow: true }
       ]
     })
-
+    const gridEl = ref<VxeGridInstance>()
+    const test = () => {
+      gridEl.value?.setProxyFormItemValue('name', 'abc')
+    }
+    const test1 = () => {
+      gridEl.value?.setProxyFormData({
+        name: 'abc',
+        sex: '1'
+      })
+    }
     // 异步更新下拉选项
     setTimeout(() => {
       const { formConfig } = gridOptions
@@ -97,6 +107,9 @@ export default defineComponent({
 
     return {
       gridOptions,
+      test,
+      test1,
+      gridEl,
       demoCodes: [
         `
         <vxe-grid v-bind="gridOptions"></vxe-grid>
